@@ -1,4 +1,4 @@
-package org.github.trushev.logicenum;
+package org.github.logicenum;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static java.util.Collections.unmodifiableSet;
-import static org.github.trushev.logicenum.Formula.*;
+import static org.github.logicenum.Formula.*;
 
 public class Main {
 

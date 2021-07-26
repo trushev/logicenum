@@ -1,4 +1,4 @@
-package org.github.trushev.logicenum;
+package org.github.logicenum;
 
 import java.util.*;
 import java.util.stream.Collectors;
