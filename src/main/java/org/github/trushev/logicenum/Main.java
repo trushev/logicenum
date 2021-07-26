@@ -1,5 +1,8 @@
 package org.github.trushev.logicenum;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -14,18 +17,10 @@ public class Main {
         formulas.add(var("a"));
         formulas.add(var("b"));
         formulas.add(var("c"));
-        formulas.add(var("d"));
-        formulas.add(var("e"));
+//        formulas.add(var("d"));
+//        formulas.add(var("e"));
 
         for (int i = 0; i < 3; i++) {
-//            final var negStep = negStep(formulas);
-//            final var andStep = andStep(formulas);
-//            final var orStep = orStep(formulas);
-
-//            formulas.addAll(negStep);
-//            formulas.addAll(andStep);
-//            formulas.addAll(orStep);
-
             final var negStepFut = CompletableFuture.supplyAsync(() -> negStep(formulas));
             final var andStepFut = CompletableFuture.supplyAsync(() -> andStep(formulas));
             final var orStepFut = CompletableFuture.supplyAsync(() -> orStep(formulas));
@@ -72,10 +67,17 @@ public class Main {
         return unmodifiableSet(res);
     }
 
-    public static void main(final String... args) throws ExecutionException, InterruptedException {
+    public static void main(final String... args) throws Exception {
+        final var bw = Files.newBufferedWriter(Paths.get("target/out.txt"));
         final var formulas = formulas();
-        formulas.forEach(System.out::println);
+        formulas.forEach(f -> {
+            try {
+                bw.write(f.toString() + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        bw.flush();
         System.out.println("Total: " + formulas.size());
-
     }
 }
