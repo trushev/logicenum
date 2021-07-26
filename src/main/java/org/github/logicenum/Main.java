@@ -1,5 +1,7 @@
 package org.github.logicenum;
 
+import org.github.logicenum.formula.Formula;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static java.util.Collections.unmodifiableSet;
-import static org.github.logicenum.Formula.*;
+import static org.github.logicenum.formula.Formula.*;
 
 public class Main {
 

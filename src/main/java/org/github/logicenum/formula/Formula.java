@@ -1,7 +1,7 @@
-package org.github.logicenum;
+package org.github.logicenum.formula;
 
 
-interface Formula {
+public interface Formula {
 
     static Formula var(final String name) {
         return new Var(name);

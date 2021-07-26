@@ -1,4 +1,4 @@
-package org.github.logicenum;
+package org.github.logicenum.formula;
 
 
 import java.util.Collection;
