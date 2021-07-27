@@ -2,30 +2,21 @@ package org.github.logicenum.formula;
 
 
 import java.util.*;
+import java.util.function.Function;
 
 import static java.util.Collections.unmodifiableSet;
-import static org.github.logicenum.formula.BiFormula.*;
-import static org.github.logicenum.formula.BiFormula.Op.AND;
-import static org.github.logicenum.formula.BiFormula.Op.OR;
+import static org.github.logicenum.formula.BiFormula.Op;
 
 abstract class AbstractFormula implements Formula {
 
     @Override
     public Formula or(final Formula f) {
-        final var flatten = flatten(OR, this, f);
-        if (flatten.size() == 1) {
-            return flatten.iterator().next();
-        }
-        return new Or(flatten);
+        return unwrapped(flatten(Op.OR, this, f), Or::new);
     }
 
     @Override
     public Formula and(final Formula f) {
-        final var flatten = flatten(AND, this, f);
-        if (flatten.size() == 1) {
-            return flatten.iterator().next();
-        }
-        return new And(flatten);
+        return unwrapped(flatten(Op.AND, this, f), And::new);
     }
 
     @Override
@@ -33,27 +24,31 @@ abstract class AbstractFormula implements Formula {
         return new Neg(this);
     }
 
+    private Formula unwrapped(final Collection<Formula> fs, final Function<Collection<Formula>, Formula> fun) {
+        if (fs.size() == 1) {
+            return fs.iterator().next();
+        }
+        return fun.apply(fs);
+    }
+
     static Collection<Formula> flatten(final Op op, final Formula f1, final Formula f2) {
         if ((f1 instanceof BiFormula bf1) && bf1.op == op && (f2 instanceof BiFormula bf2) && bf2.op == op) {
-            final var formulas = new ArrayList<Formula>(bf1.fs.size() + bf2.fs.size());
-            formulas.addAll(bf1.fs);
+            final var formulas = new HashSet<>(bf1.fs);
             formulas.addAll(bf2.fs);
-            return unmodifiableSet(new LinkedHashSet<>(formulas));
+            return unmodifiableSet(formulas);
         } else if ((f1 instanceof BiFormula bf1) && bf1.op == op) {
-            final var formulas = new ArrayList<Formula>(bf1.fs.size() + 1);
-            formulas.addAll(bf1.fs);
+            final var formulas = new HashSet<>(bf1.fs);
             formulas.add(f2);
-            return unmodifiableSet(new LinkedHashSet<>(formulas));
+            return unmodifiableSet(formulas);
         } else if ((f2 instanceof BiFormula bf2) && bf2.op == op) {
-            final var formulas = new ArrayList<Formula>(1 + bf2.fs.size());
+            final var formulas = new HashSet<>(bf2.fs);
             formulas.add(f1);
-            formulas.addAll(bf2.fs);
-            return unmodifiableSet(new LinkedHashSet<>(formulas));
+            return unmodifiableSet(formulas);
         } else {
-            final var formulas = new ArrayList<Formula>(2);
-            formulas.add(f1);
-            formulas.add(f2);
-            return unmodifiableSet(new LinkedHashSet<>(formulas));
+            if (f1.equals(f2)) {
+                return Set.of(f1);
+            }
+            return Set.of(f1, f2);
         }
     }
 }
