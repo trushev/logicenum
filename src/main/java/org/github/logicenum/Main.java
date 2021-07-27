@@ -1,92 +1,34 @@
 package org.github.logicenum;
 
-import org.github.logicenum.formula.Formula;
+import org.github.logicenum.enu.Formulas;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
 
-import static java.util.Collections.unmodifiableSet;
-import static org.github.logicenum.formula.Formula.*;
+import static org.github.logicenum.formula.Formula.var;
 
 public class Main {
-
-    private static Collection<Formula> formulas() throws ExecutionException, InterruptedException {
-        final var formulas = new LinkedHashSet<Formula>();
-        formulas.add(var("a"));
-        formulas.add(var("b"));
-        formulas.add(var("c"));
-//        formulas.add(var("d"));
-//        formulas.add(var("e"));
-
-        for (int i = 0; i < 3; i++) {
-//            final var negStepFut = CompletableFuture.supplyAsync(() -> negStep(formulas));
-//            final var andStepFut = CompletableFuture.supplyAsync(() -> andStep(formulas));
-//            final var orStepFut = CompletableFuture.supplyAsync(() -> orStep(formulas));
-//
-//            final var negStep = negStepFut.get();
-//            final var andStep = andStepFut.get();
-//            final var orStep = orStepFut.get();
-//
-//            formulas.addAll(negStep);
-//            formulas.addAll(andStep);
-//            formulas.addAll(orStep);
-
-            final var negStep = negStep(formulas);
-            final var andStep = andStep(formulas);
-            final var orStep = orStep(formulas);
-
-            formulas.addAll(negStep);
-            formulas.addAll(andStep);
-            formulas.addAll(orStep);
-        }
-
-        return formulas;
-    }
-
-    private static Set<Formula> negStep(final Set<Formula> formulas) {
-        final var res = new LinkedHashSet<Formula>(formulas.size());
-        for (final var f : formulas) {
-            res.add(neg(f));
-        }
-        return unmodifiableSet(res);
-    }
-
-    private static Set<Formula> andStep(final Set<Formula> formulas) {
-        return biStep(formulas, false);
-    }
-
-    private static Set<Formula> orStep(final Set<Formula> formulas) {
-        return biStep(formulas, true);
-    }
-
-    private static Set<Formula> biStep(final Set<Formula> formulas, final boolean isOr) {
-        final var res = new LinkedHashSet<Formula>(formulas.size());
-        for (final var f1 : formulas) {
-            for (final var f2 : formulas) {
-                if (isOr) {
-                    res.add(or(f1, f2));
-                } else {
-                    res.add(and(f1, f2));
-                }
-            }
-        }
-        return unmodifiableSet(res);
-    }
-
     public static void main(final String... args) throws Exception {
+        final var a = var("a");
+        final var b = var("b");
+        final var c = var("c");
+        final var d = var("d");
+        final var e = var("e");
+
+        final var formulas = Formulas.get().enumeration(a, b, c);
+
         final var bw = Files.newBufferedWriter(Paths.get("target/out.txt"));
-        final var formulas = formulas();
+        final int[] size = {0};
         formulas.forEach(f -> {
             try {
-                bw.write(f.toString() + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
+                size[0]++;
+                bw.write(f.length() + ", " + f + "\n");
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
         bw.flush();
-        System.out.println("Total: " + formulas.size());
+        System.out.println("Total: " + size[0]);
     }
 }

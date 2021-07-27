@@ -3,6 +3,8 @@ package org.github.logicenum.formula;
 
 public interface Formula {
 
+    int length();
+
     Formula or(Formula f);
 
     Formula and(Formula f);

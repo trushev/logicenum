@@ -14,6 +14,11 @@ final class Const extends Atom {
     }
 
     @Override
+    public int length() {
+        return 1;
+    }
+
+    @Override
     public Formula neg() {
         if (this.val == Val.TRUE) {
             return False;

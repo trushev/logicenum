@@ -4,10 +4,15 @@ import java.util.Objects;
 
 final class Neg extends AbstractFormula {
 
-    final Formula f;
+    private final Formula f;
 
     Neg(final Formula f) {
         this.f = f;
+    }
+
+    @Override
+    public int length() {
+        return this.f.length() + 1;
     }
 
     @Override

@@ -11,6 +11,11 @@ final class Var extends Atom {
     }
 
     @Override
+    public int length() {
+        return 1;
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;

@@ -6,12 +6,19 @@ import java.util.stream.Collectors;
 
 abstract class BiFormula extends AbstractFormula {
 
+    private final int length;
     protected final Op op;
     protected final Collection<Formula> fs;
 
     protected BiFormula(final Op op, final Collection<Formula> fs) {
         this.op = op;
         this.fs = fs;
+        this.length = this.fs.stream().mapToInt(Formula::length).sum() + 1;
+    }
+
+    @Override
+    public int length() {
+        return this.length;
     }
 
     @Override
@@ -22,12 +29,12 @@ abstract class BiFormula extends AbstractFormula {
         if (!(o instanceof BiFormula biFormula)) {
             return false;
         }
-        return this.op.equals(biFormula.op) && this.fs.equals(biFormula.fs);
+        return this.length == biFormula.length && this.op.equals(biFormula.op) && this.fs.equals(biFormula.fs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.op, this.fs);
+        return Objects.hash(this.length, this.op, this.fs);
     }
 
     @Override
