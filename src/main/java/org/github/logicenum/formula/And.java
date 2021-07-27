@@ -6,6 +6,6 @@ import java.util.Collection;
 final class And extends BiFormula {
 
     And(final Collection<Formula> fs) {
-        super(Op.AND, fs);
+        super(Symbol.AND, fs);
     }
 }

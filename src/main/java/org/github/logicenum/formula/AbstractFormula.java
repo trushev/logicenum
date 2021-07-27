@@ -1,22 +1,21 @@
 package org.github.logicenum.formula;
 
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.util.Collections.unmodifiableSet;
-import static org.github.logicenum.formula.BiFormula.Op;
 
 abstract class AbstractFormula implements Formula {
 
     @Override
     public Formula or(final Formula f) {
-        return unwrapped(flatten(Op.OR, this, f), Or::new);
+        return flattenOr(this, f);
     }
 
     @Override
     public Formula and(final Formula f) {
-        return unwrapped(flatten(Op.AND, this, f), And::new);
+        return flattenAnd(this, f);
     }
 
     @Override
@@ -24,31 +23,43 @@ abstract class AbstractFormula implements Formula {
         return new Neg(this);
     }
 
-    private Formula unwrapped(final Collection<Formula> fs, final Function<Collection<Formula>, Formula> fun) {
-        if (fs.size() == 1) {
-            return fs.iterator().next();
+    private static Formula flattenOr(final Formula f1, final Formula f2) {
+        if (f1 instanceof Or or1 && f2 instanceof Or or2) {
+            final var formulas = new HashSet<>(or1.fs());
+            formulas.addAll(or2.fs());
+            return new Or(unmodifiableSet(formulas));
+        } else if (f1 instanceof Or or1) {
+            final var formulas = new HashSet<>(or1.fs());
+            formulas.add(f2);
+            return new Or(unmodifiableSet(formulas));
+        } else if (f2 instanceof Or or2) {
+            final var formulas = new HashSet<>(or2.fs());
+            formulas.add(f1);
+            return new Or(unmodifiableSet(formulas));
+        } else if (f1.equals(f2)) {
+            return f1;
+        } else {
+            return new Or(Set.of(f1, f2));
         }
-        return fun.apply(fs);
     }
 
-    static Collection<Formula> flatten(final Op op, final Formula f1, final Formula f2) {
-        if ((f1 instanceof BiFormula bf1) && bf1.op == op && (f2 instanceof BiFormula bf2) && bf2.op == op) {
-            final var formulas = new HashSet<>(bf1.fs);
-            formulas.addAll(bf2.fs);
-            return unmodifiableSet(formulas);
-        } else if ((f1 instanceof BiFormula bf1) && bf1.op == op) {
-            final var formulas = new HashSet<>(bf1.fs);
+    private static Formula flattenAnd(final Formula f1, final Formula f2) {
+        if (f1 instanceof And and1 && f2 instanceof And and2) {
+            final var formulas = new HashSet<>(and1.fs());
+            formulas.addAll(and2.fs());
+            return new And(unmodifiableSet(formulas));
+        } else if (f1 instanceof And and1) {
+            final var formulas = new HashSet<>(and1.fs());
             formulas.add(f2);
-            return unmodifiableSet(formulas);
-        } else if ((f2 instanceof BiFormula bf2) && bf2.op == op) {
-            final var formulas = new HashSet<>(bf2.fs);
+            return new And(unmodifiableSet(formulas));
+        } else if (f2 instanceof And and2) {
+            final var formulas = new HashSet<>(and2.fs());
             formulas.add(f1);
-            return unmodifiableSet(formulas);
+            return new And(unmodifiableSet(formulas));
+        } else if (f1.equals(f2)) {
+            return f1;
         } else {
-            if (f1.equals(f2)) {
-                return Set.of(f1);
-            }
-            return Set.of(f1, f2);
+            return new And(Set.of(f1, f2));
         }
     }
 }

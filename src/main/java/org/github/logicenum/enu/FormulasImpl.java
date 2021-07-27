@@ -17,7 +17,6 @@ final class FormulasImpl implements Formulas {
     private static final boolean PARALLEL = true;
     private static final boolean SKIP = true;
 
-
     private int negLength = 0;
     private int biLength = 0;
 
@@ -29,7 +28,6 @@ final class FormulasImpl implements Formulas {
                 final var negStepFut = CompletableFuture.supplyAsync(() -> negStep(formulas));
                 final var andStepFut = CompletableFuture.supplyAsync(() -> andStep(formulas));
                 final var orStepFut = CompletableFuture.supplyAsync(() -> orStep(formulas));
-
                 try {
                     final var negStep = negStepFut.get();
                     final var andStep = andStepFut.get();
@@ -38,19 +36,16 @@ final class FormulasImpl implements Formulas {
                     formulas.addAll(negStep);
                     formulas.addAll(andStep);
                     formulas.addAll(orStep);
-
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             } else {
-
                 final var negStep = negStep(formulas);
                 final var andStep = andStep(formulas);
                 final var orStep = orStep(formulas);
 
                 this.negLength = length(negStep);
                 this.biLength = length(andStep);
-                length(orStep);
 
                 formulas.addAll(negStep);
                 formulas.addAll(andStep);
@@ -89,9 +84,9 @@ final class FormulasImpl implements Formulas {
             for (final var f2 : formulas) {
                 Formula f;
                 if (isOr) {
-                    f = or(f1, f2);
+                    f = f1.or(f2);
                 } else {
-                    f = and(f1, f2);
+                    f = f1.and(f2);
                 }
                 if (SKIP && f.length() < this.biLength) {
                     continue;

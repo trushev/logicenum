@@ -1,4 +1,6 @@
-package org.github.logicenum.formula;
+package org.github.logicenum.dnf;
+
+import org.github.logicenum.formula.Formula;
 
 public class DnfAlgorithm {
 
