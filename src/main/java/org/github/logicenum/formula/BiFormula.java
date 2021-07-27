@@ -26,10 +26,10 @@ abstract class BiFormula extends AbstractFormula {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof BiFormula biFormula)) {
+        if (!(o instanceof BiFormula bf)) {
             return false;
         }
-        return this.length == biFormula.length && this.op.equals(biFormula.op) && this.fs.equals(biFormula.fs);
+        return this.length == bf.length && this.op.equals(bf.op) && this.fs.equals(bf.fs);
     }
 
     @Override

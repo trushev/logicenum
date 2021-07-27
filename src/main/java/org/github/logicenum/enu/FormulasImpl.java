@@ -13,7 +13,7 @@ import static org.github.logicenum.formula.Formula.*;
 
 final class FormulasImpl implements Formulas {
 
-    private static final int EPOCH = 4;
+    private static final int EPOCH = 3;
     private static final boolean PARALLEL = true;
     private static final boolean SKIP = true;
 
