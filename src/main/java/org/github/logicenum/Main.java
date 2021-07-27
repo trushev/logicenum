@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static java.util.Collections.unmodifiableSet;
@@ -23,13 +22,21 @@ public class Main {
 //        formulas.add(var("e"));
 
         for (int i = 0; i < 3; i++) {
-            final var negStepFut = CompletableFuture.supplyAsync(() -> negStep(formulas));
-            final var andStepFut = CompletableFuture.supplyAsync(() -> andStep(formulas));
-            final var orStepFut = CompletableFuture.supplyAsync(() -> orStep(formulas));
+//            final var negStepFut = CompletableFuture.supplyAsync(() -> negStep(formulas));
+//            final var andStepFut = CompletableFuture.supplyAsync(() -> andStep(formulas));
+//            final var orStepFut = CompletableFuture.supplyAsync(() -> orStep(formulas));
+//
+//            final var negStep = negStepFut.get();
+//            final var andStep = andStepFut.get();
+//            final var orStep = orStepFut.get();
+//
+//            formulas.addAll(negStep);
+//            formulas.addAll(andStep);
+//            formulas.addAll(orStep);
 
-            final var negStep = negStepFut.get();
-            final var andStep = andStepFut.get();
-            final var orStep = orStepFut.get();
+            final var negStep = negStep(formulas);
+            final var andStep = andStep(formulas);
+            final var orStep = orStep(formulas);
 
             formulas.addAll(negStep);
             formulas.addAll(andStep);

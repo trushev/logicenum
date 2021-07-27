@@ -2,7 +2,7 @@ package org.github.logicenum.formula;
 
 import java.util.Objects;
 
-final class Var implements Formula {
+final class Var extends Atom {
 
     private final String name;
 

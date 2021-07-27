@@ -2,12 +2,17 @@ package org.github.logicenum.formula;
 
 import java.util.Objects;
 
-final class Neg implements Formula {
+final class Neg extends AbstractFormula {
 
     final Formula f;
 
     Neg(final Formula f) {
         this.f = f;
+    }
+
+    @Override
+    public Formula neg() {
+        return this.f;
     }
 
     @Override

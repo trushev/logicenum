@@ -2,7 +2,7 @@ package org.github.logicenum.formula;
 
 import java.util.Objects;
 
-final class Const implements Formula {
+final class Const extends Atom {
 
     static final Const True = new Const(Val.TRUE);
     static final Const False = new Const(Val.FALSE);
@@ -13,11 +13,12 @@ final class Const implements Formula {
         this.val = val;
     }
 
-    Const neg() {
+    @Override
+    public Formula neg() {
         if (this.val == Val.TRUE) {
             return False;
         }
-         return True;
+        return True;
     }
 
     @Override
@@ -25,10 +26,10 @@ final class Const implements Formula {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Const aConst)) {
+        if (!(o instanceof Const c)) {
             return false;
         }
-        return this.val == aConst.val;
+        return this.val == c.val;
     }
 
     @Override

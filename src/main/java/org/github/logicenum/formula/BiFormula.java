@@ -1,30 +1,17 @@
 package org.github.logicenum.formula;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.unmodifiableSet;
+abstract class BiFormula extends AbstractFormula {
 
-abstract class BiFormula implements Formula {
+    protected final Op op;
+    protected final Collection<Formula> fs;
 
-    private final Op op;
-    private final Collection<Formula> fs;
-
-    BiFormula(final Op op, final Collection<Formula> fs) {
+    protected BiFormula(final Op op, final Collection<Formula> fs) {
         this.op = op;
         this.fs = fs;
-    }
-
-    static Collection<Formula> flatten(final Op op, final Formula... fs) {
-        final var formulas = new ArrayList<Formula>(fs.length);
-        for (final var f : fs) {
-            if ((f instanceof BiFormula bf) && bf.op == op) {
-                formulas.addAll(bf.fs);
-            } else {
-                formulas.add(f);
-            }
-        }
-        return unmodifiableSet(new LinkedHashSet<>(formulas));
     }
 
     @Override
@@ -51,8 +38,8 @@ abstract class BiFormula implements Formula {
     }
 
     enum Op {
-        and("&"),
-        or("|"),
+        AND("&"),
+        OR("|"),
         ;
 
         private final String name;
