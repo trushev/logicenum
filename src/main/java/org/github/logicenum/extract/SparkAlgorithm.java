@@ -41,12 +41,18 @@ public class SparkAlgorithm implements Algorithm {
     }
 
     Formula nnf(final Formula f) {
+        if (f instanceof Atom) {
+            return f;
+        }
         if (f instanceof Not n) {
             final var arg = operand(n);
+            if (arg instanceof Atom) {
+                return not(arg);
+            }
             final var formulas = arg.operands()
                     .stream()
                     .map(ff -> nnf(not(ff)))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toUnmodifiableSet());
             if (arg instanceof And) {
                 return or(formulas);
             }
@@ -54,6 +60,16 @@ public class SparkAlgorithm implements Algorithm {
                 return and(formulas);
             }
         }
-        return f;
+        final var formulas = f.operands()
+                .stream().map(this::nnf)
+                .collect(Collectors.toUnmodifiableSet());
+        if (f instanceof And) {
+            return and(formulas);
+        }
+        if (f instanceof Or) {
+            return or(formulas);
+        }
+
+        throw new IllegalStateException(f.toString());
     }
 }

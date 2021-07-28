@@ -3,7 +3,6 @@ package org.github.logicenum;
 import org.github.logicenum.enu.Formulas;
 import org.github.logicenum.extract.DnfAlgorithm;
 import org.github.logicenum.extract.SparkAlgorithm;
-import org.github.logicenum.formula.Formula;
 
 import java.io.IOException;
 import java.nio.file.Files;
