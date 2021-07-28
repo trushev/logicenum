@@ -5,7 +5,10 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableList;
 import static org.github.logicenum.formula.Const.*;
-import static org.github.logicenum.formula.Formula.*;
+import static org.github.logicenum.formula.Formula.operand;
+import static org.github.logicenum.formula.Formula.and;
+import static org.github.logicenum.formula.Formula.or;
+import static org.github.logicenum.formula.Formula.not;
 
 final class TruthTable {
 
@@ -21,9 +24,7 @@ final class TruthTable {
     public String toString() {
         final String s = "TruthTable\nf:" + this.f + "\n";
         final var sb = new StringBuilder();
-        this.table.forEach(r -> {
-            sb.append(r.toString()).append("\n");
-        });
+        this.table.forEach(r -> sb.append(r.toString()).append("\n"));
         return s + sb;
     }
 

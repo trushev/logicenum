@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static java.util.Collections.unmodifiableList;
-import static org.github.logicenum.formula.Const.True;
 
 public interface Formula {
 

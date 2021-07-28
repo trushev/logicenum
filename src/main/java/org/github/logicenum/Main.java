@@ -18,8 +18,8 @@ public class Main {
         final var a = var("a");
         final var b = var("b");
         final var c = var("c");
-        final var d = var("d");
-        final var e = var("e");
+//        final var d = var("d");
+//        final var e = var("e");
 
         final var formulas = Formulas.get().enumeration(a, b, c);
 
