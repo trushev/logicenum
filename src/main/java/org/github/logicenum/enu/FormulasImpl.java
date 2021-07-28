@@ -9,7 +9,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableSet;
-import static org.github.logicenum.formula.Formula.*;
 
 final class FormulasImpl implements Formulas {
 
@@ -17,7 +16,7 @@ final class FormulasImpl implements Formulas {
     private static final boolean PARALLEL = true;
     private static final boolean SKIP = true;
 
-    private int negLength = 0;
+    private int notLength = 0;
     private int biLength = 0;
 
     @Override
@@ -25,29 +24,29 @@ final class FormulasImpl implements Formulas {
         final var formulas = new LinkedHashSet<>(Arrays.asList(vars));
         for (int i = 0; i < EPOCH; i++) {
             if (PARALLEL) {
-                final var negStepFut = CompletableFuture.supplyAsync(() -> negStep(formulas));
+                final var notStepFut = CompletableFuture.supplyAsync(() -> notStep(formulas));
                 final var andStepFut = CompletableFuture.supplyAsync(() -> andStep(formulas));
                 final var orStepFut = CompletableFuture.supplyAsync(() -> orStep(formulas));
                 try {
-                    final var negStep = negStepFut.get();
+                    final var notStep = notStepFut.get();
                     final var andStep = andStepFut.get();
                     final var orStep = orStepFut.get();
 
-                    formulas.addAll(negStep);
+                    formulas.addAll(notStep);
                     formulas.addAll(andStep);
                     formulas.addAll(orStep);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             } else {
-                final var negStep = negStep(formulas);
+                final var notStep = notStep(formulas);
                 final var andStep = andStep(formulas);
                 final var orStep = orStep(formulas);
 
-                this.negLength = length(negStep);
+                this.notLength = length(notStep);
                 this.biLength = length(andStep);
 
-                formulas.addAll(negStep);
+                formulas.addAll(notStep);
                 formulas.addAll(andStep);
                 formulas.addAll(orStep);
             }
@@ -59,13 +58,13 @@ final class FormulasImpl implements Formulas {
         return formulas.stream().mapToInt(Formula::length).min().orElseThrow();
     }
 
-    private Set<Formula> negStep(final Set<Formula> formulas) {
+    private Set<Formula> notStep(final Set<Formula> formulas) {
         final var res = new LinkedHashSet<Formula>(formulas.size());
         for (final var f : formulas) {
-            if (SKIP && f.length() < this.negLength) {
+            if (SKIP && f.length() < this.notLength) {
                 continue;
             }
-            res.add(neg(f));
+            res.add(Formula.not(f));
         }
         return unmodifiableSet(res);
     }

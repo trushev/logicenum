@@ -1,12 +1,14 @@
 package org.github.logicenum.formula;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
-final class Neg extends AbstractFormula {
+final class Not extends AbstractFormula {
 
     private final Formula f;
 
-    Neg(final Formula f) {
+    Not(final Formula f) {
         this.f = f;
     }
 
@@ -16,8 +18,13 @@ final class Neg extends AbstractFormula {
     }
 
     @Override
-    public Formula neg() {
+    public Formula not() {
         return this.f;
+    }
+
+    @Override
+    public Collection<Formula> operands() {
+        return Collections.singleton(this.f);
     }
 
     @Override
@@ -28,8 +35,8 @@ final class Neg extends AbstractFormula {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final var neg = (Neg) o;
-        return this.f.equals(neg.f);
+        final var not = (Not) o;
+        return this.f.equals(not.f);
     }
 
     @Override

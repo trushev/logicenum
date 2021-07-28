@@ -19,8 +19,8 @@ abstract class AbstractFormula implements Formula {
     }
 
     @Override
-    public Formula neg() {
-        return new Neg(this);
+    public Formula not() {
+        return new Not(this);
     }
 
     private static Formula flattenOr(final Formula f1, final Formula f2) {
