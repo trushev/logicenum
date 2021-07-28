@@ -39,7 +39,7 @@ abstract class AbstractFormula implements Formula {
     public boolean consistsOnly(final Collection<Formula> fs) {
         final var vars = vars();
         if (vars.isEmpty()) {
-            return false;
+            return false; //TODO: why?
         }
         for (final var var : vars) {
             if (!fs.contains(var)) {
