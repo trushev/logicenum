@@ -1,5 +1,7 @@
 package org.github.logicenum.formula;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 public final class Var extends Atom {
@@ -13,6 +15,11 @@ public final class Var extends Atom {
     @Override
     public int length() {
         return 1;
+    }
+
+    @Override
+    public Collection<Formula> vars() {
+        return Collections.singleton(this);
     }
 
     @Override

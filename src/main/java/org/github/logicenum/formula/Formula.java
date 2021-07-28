@@ -4,9 +4,9 @@ package org.github.logicenum.formula;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 import static java.util.Collections.unmodifiableList;
+import static org.github.logicenum.formula.Const.True;
 
 public interface Formula {
 
@@ -19,6 +19,12 @@ public interface Formula {
     Formula and(Formula f);
 
     Formula not();
+
+    boolean deepEquals(Formula f);
+
+    Collection<Formula> vars();
+
+    boolean consistsOnly(Collection<Formula> fs);
 
     static Formula var(final String name) {
         return new Var(name);
@@ -48,7 +54,7 @@ public interface Formula {
         return f.operands();
     }
 
-    static Formula operands(final Not not) {
+    static Formula operand(final Not not) {
         return first(not.operands());
     }
 

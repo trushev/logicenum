@@ -1,4 +1,4 @@
-package org.github.logicenum.dnf;
+package org.github.logicenum.extract;
 
 import org.github.logicenum.formula.*;
 
@@ -7,13 +7,14 @@ import java.util.*;
 import static java.util.Collections.*;
 import static org.github.logicenum.formula.Formula.*;
 
-public class DnfAlgorithm {
+public class DnfAlgorithm implements Algorithm {
 
-    public Formula toDnf(final Formula f, final Formula... attrs) {
+    @Override
+    public Formula ex(final Formula f, final Formula... attrs) {
         return toDnf(f, Set.of(attrs));
     }
 
-    public Formula toDnf(final Formula f, final Collection<Formula> attrs) {
+    private Formula toDnf(final Formula f, final Collection<Formula> attrs) {
         final Collection<Formula> operands;
         if (f instanceof And) {
                 operands = f.operands();
@@ -27,7 +28,7 @@ public class DnfAlgorithm {
             return or(toDnfs(operands, attrs));
         }
         if (f instanceof Not not) {
-            final var arg = operands(not);
+            final var arg = operand(not);
             if (arg instanceof And) {
                 operands = arg.operands();
                 return toDnf(or(not(operands)), attrs);
@@ -51,9 +52,9 @@ public class DnfAlgorithm {
 
         final List<Formula> conjuncts = new ArrayList<>();
         for (final Formula left : leftConjuncts) {
-            final boolean leftIsAllowable = attrs.contains(left);
+            final boolean leftIsAllowable = left.consistsOnly(attrs);
             for (final Formula right : rightConjuncts) {
-                final boolean rightIsAllowable = attrs.contains(right);
+                final boolean rightIsAllowable = right.consistsOnly(attrs);
                 if (leftIsAllowable && rightIsAllowable) {
                     conjuncts.add(and(Arrays.asList(left, right)));
                 } else if (leftIsAllowable) {
@@ -69,10 +70,10 @@ public class DnfAlgorithm {
         return unmodifiableList(conjuncts);
     }
 
-    private Collection<Formula> toDnfs(final Collection<Formula> nodes, final Collection<Formula> attrs) {
+    private Collection<Formula> toDnfs(final Collection<Formula> fs, final Collection<Formula> attrs) {
         final List<Formula> list = new ArrayList<>();
-        for (final Formula node : nodes) {
-            final Formula dnf = toDnf(node, attrs);
+        for (final Formula f : fs) {
+            final Formula dnf = toDnf(f, attrs);
             if (dnf instanceof Or) {
                 list.addAll(operands(dnf));
             } else {
@@ -83,7 +84,7 @@ public class DnfAlgorithm {
     }
 
     private Formula allowableOrTrue(final Formula f, final Collection<Formula> attrs) {
-        if (attrs.contains(f)) {
+        if (f.consistsOnly(attrs)) {
             return f;
         } else {
             return Const.True;

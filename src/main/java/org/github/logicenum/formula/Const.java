@@ -1,16 +1,24 @@
 package org.github.logicenum.formula;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 public final class Const extends Atom {
 
     public static final Const True = new Const(Val.TRUE);
     public static final Const False = new Const(Val.FALSE);
+    public static final Const Unknown = new Const(Val.UNKNOWN);
 
     private final Val val;
 
     private Const(final Val val) {
         this.val = val;
+    }
+
+    @Override
+    public Collection<Formula> vars() {
+        return Collections.emptyList();
     }
 
     @Override
@@ -20,10 +28,11 @@ public final class Const extends Atom {
 
     @Override
     public Formula not() {
-        if (this.val == Val.TRUE) {
-            return False;
-        }
-        return True;
+        return switch (this.val) {
+            case FALSE -> True;
+            case TRUE -> False;
+            case UNKNOWN -> Unknown;
+        };
     }
 
     @Override
@@ -48,8 +57,9 @@ public final class Const extends Atom {
     }
 
     private enum Val {
-        TRUE("true"),
-        FALSE("false"),
+        TRUE("True"),
+        FALSE("False"),
+        UNKNOWN("Unknown"),
         ;
 
         private final String name;

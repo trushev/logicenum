@@ -1,8 +1,10 @@
 package org.github.logicenum.formula;
 
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableSet;
 
@@ -21,6 +23,30 @@ abstract class AbstractFormula implements Formula {
     @Override
     public Formula not() {
         return new Not(this);
+    }
+
+    @Override
+    public boolean deepEquals(final Formula f) {
+        return deepEquals(this, f);
+    }
+
+    @Override
+    public Collection<Formula> vars() {
+        return operands().stream().flatMap(ff -> ff.vars().stream()).collect(Collectors.toSet());
+    }
+
+    @Override
+    public boolean consistsOnly(final Collection<Formula> fs) {
+        final var vars = vars();
+        if (vars.isEmpty()) {
+            return false;
+        }
+        for (final var var : vars) {
+            if (!fs.contains(var)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static Formula orConstFolding(final Formula f) {
@@ -68,5 +94,20 @@ abstract class AbstractFormula implements Formula {
         } else {
             return new And(Set.of(f1, f2));
         }
+    }
+
+    private static boolean deepEquals(final Formula f1, final Formula f2) {
+        final var t1 = new TruthTable(f1);
+        final var t2 = new TruthTable(f2);
+        final var res = t1.equals(t2);
+        if (!res) {
+            System.out.println("Table1");
+            System.out.println(t1);
+            System.out.println();
+            System.out.println("Table2");
+            System.out.println(t2);
+            System.out.println();
+        }
+        return res;
     }
 }
