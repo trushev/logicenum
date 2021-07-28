@@ -3,6 +3,8 @@ package org.github.logicenum.formula;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 
 import static java.util.Collections.unmodifiableList;
 
@@ -70,5 +72,31 @@ public interface Formula {
             res.add(f.not());
         }
         return unmodifiableList(res);
+    }
+
+    static Formula and(final Collection<Formula> formulas) {
+        final var iterator = formulas.iterator();
+        var f = iterator.next();
+        while (iterator.hasNext()) {
+            f = f.and(iterator.next());
+        }
+        return f;
+    }
+
+    static Formula or(final Collection<Formula> formulas) {
+        final var iterator = formulas.iterator();
+        var f = iterator.next();
+        while (iterator.hasNext()) {
+            f = f.or(iterator.next());
+        }
+        return f;
+    }
+
+    static Collection<Formula> disjunctions(final Formula f) {
+        if (f instanceof Or) {
+            return f.operands();
+        } else {
+            return Collections.singletonList(f);
+        }
     }
 }

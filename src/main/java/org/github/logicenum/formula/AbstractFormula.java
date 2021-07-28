@@ -10,7 +10,7 @@ abstract class AbstractFormula implements Formula {
 
     @Override
     public Formula or(final Formula f) {
-        return flattenOr(this, f);
+        return orConstFolding(flattenOr(this, f));
     }
 
     @Override
@@ -21,6 +21,13 @@ abstract class AbstractFormula implements Formula {
     @Override
     public Formula not() {
         return new Not(this);
+    }
+
+    private static Formula orConstFolding(final Formula f) {
+        if (f.operands().contains(Const.True)) {
+            return Const.True;
+        }
+        return f;
     }
 
     private static Formula flattenOr(final Formula f1, final Formula f2) {

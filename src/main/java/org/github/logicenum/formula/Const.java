@@ -2,10 +2,10 @@ package org.github.logicenum.formula;
 
 import java.util.Objects;
 
-final class Const extends Atom {
+public final class Const extends Atom {
 
-    static final Const True = new Const(Val.TRUE);
-    static final Const False = new Const(Val.FALSE);
+    public static final Const True = new Const(Val.TRUE);
+    public static final Const False = new Const(Val.FALSE);
 
     private final Val val;
 
@@ -48,8 +48,8 @@ final class Const extends Atom {
     }
 
     private enum Val {
-        TRUE("t"),
-        FALSE("f"),
+        TRUE("true"),
+        FALSE("false"),
         ;
 
         private final String name;

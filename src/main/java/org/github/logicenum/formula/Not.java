@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-final class Not extends AbstractFormula {
+public final class Not extends AbstractFormula {
 
     private final Formula f;
 
