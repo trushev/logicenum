@@ -1,6 +1,8 @@
 package org.github.logicenum.formula;
 
 
+import java.util.Collection;
+
 public interface Formula {
 
     int length();
@@ -10,6 +12,8 @@ public interface Formula {
     Formula and(Formula f);
 
     Formula neg();
+
+    Collection<Formula> operands();
 
     static Formula var(final String name) {
         return new Var(name);

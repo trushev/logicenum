@@ -9,16 +9,17 @@ abstract class BiFormula extends AbstractFormula {
 
     private final int length;
     private final Symbol symbol;
-    private final Collection<Formula> fs;
+    private final Collection<Formula> operands;
 
-    protected BiFormula(final Symbol symbol, final Collection<Formula> fs) {
+    protected BiFormula(final Symbol symbol, final Collection<Formula> operands) {
         this.symbol = symbol;
-        this.fs = fs;
-        this.length = this.fs.stream().mapToInt(Formula::length).sum() + 1;
+        this.operands = operands;
+        this.length = this.operands.stream().mapToInt(Formula::length).sum() + 1;
     }
 
-    Collection<Formula> fs() {
-        return this.fs;
+    @Override
+    public Collection<Formula> operands() {
+        return this.operands;
     }
 
     @Override
@@ -34,17 +35,17 @@ abstract class BiFormula extends AbstractFormula {
         if (!(o instanceof BiFormula bf)) {
             return false;
         }
-        return this.length == bf.length && this.symbol == bf.symbol && this.fs.equals(bf.fs);
+        return this.length == bf.length && this.symbol == bf.symbol && this.operands.equals(bf.operands);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.length, this.symbol, this.fs);
+        return Objects.hash(this.length, this.symbol, this.operands);
     }
 
     @Override
     public String toString() {
-        return this.fs.stream()
+        return this.operands.stream()
                 .map(Object::toString)
                 .collect(joining(" " + this.symbol + " ", "(", ")"));
     }
