@@ -3,6 +3,7 @@ package org.github.logicenum.enu;
 import org.github.logicenum.formula.Formula;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -10,7 +11,7 @@ import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableSet;
 
-final class FormulasImpl implements Formulas {
+final class FormulasSet implements Formulas {
 
     private static final int EPOCH = 3;
     private static final boolean PARALLEL = true;
@@ -52,6 +53,11 @@ final class FormulasImpl implements Formulas {
             }
         }
         return formulas.stream();
+    }
+
+    @Override
+    public Iterator<Formula> lazyEnumeration(final Formula... vars) {
+        return enumeration(vars).iterator();
     }
 
     private int length(final Set<Formula> formulas) {

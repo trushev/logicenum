@@ -21,7 +21,7 @@ public class Main {
 //        final var d = var("d");
 //        final var e = var("e");
 
-        final var formulas = Formulas.get().enumeration(a, b, c);
+        final var formulas = Formulas.getSet().enumeration(a, b, c);
 
         final var dnfAlgorithm = new DnfAlgorithm();
         final var sparkAlgorithm = new SparkAlgorithm();
