@@ -1,5 +1,6 @@
 package org.github.logicenum.inner;
 
+import java.util.Arrays;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.IntStream;
@@ -14,5 +15,10 @@ public final class Main {
         final var stream = StreamSupport.stream(spliterator, false).filter(i -> i % 3 == 0);
         final var iterator1 = stream.iterator();
         System.out.println(iterator1.next());
+
+        final var s = IntStream.range(0, 10);
+        final var s2 = s.sequential();
+        System.out.println(Arrays.toString(s.toArray()));
+        System.out.println(Arrays.toString(s2.toArray()));
     }
 }
