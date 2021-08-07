@@ -32,10 +32,15 @@ final class FormulasEnumInner implements Iterator<Formula> {
     public Formula next() {
         if (this.iterator.hasNext()) {
             var f = this.iterator.next();
-            while (this.iterator.hasNext() && (f.length() != this.length || !this.currentFormulas.put(f))) {
-                f = this.iterator.next();
+            if (f.length() == this.length && this.currentFormulas.put(f)) {
+                return f;
             }
-            return f;
+            while (this.iterator.hasNext()) {
+                f = this.iterator.next();
+                if (f.length() == this.length && this.currentFormulas.put(f)) {
+                    return f;
+                }
+            }
         }
         this.formulas.merge(this.currentFormulas);
         this.currentFormulas = new Formulas();

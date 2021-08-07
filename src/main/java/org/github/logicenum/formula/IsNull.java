@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-public final class IsNull extends AbstractFormula {
+public final class IsNull extends Atom {
 
     private final Formula f;
 

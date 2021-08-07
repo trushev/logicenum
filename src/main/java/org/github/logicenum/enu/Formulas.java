@@ -12,9 +12,9 @@ public final class Formulas {
         this.formulas = new HashMap<>();
     }
 
-    public boolean put(final Formula formula) {
-        this.formulas.computeIfAbsent(formula.length(), k -> new HashSet<>());
-        return this.formulas.get(formula.length()).add(formula);
+    public boolean put(final Formula f) {
+        this.formulas.computeIfAbsent(f.length(), k -> new HashSet<>());
+        return this.formulas.get(f.length()).add(f);
     }
 
     public void put(final Formula... formulas) {
@@ -37,6 +37,14 @@ public final class Formulas {
                 return formulas1;
             });
         }
+    }
+
+    public boolean contains(final Formula f) {
+        final var formulaSet = this.formulas.get(f.length());
+        if (formulaSet == null) {
+            return false;
+        }
+        return formulaSet.contains(f);
     }
 
     @Override

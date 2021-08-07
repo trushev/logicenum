@@ -9,13 +9,14 @@ import static org.github.logicenum.formula.Formula.operand;
 import static org.github.logicenum.formula.Formula.and;
 import static org.github.logicenum.formula.Formula.or;
 import static org.github.logicenum.formula.Formula.not;
+import static org.github.logicenum.formula.Formula.isNull;
 
-final class TruthTable {
+public final class TruthTable {
 
     private final Formula f;
     private final List<List<Const>> table;
 
-    TruthTable(final Formula f) {
+    public TruthTable(final Formula f) {
         this.f = f;
         this.table = table(f);
     }
@@ -112,6 +113,9 @@ final class TruthTable {
         if (f instanceof Not n) {
             return not(assign(operand(n), var, val));
         }
+        if (f instanceof IsNull) {
+            return isNull(assign(f.operands().iterator().next(), var, val));
+        }
         final var formulas = f.operands()
                 .stream()
                 .map(ff -> assign(ff, var, val))
@@ -135,6 +139,10 @@ final class TruthTable {
         if (f instanceof Not n) {
             final var arg = operand(n);
             return evalNot(eval(arg));
+        }
+        if (f instanceof IsNull) {
+            final var arg = f.operands().iterator().next();
+            return evalIsNull(eval(arg));
         }
         final var values = f.operands()
                 .stream()
@@ -194,6 +202,14 @@ final class TruthTable {
         if (c == True) return False;
         if (c == False) return True;
         if (c == Unknown) return Unknown;
+
+        throw new IllegalStateException(c.toString());
+    }
+
+    private static Const evalIsNull(final Const c) {
+        if (c == True) return False;
+        if (c == False) return False;
+        if (c == Unknown) return True;
 
         throw new IllegalStateException(c.toString());
     }

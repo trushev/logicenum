@@ -1,5 +1,6 @@
 package org.github.logicenum.enu.mid;
 
+import org.github.logicenum.enu.inner.IsNullIterator;
 import org.github.logicenum.formula.Formula;
 import org.github.logicenum.enu.Formulas;
 import org.github.logicenum.enu.inner.AndIterator;
@@ -24,9 +25,10 @@ public final class FixedLengthFormulas implements Iterator<Formula> {
 
     public FixedLengthFormulas(final Formulas formulas, final int length) {
         final var s1 = Stream.of(new NotIterator(formulas.getWithLength(length - 1)));
-        final var s2 = streamOfIterators(formulas, length, AndIterator::new);
-        final var s3 = streamOfIterators(formulas, length, OrIterator::new);
-        this.iterators = Stream.concat(s1, Stream.concat(s2, s3)).iterator();
+        final var s2 = Stream.of(new IsNullIterator(formulas.getWithLength(length - 1)));
+        final var s3 = streamOfIterators(formulas, length, AndIterator::new);
+        final var s4 = streamOfIterators(formulas, length, OrIterator::new);
+        this.iterators = Stream.concat(s1, Stream.concat(s2, Stream.concat(s3, s4))).iterator();
         if (this.iterators.hasNext()) {
             this.currentIterator = this.iterators.next();
         } else {

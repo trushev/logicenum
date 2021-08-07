@@ -51,6 +51,10 @@ public interface Formula {
         return f.not();
     }
 
+    static Formula isNull(final Formula f) {
+        return f.isNull();
+    }
+
     static Collection<Formula> operands(final Formula f) {
         return f.operands();
     }
