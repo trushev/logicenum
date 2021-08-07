@@ -24,8 +24,8 @@ public final class FixedLengthFormulas implements Iterator<Formula> {
 
     public FixedLengthFormulas(final Formulas formulas, final int length) {
         final var s1 = Stream.of(new NotIterator(formulas.getWithLength(length - 1)));
-        final var s2 = gen(formulas, length, AndIterator::new);
-        final var s3 = gen(formulas, length, OrIterator::new);
+        final var s2 = streamOfIterators(formulas, length, AndIterator::new);
+        final var s3 = streamOfIterators(formulas, length, OrIterator::new);
         this.iterators = Stream.concat(s1, Stream.concat(s2, s3)).iterator();
         if (this.iterators.hasNext()) {
             this.currentIterator = this.iterators.next();
@@ -51,14 +51,16 @@ public final class FixedLengthFormulas implements Iterator<Formula> {
         if (this.currentIterator.hasNext()) {
             return this.currentIterator.next();
         }
-        if (this.iterators.hasNext()) {
+        while (!this.currentIterator.hasNext() && this.iterators.hasNext()) {
             this.currentIterator = this.iterators.next();
-            return next();
+        }
+        if (this.currentIterator.hasNext()) {
+            return this.currentIterator.next();
         }
         throw new NoSuchElementException();
     }
 
-    private static Stream<Iterator<Formula>> gen(
+    private static Stream<Iterator<Formula>> streamOfIterators(
             final Formulas formulas,
             final int length,
             final BiFunction<Formula, Iterator<Formula>, Iterator<Formula>> fun

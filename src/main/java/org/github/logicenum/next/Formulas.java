@@ -4,17 +4,17 @@ import org.github.logicenum.formula.Formula;
 
 import java.util.*;
 
-public class Formulas {
+public final class Formulas {
 
     private final Map<Integer, Set<Formula>> formulas;
 
-    Formulas() {
+    public Formulas() {
         this.formulas = new HashMap<>();
     }
 
-    public void put(final Formula formula) {
+    public boolean put(final Formula formula) {
         this.formulas.computeIfAbsent(formula.length(), k -> new HashSet<>());
-        this.formulas.get(formula.length()).add(formula);
+        return this.formulas.get(formula.length()).add(formula);
     }
 
     public void put(final Formula... formulas) {
@@ -28,6 +28,15 @@ public class Formulas {
             return Collections.emptyIterator();
         }
         return this.formulas.get(length).iterator();
+    }
+
+    public void merge(final Formulas formulas) {
+        for (final var entry : formulas.formulas.entrySet()) {
+            this.formulas.merge(entry.getKey(), entry.getValue(), (formulas1, formulas2) -> {
+                formulas1.addAll(formulas2);
+                return formulas1;
+            });
+        }
     }
 
     @Override

@@ -19,6 +19,8 @@ public interface Formula {
 
     Formula not();
 
+    Formula isNull();
+
     boolean deepEquals(Formula f);
 
     Collection<Formula> vars();

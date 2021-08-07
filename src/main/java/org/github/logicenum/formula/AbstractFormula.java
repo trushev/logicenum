@@ -17,12 +17,17 @@ abstract class AbstractFormula implements Formula {
 
     @Override
     public Formula and(final Formula f) {
-        return flattenAnd(this, f);
+        return andConstFolding(flattenAnd(this, f));
     }
 
     @Override
     public Formula not() {
         return new Not(this);
+    }
+
+    @Override
+    public Formula isNull() {
+        return new IsNull(this);
     }
 
     @Override
@@ -52,6 +57,13 @@ abstract class AbstractFormula implements Formula {
     private static Formula orConstFolding(final Formula f) {
         if (f.operands().contains(Const.True)) {
             return Const.True;
+        }
+        return f;
+    }
+
+    private static Formula andConstFolding(final Formula f) {
+        if (f.operands().contains(Const.False)) {
+            return Const.False;
         }
         return f;
     }

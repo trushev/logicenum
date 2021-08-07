@@ -1,8 +1,9 @@
 package org.github.logicenum;
 
-import org.github.logicenum.enu.Formulas;
+//import org.github.logicenum.enu.Formulas;
 import org.github.logicenum.extract.DnfAlgorithm;
 import org.github.logicenum.extract.SparkAlgorithm;
+import org.github.logicenum.next.outer.FormulasEnum;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,15 +19,16 @@ public class Main {
         final var a = var("a");
         final var b = var("b");
         final var c = var("c");
-//        final var d = var("d");
+        final var d = var("d");
 //        final var e = var("e");
 
-        final var formulas = Formulas.getSet().enumeration(a, b, c);
+//        final var formulas = Formulas.getSet().enumeration(a, b, c);
+        final var formulas = new FormulasEnum(500_000, a, b, c, d);
 
         final var dnfAlgorithm = new DnfAlgorithm();
         final var sparkAlgorithm = new SparkAlgorithm();
 
-        formulas.forEach(f -> {
+        formulas.forEachRemaining(f -> {
             final var f1 = dnfAlgorithm.ex(f, a, b);
             final var f2 = sparkAlgorithm.ex(f, a, b);
             if (!f1.equals(f2) && !f1.deepEquals(f2)) {
@@ -40,7 +42,7 @@ public class Main {
         if (WRITE) {
             final var bw = Files.newBufferedWriter(Paths.get("target/out.txt"));
             final int[] size = {0};
-            formulas.forEach(f -> {
+            formulas.forEachRemaining(f -> {
                 try {
                     size[0]++;
                     bw.write(f.length() + ", " + f + "\n");
