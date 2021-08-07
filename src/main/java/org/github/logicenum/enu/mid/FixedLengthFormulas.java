@@ -1,10 +1,10 @@
-package org.github.logicenum.next.mid;
+package org.github.logicenum.enu.mid;
 
 import org.github.logicenum.formula.Formula;
-import org.github.logicenum.next.Formulas;
-import org.github.logicenum.next.inner.AndIterator;
-import org.github.logicenum.next.inner.NotIterator;
-import org.github.logicenum.next.inner.OrIterator;
+import org.github.logicenum.enu.Formulas;
+import org.github.logicenum.enu.inner.AndIterator;
+import org.github.logicenum.enu.inner.NotIterator;
+import org.github.logicenum.enu.inner.OrIterator;
 
 import java.util.Collections;
 import java.util.Iterator;

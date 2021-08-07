@@ -1,8 +1,8 @@
-package org.github.logicenum.next.outer;
+package org.github.logicenum.enu.outer;
 
 import org.github.logicenum.formula.Formula;
-import org.github.logicenum.next.Formulas;
-import org.github.logicenum.next.mid.FixedLengthFormulas;
+import org.github.logicenum.enu.Formulas;
+import org.github.logicenum.enu.mid.FixedLengthFormulas;
 
 import java.util.Iterator;
 

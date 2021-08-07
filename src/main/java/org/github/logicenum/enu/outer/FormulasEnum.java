@@ -1,4 +1,4 @@
-package org.github.logicenum.next.outer;
+package org.github.logicenum.enu.outer;
 
 import org.github.logicenum.formula.Formula;
 

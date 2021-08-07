@@ -1,7 +1,6 @@
-package org.github.logicenum.next;
+package org.github.logicenum.enu;
 
-import org.github.logicenum.next.mid.FixedLengthFormulas;
-import org.github.logicenum.next.outer.FormulasEnum;
+import org.github.logicenum.enu.outer.FormulasEnum;
 
 import static org.github.logicenum.formula.Formula.var;
 
