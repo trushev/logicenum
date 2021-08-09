@@ -1,6 +1,8 @@
 package org.github.trushev.logicenum.formula;
 
 
+import org.github.trushev.logicenum.eval.TruthTable;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

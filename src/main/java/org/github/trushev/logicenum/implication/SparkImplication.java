@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.github.trushev.logicenum.formula.Formula.*;
+
 public class SparkImplication implements Implication {
 
     @Override
@@ -23,14 +25,14 @@ public class SparkImplication implements Implication {
             if (formulas.isEmpty()) {
                 return Const.True;
             }
-            return Formula.and(formulas);
+            return and(formulas);
         }
         if (f instanceof Or) {
             final var formulas = f.operands()
                     .stream()
                     .map(ff -> exRec(ff, attrs))
                     .collect(Collectors.toUnmodifiableSet());
-            return Formula.or(formulas);
+            return or(formulas);
         }
         if (f.consistsOnly(attrs)) {
             return f;
@@ -43,29 +45,29 @@ public class SparkImplication implements Implication {
             return f;
         }
         if (f instanceof Not n) {
-            final var arg = Formula.operand(n);
+            final var arg = operand(n);
             if (arg instanceof Atom) {
-                return Formula.not(arg);
+                return not(arg);
             }
             final var formulas = arg.operands()
                     .stream()
-                    .map(ff -> nnf(Formula.not(ff)))
+                    .map(ff -> nnf(not(ff)))
                     .collect(Collectors.toUnmodifiableSet());
             if (arg instanceof And) {
-                return Formula.or(formulas);
+                return or(formulas);
             }
             if (arg instanceof Or) {
-                return Formula.and(formulas);
+                return and(formulas);
             }
         }
         final var formulas = f.operands()
                 .stream().map(this::nnf)
                 .collect(Collectors.toUnmodifiableSet());
         if (f instanceof And) {
-            return Formula.and(formulas);
+            return and(formulas);
         }
         if (f instanceof Or) {
-            return Formula.or(formulas);
+            return or(formulas);
         }
 
         throw new IllegalStateException(f.toString());

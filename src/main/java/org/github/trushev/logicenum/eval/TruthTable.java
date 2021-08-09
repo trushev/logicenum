@@ -1,9 +1,12 @@
-package org.github.trushev.logicenum.formula;
+package org.github.trushev.logicenum.eval;
+
+import org.github.trushev.logicenum.formula.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableList;
+import static org.github.trushev.logicenum.formula.Formula.*;
 
 public final class TruthTable {
 
@@ -105,20 +108,20 @@ public final class TruthTable {
             return f;
         }
         if (f instanceof Not n) {
-            return Formula.not(assign(Formula.operand(n), var, val));
+            return not(assign(operand(n), var, val));
         }
         if (f instanceof IsNull) {
-            return Formula.isNull(assign(f.operands().iterator().next(), var, val));
+            return isNull(assign(f.operands().iterator().next(), var, val));
         }
         final var formulas = f.operands()
                 .stream()
                 .map(ff -> assign(ff, var, val))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toUnmodifiableSet());
         if (f instanceof And) {
-            return Formula.and(formulas);
+            return and(formulas);
         }
         if (f instanceof Or) {
-            return Formula.or(formulas);
+            return or(formulas);
         }
         throw new IllegalStateException(f.getClass().toString());
     }
@@ -131,7 +134,7 @@ public final class TruthTable {
             throw new IllegalStateException(f.toString());
         }
         if (f instanceof Not n) {
-            final var arg = Formula.operand(n);
+            final var arg = operand(n);
             return evalNot(eval(arg));
         }
         if (f instanceof IsNull) {
@@ -141,7 +144,7 @@ public final class TruthTable {
         final var values = f.operands()
                 .stream()
                 .map(TruthTable::eval)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toUnmodifiableSet());
         final var iterator = values.iterator();
         var v = iterator.next();
         if (f instanceof And) {

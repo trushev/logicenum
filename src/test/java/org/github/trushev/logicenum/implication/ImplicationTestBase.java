@@ -5,13 +5,14 @@ import org.github.trushev.logicenum.formula.Formula;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.github.trushev.logicenum.formula.Formula.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 abstract class ImplicationTestBase {
 
-    protected final Formula a1 = Formula.var("a1");
-    protected final Formula a2 = Formula.var("a2");
-    protected final Formula b1 = Formula.var("b1");
+    protected final Formula a1 = var("a1");
+    protected final Formula a2 = var("a2");
+    protected final Formula b1 = var("b1");
 
     protected final Implication implication;
 
@@ -33,15 +34,15 @@ abstract class ImplicationTestBase {
 
     @Test
     public void test2() {
-        final var f = Formula.or(Formula.and(a1, b1), a2);
-        final var expected = Formula.or(a1, a2);
+        final var f = or(and(a1, b1), a2);
+        final var expected = or(a1, a2);
         final var actual = implication.ex(f, a1, a2);
         assertEquals(expected, actual);
     }
 
     @Test
     public void test3() {
-        final var f = Formula.or(Formula.and(a1, a2), b1);
+        final var f = or(and(a1, a2), b1);
         final var expected = Const.True;
         final var actual = implication.ex(f, a1, a2);
         assertEquals(expected, actual);
@@ -49,15 +50,15 @@ abstract class ImplicationTestBase {
 
     @Test
     public void test4() {
-        final var f = Formula.not(Formula.or(a1, b1));
-        final var expected = Formula.not(a1);
+        final var f = not(or(a1, b1));
+        final var expected = not(a1);
         final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
     }
 
     @Test
     public void test5() {
-        final var f = Formula.not(Formula.and(a1, b1));
+        final var f = not(and(a1, b1));
         final var expected = Const.True;
         final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
@@ -65,7 +66,7 @@ abstract class ImplicationTestBase {
 
     @Test
     public void test6() {
-        final var f = Formula.not(Formula.and(Formula.or(a1, a2), b1));
+        final var f = not(and(or(a1, a2), b1));
         final var expected = Const.True;
         final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
@@ -73,8 +74,8 @@ abstract class ImplicationTestBase {
 
     @Test
     public void test7() {
-        final var f = Formula.or(Formula.and(a1, b1), Formula.not(a2));
-        final var expected = Formula.or(a1, Formula.not(a2));
+        final var f = or(and(a1, b1), not(a2));
+        final var expected = or(a1, not(a2));
         final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
     }

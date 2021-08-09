@@ -3,8 +3,10 @@ package org.github.trushev.logicenum.implication;
 import org.github.trushev.logicenum.formula.*;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.Collections.*;
+import static org.github.trushev.logicenum.formula.Formula.*;
 
 public class DnfImplication implements Implication {
 
@@ -17,27 +19,31 @@ public class DnfImplication implements Implication {
         final Collection<Formula> operands;
         if (f instanceof And) {
                 operands = f.operands();
-                final var firstDnf = toDnf(Formula.first(operands), attrs);
-                final var restDnf = toDnf(Formula.and(Formula.rest(operands)), attrs);
-                final var conjuncts = combinedConjuncts(Formula.disjunctions(firstDnf), Formula.disjunctions(restDnf), attrs);
-                return Formula.or(conjuncts);
+                final var firstDnf = toDnf(first(operands), attrs);
+                final var restDnf = toDnf(and(rest(operands)), attrs);
+                final var conjuncts = combinedConjuncts(
+                        disjunctions(firstDnf),
+                        disjunctions(restDnf),
+                        attrs
+                );
+                return or(conjuncts);
         }
         if (f instanceof Or) {
             operands = f.operands();
-            return Formula.or(toDnfs(operands, attrs));
+            return or(toDnfs(operands, attrs));
         }
         if (f instanceof Not not) {
-            final var arg = Formula.operand(not);
+            final var arg = operand(not);
             if (arg instanceof And) {
                 operands = arg.operands();
-                return toDnf(Formula.or(Formula.not(operands)), attrs);
+                return toDnf(or(not(operands)), attrs);
             }
             if (arg instanceof Or) {
                 operands = arg.operands();
-                return toDnf(Formula.and(Formula.not(operands)), attrs);
+                return toDnf(and(not(operands)), attrs);
             }
             if (arg instanceof Not) {
-                return toDnf(Formula.first(Formula.operands(arg)), attrs);
+                return toDnf(first(operands(arg)), attrs);
             }
             return allowableOrTrue(not, attrs);
         }
@@ -55,7 +61,7 @@ public class DnfImplication implements Implication {
             for (final Formula right : rightConjuncts) {
                 final boolean rightIsAllowable = right.consistsOnly(attrs);
                 if (leftIsAllowable && rightIsAllowable) {
-                    conjuncts.add(Formula.and(Arrays.asList(left, right)));
+                    conjuncts.add(and(Arrays.asList(left, right)));
                 } else if (leftIsAllowable) {
                     conjuncts.add(left);
                 } else if (rightIsAllowable) {
@@ -70,16 +76,14 @@ public class DnfImplication implements Implication {
     }
 
     private Collection<Formula> toDnfs(final Collection<Formula> fs, final Collection<Formula> attrs) {
-        final List<Formula> list = new ArrayList<>();
-        for (final Formula f : fs) {
-            final Formula dnf = toDnf(f, attrs);
+        return fs.stream().flatMap(f -> {
+            final var dnf = toDnf(f, attrs);
             if (dnf instanceof Or) {
-                list.addAll(Formula.operands(dnf));
+                return operands(dnf).stream();
             } else {
-                list.add(dnf);
+                return Stream.of(dnf);
             }
-        }
-        return unmodifiableList(list);
+        }).toList();
     }
 
     private Formula allowableOrTrue(final Formula f, final Collection<Formula> attrs) {
