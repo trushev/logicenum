@@ -2,7 +2,7 @@ package org.github.trushev.usage;
 
 import org.github.trushev.logicenum.extract.DnfAlgorithm;
 import org.github.trushev.logicenum.extract.SparkAlgorithm;
-import org.github.trushev.logicenum.enu.iterators.LimitedFormulasEnum;
+import org.github.trushev.logicenum.enumeration.iterators.LimitedFormulasEnum;
 
 import java.io.IOException;
 import java.nio.file.Files;

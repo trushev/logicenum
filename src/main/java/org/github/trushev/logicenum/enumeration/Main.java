@@ -1,6 +1,6 @@
-package org.github.trushev.logicenum.enu;
+package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.enu.iterators.LimitedFormulasEnum;
+import org.github.trushev.logicenum.enumeration.iterators.LimitedFormulasEnum;
 
 import static org.github.trushev.logicenum.formula.Formula.var;
 

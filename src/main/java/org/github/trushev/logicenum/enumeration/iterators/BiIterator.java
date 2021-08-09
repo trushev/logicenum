@@ -1,4 +1,4 @@
-package org.github.trushev.logicenum.enu.iterators;
+package org.github.trushev.logicenum.enumeration.iterators;
 
 import org.github.trushev.logicenum.formula.Formula;
 

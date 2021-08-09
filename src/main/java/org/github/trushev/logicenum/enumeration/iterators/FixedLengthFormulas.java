@@ -1,6 +1,6 @@
-package org.github.trushev.logicenum.enu.iterators;
+package org.github.trushev.logicenum.enumeration.iterators;
 
-import org.github.trushev.logicenum.enu.Formulas;
+import org.github.trushev.logicenum.enumeration.Formulas;
 import org.github.trushev.logicenum.formula.Formula;
 
 import java.util.Collections;
