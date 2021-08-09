@@ -1,6 +1,7 @@
 package org.github.trushev.logicenum.formula;
 
 
+import org.github.trushev.logicenum.eval.CsvTruthTable;
 import org.github.trushev.logicenum.eval.TruthTable;
 
 import java.util.Collection;
@@ -115,11 +116,9 @@ abstract class AbstractFormula implements Formula {
         final var t2 = new TruthTable(f2);
         final var res = t1.equals(t2);
         if (!res) {
-            System.out.println("Table1");
-            System.out.println(t1);
+            System.out.println(new CsvTruthTable(t1, " ", false));
             System.out.println();
-            System.out.println("Table2");
-            System.out.println(t2);
+            System.out.println(new CsvTruthTable(t2, " ", false));
             System.out.println();
         }
         return res;

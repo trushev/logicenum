@@ -4,18 +4,36 @@ import org.github.trushev.logicenum.formula.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableList;
 import static org.github.trushev.logicenum.formula.Formula.*;
 
+/**
+ * TODO: Incorrect logic for {@link Const}.
+ */
 public final class TruthTable {
 
     private final Formula f;
+    private final Collection<Formula> vars;
     private final List<List<Const>> table;
 
     public TruthTable(final Formula f) {
         this.f = f;
-        this.table = table(f);
+        this.vars = f.vars();
+        this.table = table(this.f, this.vars);
+    }
+
+    public Formula f() {
+        return this.f;
+    }
+
+    public Collection<Formula> vars() {
+        return this.vars;
+    }
+
+    public Stream<List<Const>> rows() {
+        return this.table.stream();
     }
 
     @Override
@@ -38,8 +56,7 @@ public final class TruthTable {
         return Objects.hash(this.table);
     }
 
-    private static List<List<Const>> table(final Formula f) {
-        final var vars = f.vars();
+    private static List<List<Const>> table(final Formula f, final Collection<Formula> vars) {
         final var n = vars.size();
         final var res = new ArrayList<List<Const>>((int) Math.pow(3, n));
         var row = new int[n];

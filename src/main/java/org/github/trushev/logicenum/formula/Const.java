@@ -16,6 +16,14 @@ public final class Const extends Atom {
         this.val = val;
     }
 
+    public double asNumber() {
+        return switch (this.val) {
+            case FALSE -> 0.0;
+            case TRUE -> 1.0;
+            case UNKNOWN -> 0.5;
+        };
+    }
+
     @Override
     public Collection<Formula> vars() {
         return Collections.emptyList();
