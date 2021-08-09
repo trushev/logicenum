@@ -1,4 +1,4 @@
-package org.github.trushev.logicenum;
+package org.github.trushev.usage;
 
 import org.github.trushev.logicenum.extract.DnfAlgorithm;
 import org.github.trushev.logicenum.extract.SparkAlgorithm;
@@ -19,9 +19,9 @@ public class Main {
         final var b = var("b");
         final var c = var("c");
         final var d = var("d");
-        final var e = var("e");
+//        final var e = var("e");
 
-        final var formulas = new FormulasEnum(20_000_000, a, b, c, d);
+        final var formulas = new FormulasEnum(20_000, a, b, c, d);
 
         final var dnfAlgorithm = new DnfAlgorithm();
         final var sparkAlgorithm = new SparkAlgorithm();
