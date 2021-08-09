@@ -2,7 +2,7 @@ package org.github.trushev.usage;
 
 import org.github.trushev.logicenum.extract.DnfAlgorithm;
 import org.github.trushev.logicenum.extract.SparkAlgorithm;
-import org.github.trushev.logicenum.enu.outer.FormulasEnum;
+import org.github.trushev.logicenum.enu.iterators.LimitedFormulasEnum;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +21,7 @@ public class Main {
         final var d = var("d");
 //        final var e = var("e");
 
-        final var formulas = new FormulasEnum(20_000, a, b, c, d);
+        final var formulas = new LimitedFormulasEnum(20_000, a, b, c, d);
 
         final var dnfAlgorithm = new DnfAlgorithm();
         final var sparkAlgorithm = new SparkAlgorithm();

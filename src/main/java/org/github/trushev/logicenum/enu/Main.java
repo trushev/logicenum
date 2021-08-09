@@ -1,6 +1,6 @@
 package org.github.trushev.logicenum.enu;
 
-import org.github.trushev.logicenum.enu.outer.FormulasEnum;
+import org.github.trushev.logicenum.enu.iterators.LimitedFormulasEnum;
 
 import static org.github.trushev.logicenum.formula.Formula.var;
 
@@ -10,7 +10,7 @@ public class Main {
         final var b = var("b");
         final var c = var("c");
         final var d = var("d");
-        final var formulas = new FormulasEnum(50, a, b, c, d);
+        final var formulas = new LimitedFormulasEnum(50, a, b, c, d);
         formulas.forEachRemaining(f -> {
             final var x = f.length() + ": " + f;
             System.out.println(x);

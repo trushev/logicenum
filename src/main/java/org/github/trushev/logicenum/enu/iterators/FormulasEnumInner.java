@@ -1,8 +1,7 @@
-package org.github.trushev.logicenum.enu.outer;
+package org.github.trushev.logicenum.enu.iterators;
 
-import org.github.trushev.logicenum.formula.Formula;
 import org.github.trushev.logicenum.enu.Formulas;
-import org.github.trushev.logicenum.enu.mid.FixedLengthFormulas;
+import org.github.trushev.logicenum.formula.Formula;
 
 import java.util.Iterator;
 

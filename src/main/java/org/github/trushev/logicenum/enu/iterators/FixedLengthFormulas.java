@@ -1,11 +1,7 @@
-package org.github.trushev.logicenum.enu.mid;
+package org.github.trushev.logicenum.enu.iterators;
 
-import org.github.trushev.logicenum.enu.inner.IsNullIterator;
-import org.github.trushev.logicenum.formula.Formula;
 import org.github.trushev.logicenum.enu.Formulas;
-import org.github.trushev.logicenum.enu.inner.AndIterator;
-import org.github.trushev.logicenum.enu.inner.NotIterator;
-import org.github.trushev.logicenum.enu.inner.OrIterator;
+import org.github.trushev.logicenum.formula.Formula;
 
 import java.util.Collections;
 import java.util.Iterator;
