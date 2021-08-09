@@ -1,24 +1,20 @@
-package org.github.trushev.logicenum.enumeration.iterators;
+package org.github.trushev.logicenum.enumeration;
 
 import org.github.trushev.logicenum.formula.Formula;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public final class LimitedFormulasEnum implements Iterator<Formula> {
+final class LimitedFormulasEnum implements Iterator<Formula> {
 
-    private final int limit;
     private final Iterator<Formula> iterator;
+    private final long limit;
     private int counter;
 
-    public LimitedFormulasEnum(final int limit, final Formula... fs) {
+    LimitedFormulasEnum(final Iterator<Formula> iterator, final long limit) {
+        this.iterator = iterator;
         this.limit = limit;
-        this.iterator = new FormulasEnumInner(fs);
         this.counter = 0;
-    }
-
-    public LimitedFormulasEnum(final Formula... fs) {
-        this(Integer.MAX_VALUE, fs);
     }
 
     @Override
@@ -33,5 +29,14 @@ public final class LimitedFormulasEnum implements Iterator<Formula> {
             return this.iterator.next();
         }
         throw new NoSuchElementException();
+    }
+
+    @Override
+    public String toString() {
+        return "LimitedFormulasEnum{" +
+                "iterator=" + this.iterator +
+                ", limit=" + this.limit +
+                ", counter=" + this.counter +
+                '}';
     }
 }

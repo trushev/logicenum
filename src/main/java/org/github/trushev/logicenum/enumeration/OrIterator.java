@@ -1,12 +1,12 @@
-package org.github.trushev.logicenum.enumeration.iterators;
+package org.github.trushev.logicenum.enumeration;
 
 import org.github.trushev.logicenum.formula.Formula;
 
 import java.util.Iterator;
 
-public final class OrIterator extends BiIterator {
+final class OrIterator extends BiIterator {
 
-    public OrIterator(final Formula f, final Iterator<Formula> fs) {
+    OrIterator(final Formula f, final Iterator<Formula> fs) {
         super(f, fs);
     }
 

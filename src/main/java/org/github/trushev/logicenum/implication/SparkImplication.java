@@ -1,4 +1,4 @@
-package org.github.trushev.logicenum.extract;
+package org.github.trushev.logicenum.implication;
 
 import org.github.trushev.logicenum.formula.*;
 
@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SparkAlgorithm implements Algorithm {
+public class SparkImplication implements Implication {
 
     @Override
     public Formula ex(final Formula f, final Formula... attrs) {

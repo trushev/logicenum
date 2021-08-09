@@ -1,4 +1,4 @@
-package org.github.trushev.logicenum.enumeration.iterators;
+package org.github.trushev.logicenum.enumeration;
 
 import org.github.trushev.logicenum.formula.Formula;
 
@@ -17,5 +17,13 @@ abstract class BiIterator implements Iterator<Formula> {
     @Override
     public boolean hasNext() {
         return this.fs.hasNext();
+    }
+
+    @Override
+    public String toString() {
+        return "BiIterator{" +
+                "f=" + this.f +
+                ", fs=" + this.fs +
+                '}';
     }
 }

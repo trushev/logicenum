@@ -4,9 +4,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableList;
-import static org.github.trushev.logicenum.formula.Formula.and;
-import static org.github.trushev.logicenum.formula.Formula.or;
-import static org.github.trushev.logicenum.formula.Formula.not;
 
 public final class TruthTable {
 

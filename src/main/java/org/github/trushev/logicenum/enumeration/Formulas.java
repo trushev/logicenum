@@ -3,34 +3,52 @@ package org.github.trushev.logicenum.enumeration;
 import org.github.trushev.logicenum.formula.Formula;
 
 import java.util.*;
+import java.util.stream.Stream;
 
-public final class Formulas {
+final class Formulas {
 
     private final Map<Integer, Set<Formula>> formulas;
+    private final int formulaLength;
 
-    public Formulas() {
+    Formulas(final int formulaLength, final Formula... fs) {
         this.formulas = new HashMap<>();
+        this.formulaLength = formulaLength;
+        put(fs);
     }
 
-    public boolean put(final Formula f) {
-        this.formulas.computeIfAbsent(f.length(), k -> new HashSet<>());
-        return this.formulas.get(f.length()).add(f);
+    Formulas(final int formulaLength) {
+        this(formulaLength, new Formula[0]);
     }
 
-    public void put(final Formula... formulas) {
+    Formulas(final Formula... fs) {
+        this(-1, fs);
+    }
+
+    boolean put(final Formula f) {
+        final var length = f.length();
+        if (this.formulaLength != -1 && this.formulaLength != length) {
+            final var errMessage = "Length of formula should be %s, passed formula length: %s, passed formula %s"
+                    .formatted(this.formulaLength, length, f);
+            throw new IllegalArgumentException(errMessage);
+        }
+        this.formulas.computeIfAbsent(length, k -> new HashSet<>());
+        return this.formulas.get(length).add(f);
+    }
+
+    void put(final Formula... formulas) {
         for (final var formula : formulas) {
             put(formula);
         }
     }
 
-    public Iterator<Formula> getWithLength(final int length) {
+    Stream<Formula> formulasWithLength(final int length) {
         if (this.formulas.get(length) == null) {
-            return Collections.emptyIterator();
+            return Stream.empty();
         }
-        return this.formulas.get(length).iterator();
+        return this.formulas.get(length).stream();
     }
 
-    public void merge(final Formulas formulas) {
+    void merge(final Formulas formulas) {
         for (final var entry : formulas.formulas.entrySet()) {
             this.formulas.merge(entry.getKey(), entry.getValue(), (formulas1, formulas2) -> {
                 formulas1.addAll(formulas2);

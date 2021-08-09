@@ -1,4 +1,4 @@
-package org.github.trushev.logicenum.extract;
+package org.github.trushev.logicenum.implication;
 
 import org.github.trushev.logicenum.formula.*;
 
@@ -6,7 +6,7 @@ import java.util.*;
 
 import static java.util.Collections.*;
 
-public class DnfAlgorithm implements Algorithm {
+public class DnfImplication implements Implication {
 
     @Override
     public Formula ex(final Formula f, final Formula... attrs) {
