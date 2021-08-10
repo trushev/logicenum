@@ -35,10 +35,7 @@ public final class TruthTable {
 
     @Override
     public String toString() {
-        final String s = "TruthTable\nf:" + this.f + "\n";
-        final var sb = new StringBuilder();
-        this.table.forEach(r -> sb.append(r.toString()).append("\n"));
-        return s + sb;
+        return new CsvTruthTable(this).toString();
     }
 
     @Override

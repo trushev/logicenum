@@ -4,9 +4,11 @@ package org.github.trushev.logicenum.formula;
 import org.github.trushev.logicenum.eval.CsvTruthTable;
 import org.github.trushev.logicenum.eval.TruthTable;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableSet;
 
@@ -80,43 +82,28 @@ abstract class AbstractFormula implements Formula {
     }
 
     private static Formula flattenOr(final Formula f1, final Formula f2) {
-        if (f1 instanceof Or or1 && f2 instanceof Or or2) {
-            final var formulas = new HashSet<>(or1.operands());
-            formulas.addAll(or2.operands());
-            return new Or(unmodifiableSet(formulas));
-        } else if (f1 instanceof Or or1) {
-            final var formulas = new HashSet<>(or1.operands());
-            formulas.add(f2);
-            return new Or(unmodifiableSet(formulas));
-        } else if (f2 instanceof Or or2) {
-            final var formulas = new HashSet<>(or2.operands());
-            formulas.add(f1);
-            return new Or(unmodifiableSet(formulas));
-        } else if (f1.equals(f2)) {
-            return f1;
-        } else {
-            return new Or(Set.of(f1, f2));
-        }
+        return flatten(f1, f2, f -> (f instanceof Or), Or::new);
     }
 
     private static Formula flattenAnd(final Formula f1, final Formula f2) {
-        if (f1 instanceof And and1 && f2 instanceof And and2) {
-            final var formulas = new HashSet<>(and1.operands());
-            formulas.addAll(and2.operands());
-            return new And(unmodifiableSet(formulas));
-        } else if (f1 instanceof And and1) {
-            final var formulas = new HashSet<>(and1.operands());
-            formulas.add(f2);
-            return new And(unmodifiableSet(formulas));
-        } else if (f2 instanceof And and2) {
-            final var formulas = new HashSet<>(and2.operands());
-            formulas.add(f1);
-            return new And(unmodifiableSet(formulas));
-        } else if (f1.equals(f2)) {
-            return f1;
-        } else {
-            return new And(Set.of(f1, f2));
+        return flatten(f1, f2, f -> (f instanceof And), And::new);
+    }
+
+    private static Formula flatten(
+            final Formula f1,
+            final Formula f2,
+            final Predicate<Formula> p,
+            final Function<Collection<Formula>, Formula> fun
+    ) {
+        final var formulas = Stream.of(f1, f2)
+                .flatMap(f -> p.test(f)
+                        ? f.operands().stream()
+                        : Stream.of(f))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        if (formulas.size() == 1) {
+            return formulas.iterator().next();
         }
+        return fun.apply(unmodifiableSet(formulas));
     }
 
     private static boolean deepEquals(final Formula f1, final Formula f2) {
