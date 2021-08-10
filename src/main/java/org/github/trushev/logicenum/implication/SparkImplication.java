@@ -32,12 +32,12 @@ public class SparkImplication implements Implication {
     }
 
     Formula nnf(final Formula f) {
-        if (f instanceof Atom) {
+        if (f instanceof Atom || f instanceof IsNull) {
             return f;
         }
         if (f instanceof Not n) {
             final var arg = operand(n);
-            if (arg instanceof Atom) {
+            if (arg instanceof Atom || arg instanceof IsNull) {
                 return not(arg);
             }
             final var formulas = arg.operands().map(ff -> nnf(not(ff)));

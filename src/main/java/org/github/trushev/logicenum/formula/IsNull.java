@@ -2,19 +2,13 @@ package org.github.trushev.logicenum.formula;
 
 import java.util.Collections;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import static org.github.trushev.logicenum.formula.Formula.first;
 
-public final class IsNull extends Atom {
+public final class IsNull extends AbstractFormula {
 
     IsNull(final Formula f) {
         super(Collections.singleton(f), Utils.vars(f), f.length() + 1);
-    }
-
-    @Override
-    public Stream<Formula> operands() {
-        return this.operands.stream();
     }
 
     @Override
