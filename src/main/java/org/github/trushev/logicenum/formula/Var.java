@@ -9,8 +9,7 @@ public final class Var extends Atom implements Comparable<Var> {
     private final String name;
 
     Var(final String name) {
-        // TODO: vars should be Collections.singleton(this)
-        super(Collections.emptyList(), Collections.emptyList(), 1);
+        super(Collections.emptyList(), 1);
         this.name = name;
     }
 

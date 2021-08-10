@@ -12,23 +12,10 @@ import static java.util.Collections.unmodifiableSet;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
 
-abstract class BiFormula extends AbstractFormula {
+abstract class BiFormula extends AbstractVarsFormula {
 
     protected BiFormula(final Collection<Formula> operands) {
-        super(
-                operands,
-                operands.stream()
-                        .flatMap(Formula::vars)
-                        .sorted()
-                        .distinct()
-                        .toList(),
-
-                // TODO: possible bug
-                //  length of (a | b | c) should be 4 or 5?
-                operands.stream()
-                        .mapToInt(Formula::length)
-                        .sum() + 1
-        );
+        super(operands, Utils.vars(operands), Utils.length(operands));
     }
 
     protected abstract Symbol symbol();

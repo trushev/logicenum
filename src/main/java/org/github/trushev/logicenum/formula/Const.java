@@ -2,6 +2,7 @@ package org.github.trushev.logicenum.formula;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public final class Const extends Atom {
 
@@ -12,8 +13,13 @@ public final class Const extends Atom {
     private final Val val;
 
     private Const(final Val val) {
-        super(Collections.emptyList(), Collections.emptyList(), 1);
+        super(Collections.emptyList(), 1);
         this.val = val;
+    }
+
+    @Override
+    public Stream<Formula> vars() {
+        return Stream.empty();
     }
 
     public double asNumber() {
