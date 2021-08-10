@@ -4,7 +4,6 @@ import org.github.trushev.logicenum.formula.*;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.github.trushev.logicenum.formula.Formula.*;
 
@@ -18,20 +17,12 @@ public class SparkImplication implements Implication {
     private Formula exRec(final Formula f, final Collection<Formula> attrs) {
         if (f instanceof And) {
             final var formulas = f.operands()
-                    .stream()
                     .map(ff -> exRec(ff, attrs))
-                    .filter(ff -> !ff.equals(Const.True))
-                    .collect(Collectors.toUnmodifiableSet());
-            if (formulas.isEmpty()) {
-                return Const.True;
-            }
+                    .filter(ff -> !ff.equals(Const.True));
             return and(formulas);
         }
         if (f instanceof Or) {
-            final var formulas = f.operands()
-                    .stream()
-                    .map(ff -> exRec(ff, attrs))
-                    .collect(Collectors.toUnmodifiableSet());
+            final var formulas = f.operands().map(ff -> exRec(ff, attrs));
             return or(formulas);
         }
         if (f.consistsOnly(attrs)) {
@@ -49,10 +40,7 @@ public class SparkImplication implements Implication {
             if (arg instanceof Atom) {
                 return not(arg);
             }
-            final var formulas = arg.operands()
-                    .stream()
-                    .map(ff -> nnf(not(ff)))
-                    .collect(Collectors.toUnmodifiableSet());
+            final var formulas = arg.operands().map(ff -> nnf(not(ff)));
             if (arg instanceof And) {
                 return or(formulas);
             }
@@ -60,9 +48,7 @@ public class SparkImplication implements Implication {
                 return and(formulas);
             }
         }
-        final var formulas = f.operands()
-                .stream().map(this::nnf)
-                .collect(Collectors.toUnmodifiableSet());
+        final var formulas = f.operands().map(this::nnf);
         if (f instanceof And) {
             return and(formulas);
         }

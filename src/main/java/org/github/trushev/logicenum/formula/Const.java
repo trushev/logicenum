@@ -1,8 +1,7 @@
 package org.github.trushev.logicenum.formula;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public final class Const extends Atom {
 
@@ -25,8 +24,8 @@ public final class Const extends Atom {
     }
 
     @Override
-    public Collection<Formula> vars() {
-        return Collections.emptyList();
+    public Stream<Formula> vars() {
+        return Stream.empty();
     }
 
     @Override

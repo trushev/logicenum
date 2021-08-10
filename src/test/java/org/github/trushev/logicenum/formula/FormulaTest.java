@@ -2,6 +2,8 @@ package org.github.trushev.logicenum.formula;
 
 import org.junit.jupiter.api.Test;
 
+import static org.github.trushev.logicenum.formula.Const.False;
+import static org.github.trushev.logicenum.formula.Const.True;
 import static org.github.trushev.logicenum.formula.Formula.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,6 +40,21 @@ public class FormulaTest {
     }
 
     @Test
+    public void testOr6() {
+        assertEquals(a, a.or(False));
+    }
+
+    @Test
+    public void testOr7() {
+        assertEquals(True, a.or(True));
+    }
+
+    @Test
+    public void testOr8() {
+        assertEquals(False, False.or(False));
+    }
+
+    @Test
     public void testAnd1() {
         assertEquals(a, a.and(a));
     }
@@ -63,6 +80,21 @@ public class FormulaTest {
     }
 
     @Test
+    public void testAnd6() {
+        assertEquals(a, a.and(True));
+    }
+
+    @Test
+    public void testAnd7() {
+        assertEquals(False, a.and(False));
+    }
+
+    @Test
+    public void testAnd8() {
+        assertEquals(True, True.and(True));
+    }
+
+    @Test
     public void testNot1() {
         assertEquals(a, a.not().not());
     }
@@ -74,7 +106,7 @@ public class FormulaTest {
 
     @Test
     public void testIsNull1() {
-        assertEquals(Const.False, a.isNull().isNull());
+        assertEquals(False, a.isNull().isNull());
     }
 
     @Test
@@ -84,16 +116,16 @@ public class FormulaTest {
 
     @Test
     public void testDeepEquals1() {
-        assertTrue(and(a, not(a), not(isNull(a))).deepEquals(Const.False));
+        assertTrue(and(a, not(a), not(isNull(a))).deepEquals(False));
     }
 
     @Test
     public void testDeepEquals2() {
-        assertTrue(Const.False.deepEquals(and(a, not(a), not(isNull(a)))));
+        assertTrue(False.deepEquals(and(a, not(a), not(isNull(a)))));
     }
 
     @Test
     public void testDeepEquals3() {
-        assertFalse(a.deepEquals(Const.True));
+        assertFalse(a.deepEquals(True));
     }
 }

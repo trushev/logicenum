@@ -1,17 +1,19 @@
 package org.github.trushev.logicenum.formula;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableList;
 
 public interface Formula {
 
-    Collection<Formula> operands();
+    Stream<Formula> operands();
 
-    int length();
+    Stream<Formula> vars();
 
     Formula or(Formula f);
 
@@ -21,9 +23,9 @@ public interface Formula {
 
     Formula isNull();
 
-    boolean deepEquals(Formula f);
+    int length();
 
-    Collection<Formula> vars();
+    boolean deepEquals(Formula f);
 
     boolean consistsOnly(Collection<Formula> fs);
 
@@ -55,12 +57,8 @@ public interface Formula {
         return f.isNull();
     }
 
-    static Collection<Formula> operands(final Formula f) {
-        return f.operands();
-    }
-
     static Formula operand(final Not not) {
-        return first(not.operands());
+        return not.operands().findAny().orElseThrow();
     }
 
     static Formula first(final Collection<Formula> formulas) {
@@ -68,44 +66,32 @@ public interface Formula {
     }
 
     static Collection<Formula> rest(final Collection<Formula> formulas) {
-        final var iterator = formulas.iterator();
-        iterator.next();
-        final var rest = new ArrayList<Formula>();
-        while (iterator.hasNext()) {
-            rest.add(iterator.next());
-        }
-        return unmodifiableList(rest);
+        return formulas.stream().skip(1).toList();
     }
 
     static Collection<Formula> not(final Collection<Formula> formulas) {
-        final var res = new ArrayList<Formula>();
-        for (final var f : formulas) {
-            res.add(f.not());
-        }
-        return unmodifiableList(res);
+        return formulas.stream().map(f -> f.not()).toList();
     }
 
     static Formula and(final Collection<Formula> formulas) {
-        final var iterator = formulas.iterator();
-        var f = iterator.next();
-        while (iterator.hasNext()) {
-            f = f.and(iterator.next());
-        }
-        return f;
+        return Utils.and(formulas.iterator());
+    }
+
+    static Formula and(final Stream<Formula> formulas) {
+        return Utils.and(formulas.iterator());
     }
 
     static Formula or(final Collection<Formula> formulas) {
-        final var iterator = formulas.iterator();
-        var f = iterator.next();
-        while (iterator.hasNext()) {
-            f = f.or(iterator.next());
-        }
-        return f;
+        return Utils.or(formulas.iterator());
+    }
+
+    static Formula or(final Stream<Formula> formulas) {
+        return Utils.or(formulas.iterator());
     }
 
     static Collection<Formula> disjunctions(final Formula f) {
         if (f instanceof Or) {
-            return f.operands();
+            return f.operands().toList();
         } else {
             return Collections.singletonList(f);
         }

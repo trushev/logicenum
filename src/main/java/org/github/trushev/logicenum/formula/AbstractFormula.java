@@ -1,16 +1,10 @@
 package org.github.trushev.logicenum.formula;
 
-
 import org.github.trushev.logicenum.eval.CsvTruthTable;
 import org.github.trushev.logicenum.eval.TruthTable;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.Collection;
 import java.util.stream.Stream;
-
-import static java.util.Collections.unmodifiableSet;
 
 abstract class AbstractFormula implements Formula {
 
@@ -18,12 +12,12 @@ abstract class AbstractFormula implements Formula {
 
     @Override
     public Formula or(final Formula f) {
-        return orConstFolding(flattenOr(this, f));
+        return Or.of(this, f);
     }
 
     @Override
     public Formula and(final Formula f) {
-        return andConstFolding(flattenAnd(this, f));
+        return And.of(this, f);
     }
 
     @Override
@@ -42,68 +36,27 @@ abstract class AbstractFormula implements Formula {
     }
 
     @Override
-    public Collection<Formula> vars() {
+    public Stream<Formula> vars() {
         if (this.vars == null) {
-            this.vars = operands().stream()
-                    .flatMap(ff -> ff.vars().stream())
+            this.vars = operands()
+                    .flatMap(Formula::vars)
                     .sorted()
                     .distinct()
                     .toList();
         }
-        return this.vars;
+        return this.vars.stream();
     }
 
     @Override
     public boolean consistsOnly(final Collection<Formula> fs) {
-        final var vars = vars();
+        final var vars = vars().toList();
         if (vars.isEmpty()) {
             return false; // TODO: why?
         }
-        for (final var var : vars) {
-            if (!fs.contains(var)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static Formula orConstFolding(final Formula f) {
-        if (f.operands().contains(Const.True)) {
-            return Const.True;
-        }
-        return f;
-    }
-
-    private static Formula andConstFolding(final Formula f) {
-        if (f.operands().contains(Const.False)) {
-            return Const.False;
-        }
-        return f;
-    }
-
-    private static Formula flattenOr(final Formula f1, final Formula f2) {
-        return flatten(f1, f2, f -> (f instanceof Or), Or::new);
-    }
-
-    private static Formula flattenAnd(final Formula f1, final Formula f2) {
-        return flatten(f1, f2, f -> (f instanceof And), And::new);
-    }
-
-    private static Formula flatten(
-            final Formula f1,
-            final Formula f2,
-            final Predicate<Formula> p,
-            final Function<Collection<Formula>, Formula> fun
-    ) {
-        final var formulas = Stream.of(f1, f2)
-                .flatMap(f -> p.test(f)
-                        ? f.operands().stream()
-                        : Stream.of(f))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        if (formulas.size() == 1) {
-            return formulas.iterator().next();
-        }
-        return fun.apply(unmodifiableSet(formulas));
+        return vars.stream()
+                .filter(v -> !fs.contains(v))
+                .findAny()
+                .isEmpty();
     }
 
     private static boolean deepEquals(final Formula f1, final Formula f2) {

@@ -18,7 +18,7 @@ public class DnfImplication implements Implication {
     private Formula toDnf(final Formula f, final Collection<Formula> attrs) {
         final Collection<Formula> operands;
         if (f instanceof And) {
-                operands = f.operands();
+                operands = f.operands().toList();
                 final var firstDnf = toDnf(first(operands), attrs);
                 final var restDnf = toDnf(and(rest(operands)), attrs);
                 final var conjuncts = combinedConjuncts(
@@ -29,21 +29,21 @@ public class DnfImplication implements Implication {
                 return or(conjuncts);
         }
         if (f instanceof Or) {
-            operands = f.operands();
+            operands = f.operands().toList();
             return or(toDnfs(operands, attrs));
         }
         if (f instanceof Not not) {
             final var arg = operand(not);
             if (arg instanceof And) {
-                operands = arg.operands();
+                operands = arg.operands().toList();
                 return toDnf(or(not(operands)), attrs);
             }
             if (arg instanceof Or) {
-                operands = arg.operands();
+                operands = arg.operands().toList();
                 return toDnf(and(not(operands)), attrs);
             }
             if (arg instanceof Not) {
-                return toDnf(first(operands(arg)), attrs);
+                return toDnf(first(arg.operands().toList()), attrs);
             }
             return allowableOrTrue(not, attrs);
         }
@@ -79,7 +79,7 @@ public class DnfImplication implements Implication {
         return fs.stream().flatMap(f -> {
             final var dnf = toDnf(f, attrs);
             if (dnf instanceof Or) {
-                return operands(dnf).stream();
+                return dnf.operands();
             } else {
                 return Stream.of(dnf);
             }

@@ -17,7 +17,7 @@ public final class TruthTable {
 
     public TruthTable(final Formula f) {
         this.f = f;
-        this.vars = f.vars();
+        this.vars = f.vars().toList();
         this.table = table(this.f, this.vars);
     }
 
@@ -124,10 +124,7 @@ public final class TruthTable {
         if (f instanceof IsNull) {
             return isNull(assign(f.operands().iterator().next(), var, val));
         }
-        final var formulas = f.operands()
-                .stream()
-                .map(ff -> assign(ff, var, val))
-                .collect(Collectors.toUnmodifiableSet());
+        final var formulas = f.operands().map(ff -> assign(ff, var, val));
         if (f instanceof And) {
             return and(formulas);
         }
@@ -153,7 +150,6 @@ public final class TruthTable {
             return evalIsNull(eval(arg));
         }
         final var values = f.operands()
-                .stream()
                 .map(TruthTable::eval)
                 .collect(Collectors.toUnmodifiableSet());
         final var iterator = values.iterator();

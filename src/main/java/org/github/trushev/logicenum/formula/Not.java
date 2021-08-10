@@ -1,8 +1,7 @@
 package org.github.trushev.logicenum.formula;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public final class Not extends AbstractFormula {
 
@@ -25,8 +24,8 @@ public final class Not extends AbstractFormula {
     }
 
     @Override
-    public Collection<Formula> operands() {
-        return Collections.singleton(this.f);
+    public Stream<Formula> operands() {
+        return Stream.of(this.f);
     }
 
     @Override
