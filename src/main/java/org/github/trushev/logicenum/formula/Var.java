@@ -1,6 +1,5 @@
 package org.github.trushev.logicenum.formula;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -8,23 +7,16 @@ import java.util.stream.Stream;
 public final class Var extends Atom implements Comparable<Var> {
 
     private final String name;
-    private Collection<Formula> vars;
 
     Var(final String name) {
+        // TODO: vars should be Collections.singleton(this)
+        super(Collections.emptyList(), Collections.emptyList(), 1);
         this.name = name;
     }
 
     @Override
-    public int length() {
-        return 1;
-    }
-
-    @Override
     public Stream<Formula> vars() {
-        if (this.vars == null) {
-            this.vars = Collections.singleton(this);
-        }
-        return this.vars.stream();
+        return Stream.of(this);
     }
 
     @Override

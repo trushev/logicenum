@@ -55,6 +55,10 @@ public interface Formula {
         return not.operands().findAny().orElseThrow();
     }
 
+    static Formula operand(final IsNull isNull) {
+        return isNull.operands().findAny().orElseThrow();
+    }
+
     static Formula first(final Collection<Formula> formulas) {
         return formulas.iterator().next();
     }

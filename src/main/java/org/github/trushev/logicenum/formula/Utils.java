@@ -1,5 +1,7 @@
 package org.github.trushev.logicenum.formula;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.BiFunction;
 
@@ -7,6 +9,11 @@ import java.util.function.BiFunction;
 final class Utils {
 
     private Utils() {}
+
+    static Collection<Formula> vars(final Formula f) {
+        if (f instanceof Var) return Collections.singleton(f);
+        else return ((AbstractFormula) f).vars;
+    }
 
     static Formula or(final Iterator<Formula> formulas) {
         return wrappedFormulas(formulas, Const.False, (f1, f2) -> f1.or(f2)); // TODO: IDEA is wrong about method reference

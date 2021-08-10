@@ -121,8 +121,8 @@ public final class TruthTable {
         if (f instanceof Not n) {
             return not(assign(operand(n), var, val));
         }
-        if (f instanceof IsNull) {
-            return isNull(assign(f.operands().iterator().next(), var, val));
+        if (f instanceof IsNull i) {
+            return isNull(assign(operand(i), var, val));
         }
         final var formulas = f.operands().map(ff -> assign(ff, var, val));
         if (f instanceof And) {
@@ -142,12 +142,10 @@ public final class TruthTable {
             throw new IllegalStateException(f.toString());
         }
         if (f instanceof Not n) {
-            final var arg = operand(n);
-            return evalNot(eval(arg));
+            return evalNot(eval(operand(n)));
         }
-        if (f instanceof IsNull) {
-            final var arg = f.operands().iterator().next();
-            return evalIsNull(eval(arg));
+        if (f instanceof IsNull i) {
+            return evalIsNull(eval(operand(i)));
         }
         final var values = f.operands()
                 .map(TruthTable::eval)
@@ -171,6 +169,8 @@ public final class TruthTable {
     }
 
     private static Const evalOr(final Const c1, final Const c2) {
+        // return max(c1, c2)
+
         if (c1 == Const.True && c2 == Const.True) return Const.True;
         if (c1 == Const.True && c2 == Const.False) return Const.True;
         if (c1 == Const.True && c2 == Const.Unknown) return Const.True;
@@ -187,6 +187,8 @@ public final class TruthTable {
     }
 
     private static Const evalAnd(final Const c1, final Const c2) {
+        // return min(c1, c2)
+
         if (c1 == Const.True && c2 == Const.True) return Const.True;
         if (c1 == Const.True && c2 == Const.False) return Const.False;
         if (c1 == Const.True && c2 == Const.Unknown) return Const.Unknown;

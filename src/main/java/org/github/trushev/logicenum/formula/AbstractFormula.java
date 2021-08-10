@@ -8,7 +8,25 @@ import java.util.stream.Stream;
 
 abstract class AbstractFormula implements Formula {
 
-    private Collection<Formula> vars;
+    protected final Collection<Formula> operands;
+    protected final Collection<Formula> vars;
+    private final int length;
+
+    protected AbstractFormula(final Collection<Formula> operands, final Collection<Formula> vars, final int length) {
+        this.operands = operands;
+        this.vars = vars;
+        this.length = length;
+    }
+
+    @Override
+    public Stream<Formula> operands() {
+        return this.operands.stream();
+    }
+
+    @Override
+    public Stream<Formula> vars() {
+        return this.vars.stream();
+    }
 
     @Override
     public Formula or(final Formula f) {
@@ -31,20 +49,13 @@ abstract class AbstractFormula implements Formula {
     }
 
     @Override
-    public boolean deepEquals(final Formula f) {
-        return this.equals(f) || deepEquals(this, f);
+    public int length() {
+        return this.length;
     }
 
     @Override
-    public Stream<Formula> vars() {
-        if (this.vars == null) {
-            this.vars = operands()
-                    .flatMap(Formula::vars)
-                    .sorted()
-                    .distinct()
-                    .toList();
-        }
-        return this.vars.stream();
+    public boolean deepEquals(final Formula f) {
+        return this.equals(f) || deepEquals(this, f);
     }
 
     @Override

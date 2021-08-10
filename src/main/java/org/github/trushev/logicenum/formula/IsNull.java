@@ -1,32 +1,26 @@
 package org.github.trushev.logicenum.formula;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static org.github.trushev.logicenum.formula.Formula.first;
+
 public final class IsNull extends Atom {
 
-    private final Formula f;
-    private final int length;
-
     IsNull(final Formula f) {
-        this.f = f;
-        this.length = this.f.length() + 1;
+        super(Collections.singleton(f), Utils.vars(f), f.length() + 1);
+    }
+
+    @Override
+    public Stream<Formula> operands() {
+        return this.operands.stream();
     }
 
     @Override
     public Formula isNull() {
         // IS NULL(IS NULL(x)) => false
         return Const.False;
-    }
-
-    @Override
-    public Stream<Formula> operands() {
-        return Stream.of(this.f);
-    }
-
-    @Override
-    public int length() {
-        return this.length;
     }
 
     @Override
@@ -38,16 +32,18 @@ public final class IsNull extends Atom {
             return false;
         }
         final var isNull = (IsNull) o;
-        return this.f.equals(isNull.f);
+        return length() == isNull.length()
+                && this.vars.equals(isNull.vars)
+                && this.operands.equals(isNull.operands);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.f);
+        return Objects.hash(length(), this.vars, this.operands);
     }
 
     @Override
     public String toString() {
-        return "?" + this.f.toString();
+        return "?" + first(this.operands).toString();
     }
 }
