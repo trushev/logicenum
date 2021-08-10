@@ -93,4 +93,12 @@ public class DnfImplication implements Implication {
             return Const.True;
         }
     }
+
+    private Collection<Formula> disjunctions(final Formula f) {
+        if (f instanceof Or) {
+            return f.operands().toList();
+        } else {
+            return Collections.singletonList(f);
+        }
+    }
 }

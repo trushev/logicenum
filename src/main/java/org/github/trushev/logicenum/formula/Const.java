@@ -16,11 +16,7 @@ public final class Const extends Atom {
     }
 
     public double asNumber() {
-        return switch (this.val) {
-            case FALSE -> 0.0;
-            case TRUE -> 1.0;
-            case UNKNOWN -> 0.5;
-        };
+        return this.val.number;
     }
 
     @Override
@@ -64,15 +60,17 @@ public final class Const extends Atom {
     }
 
     private enum Val {
-        TRUE("True"),
-        FALSE("False"),
-        UNKNOWN("Unknown"),
+        TRUE("True", 1.0),
+        FALSE("False", 0.0),
+        UNKNOWN("Unknown", 0.5),
         ;
 
         private final String name;
+        private final double number;
 
-        Val(final String name) {
+        Val(final String name, final double number) {
             this.name = name;
+            this.number = number;
         }
 
         @Override

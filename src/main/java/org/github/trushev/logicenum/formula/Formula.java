@@ -1,13 +1,7 @@
 package org.github.trushev.logicenum.formula;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.function.BiFunction;
 import java.util.stream.Stream;
-
-import static java.util.Collections.unmodifiableList;
 
 public interface Formula {
 
@@ -87,13 +81,5 @@ public interface Formula {
 
     static Formula or(final Stream<Formula> formulas) {
         return Utils.or(formulas.iterator());
-    }
-
-    static Collection<Formula> disjunctions(final Formula f) {
-        if (f instanceof Or) {
-            return f.operands().toList();
-        } else {
-            return Collections.singletonList(f);
-        }
     }
 }
