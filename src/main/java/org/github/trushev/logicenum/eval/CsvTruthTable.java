@@ -1,12 +1,7 @@
 package org.github.trushev.logicenum.eval;
 
-import org.github.trushev.logicenum.formula.Const;
-
 import static java.util.stream.Collectors.joining;
 
-/**
- * TODO: Incorrect visualization for {@link Const}.
- */
 public final class CsvTruthTable {
 
     private final TruthTable truthTable;
@@ -25,14 +20,14 @@ public final class CsvTruthTable {
 
     @Override
     public String toString() {
-        final var header = this.truthTable.vars()
+        final var sb = new StringBuilder(this.truthTable.vars()
                 .stream()
                 .map(Object::toString)
-                .collect(joining(this.separator))
-                + this.separator
-//                + this.truthTable.f();
-                + "f";
-//        final var ls = System.lineSeparator();
+                .collect(joining(this.separator)));
+        if (!sb.isEmpty()) {
+            sb.append(this.separator);
+        }
+        final var header = sb.append("f").toString();
         final var ls = "\n";
         final var table = this.truthTable.rows()
                 .map(r -> r.stream()

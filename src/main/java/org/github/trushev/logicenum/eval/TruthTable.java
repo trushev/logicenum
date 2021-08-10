@@ -9,9 +9,6 @@ import java.util.stream.Stream;
 import static java.util.Collections.unmodifiableList;
 import static org.github.trushev.logicenum.formula.Formula.*;
 
-/**
- * TODO: Incorrect logic for {@link Const}.
- */
 public final class TruthTable {
 
     private final Formula f;

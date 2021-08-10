@@ -1,5 +1,6 @@
 package org.github.trushev.logicenum.eval;
 
+import org.github.trushev.logicenum.formula.Const;
 import org.junit.jupiter.api.Test;
 
 import static org.github.trushev.logicenum.formula.Formula.var;
@@ -12,16 +13,16 @@ public class CsvTruthTableTest {
         final var f = var("a").and(var("b"));
         final var table = new CsvTruthTable(new TruthTable(f));
         assertEquals("""
-                a,b,f
-                0.0,0.0,0.0
-                0.5,0.0,0.0
-                1.0,0.0,0.0
-                0.0,0.5,0.0
-                0.5,0.5,0.5
-                1.0,0.5,0.5
-                0.0,1.0,0.0
-                0.5,1.0,0.5
-                1.0,1.0,1.0""",
+                a, b, f
+                0.0, 0.0, 0.0
+                0.5, 0.0, 0.0
+                1.0, 0.0, 0.0
+                0.0, 0.5, 0.0
+                0.5, 0.5, 0.5
+                1.0, 0.5, 0.5
+                0.0, 1.0, 0.0
+                0.5, 1.0, 0.5
+                1.0, 1.0, 1.0""",
                 table.toString());
     }
 
@@ -40,6 +41,15 @@ public class CsvTruthTableTest {
                 False True True
                 Unknown True True
                 True True True""",
+                table.toString());
+    }
+
+    @Test
+    public void test2() {
+        final var table = new CsvTruthTable(new TruthTable(Const.False));
+        assertEquals("""
+                f
+                0.0""",
                 table.toString());
     }
 }

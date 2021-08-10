@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.github.trushev.logicenum.formula.Formula.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-abstract class ImplicationTestBase {
+public abstract class ImplicationTestBase {
 
     protected final Formula a1 = var("a1");
     protected final Formula a2 = var("a2");

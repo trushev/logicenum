@@ -7,14 +7,16 @@ import java.util.Objects;
 public final class Not extends AbstractFormula {
 
     private final Formula f;
+    private final int length;
 
     Not(final Formula f) {
         this.f = f;
+        this.length = this.f.length() + 1;
     }
 
     @Override
     public int length() {
-        return this.f.length() + 1;
+        return this.length;
     }
 
     @Override

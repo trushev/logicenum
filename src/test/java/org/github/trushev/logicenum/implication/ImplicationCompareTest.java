@@ -24,7 +24,7 @@ public class ImplicationCompareTest {
         formulas.forEach(f -> {
             final var f1 = dnfAlgorithm.ex(f, a, b);
             final var f2 = sparkAlgorithm.ex(f, a, b);
-            if (!f1.equals(f2) && !f1.deepEquals(f2)) {
+            if (!f1.deepEquals(f2)) {
                 System.out.println("Origin: " + f);
                 System.out.println("Dnf based: " + f1);
                 System.out.println("Spark: " + f2);

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.github.trushev.logicenum.formula.Formula.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class SparkImplicationTest extends ImplicationTestBase {
+public class SparkImplicationTest extends ImplicationTestBase {
 
     private final Formula a = var("a");
     private final Formula b = var("b");

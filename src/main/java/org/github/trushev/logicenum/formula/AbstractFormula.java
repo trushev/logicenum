@@ -7,11 +7,12 @@ import org.github.trushev.logicenum.eval.TruthTable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableSet;
 
 abstract class AbstractFormula implements Formula {
+
+    private Collection<Formula> vars;
 
     @Override
     public Formula or(final Formula f) {
@@ -35,19 +36,26 @@ abstract class AbstractFormula implements Formula {
 
     @Override
     public boolean deepEquals(final Formula f) {
-        return deepEquals(this, f);
+        return this.equals(f) || deepEquals(this, f);
     }
 
     @Override
     public Collection<Formula> vars() {
-        return operands().stream().flatMap(ff -> ff.vars().stream()).collect(Collectors.toSet());
+        if (this.vars == null) {
+            this.vars = operands().stream()
+                    .flatMap(ff -> ff.vars().stream())
+                    .sorted()
+                    .distinct()
+                    .toList();
+        }
+        return this.vars;
     }
 
     @Override
     public boolean consistsOnly(final Collection<Formula> fs) {
         final var vars = vars();
         if (vars.isEmpty()) {
-            return false; //TODO: why?
+            return false; // TODO: why?
         }
         for (final var var : vars) {
             if (!fs.contains(var)) {
@@ -114,13 +122,28 @@ abstract class AbstractFormula implements Formula {
     private static boolean deepEquals(final Formula f1, final Formula f2) {
         final var t1 = new TruthTable(f1);
         final var t2 = new TruthTable(f2);
-        final var res = t1.equals(t2);
-        if (!res) {
+        final boolean result;
+        if (f1 instanceof Const c1 && !(f2 instanceof Const)) {
+            result = tableEqualsToConst(t2, c1);
+        } else if (f2 instanceof Const c2 && !(f1 instanceof Const)) {
+            result = tableEqualsToConst(t1, c2);
+        } else {
+            result = t1.equals(t2);
+        }
+        if (!result) {
             System.out.println(new CsvTruthTable(t1, " ", false));
             System.out.println();
             System.out.println(new CsvTruthTable(t2, " ", false));
             System.out.println();
         }
-        return res;
+        return result;
+    }
+
+    private static boolean tableEqualsToConst(final TruthTable tt, final Const c) {
+        final var any = tt.rows()
+                .map(r -> r.get(r.size() - 1))
+                .filter(r -> !c.equals(r))
+                .findAny();
+        return any.isEmpty();
     }
 }

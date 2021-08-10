@@ -1,6 +1,9 @@
 package org.github.trushev.logicenum.example;
+
 import org.github.trushev.logicenum.eval.CsvTruthTable;
 import org.github.trushev.logicenum.eval.TruthTable;
+
+import java.util.Arrays;
 
 import static org.github.trushev.logicenum.formula.Formula.*;
 
@@ -13,5 +16,9 @@ public final class Main {
 
         var table = new CsvTruthTable(new TruthTable(f));
         System.out.println(table);
+
+        final var ints = new int[]{1, 2, 3};
+        final var ints1 = new int[]{1, 2, 3};
+        System.out.println(Arrays.equals(ints, ints1));
     }
 }

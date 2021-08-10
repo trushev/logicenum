@@ -4,9 +4,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-public final class Var extends Atom {
+public final class Var extends Atom implements Comparable<Var> {
 
     private final String name;
+    private Collection<Formula> vars;
 
     Var(final String name) {
         this.name = name;
@@ -19,7 +20,10 @@ public final class Var extends Atom {
 
     @Override
     public Collection<Formula> vars() {
-        return Collections.singleton(this);
+        if (this.vars == null) {
+            this.vars = Collections.singleton(this);
+        }
+        return this.vars;
     }
 
     @Override
@@ -42,5 +46,10 @@ public final class Var extends Atom {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public int compareTo(final Var o) {
+        return this.name.compareTo(o.name);
     }
 }
