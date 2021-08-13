@@ -57,6 +57,10 @@ final class Formulas {
         }
     }
 
+    int size() {
+        return this.formulas.values().stream().mapToInt(Set::size).sum();
+    }
+
     @Override
     public String toString() {
         final var sb = new StringBuilder();

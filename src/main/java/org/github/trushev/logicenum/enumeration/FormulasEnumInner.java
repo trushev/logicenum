@@ -43,7 +43,7 @@ final class FormulasEnumInner implements Iterator<Formula> {
         this.formulas.merge(this.fixedLengthFormulas);
         this.formulaLength++;
         this.fixedLengthFormulas = new Formulas(this.formulaLength);
-        System.out.println("Length: " + this.formulaLength);
+        System.out.println("Length: " + this.formulaLength + ", formula count: " + this.formulas.size());
         this.iterator = new FixedLengthFormulas(this.formulas, this.formulaLength);
         return next();
     }
