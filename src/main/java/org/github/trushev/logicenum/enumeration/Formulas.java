@@ -1,9 +1,8 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
-
 import java.util.*;
 import java.util.stream.Stream;
+import org.github.trushev.logicenum.formula.Formula;
 
 final class Formulas {
 
@@ -27,8 +26,12 @@ final class Formulas {
     boolean put(final Formula f) {
         final var length = f.length();
         if (this.formulaLength != -1 && this.formulaLength != length) {
-            final var errMessage = "Length of formula should be %s, passed formula length: %s, passed formula %s"
-                    .formatted(this.formulaLength, length, f);
+            final var errMessage =
+                "Length of formula should be %s, passed formula length: %s, passed formula %s".formatted(
+                        this.formulaLength,
+                        length,
+                        f
+                    );
             throw new IllegalArgumentException(errMessage);
         }
         this.formulas.computeIfAbsent(length, k -> new HashSet<>());
@@ -50,10 +53,14 @@ final class Formulas {
 
     void merge(final Formulas formulas) {
         for (final var entry : formulas.formulas.entrySet()) {
-            this.formulas.merge(entry.getKey(), entry.getValue(), (formulas1, formulas2) -> {
-                formulas1.addAll(formulas2);
-                return formulas1;
-            });
+            this.formulas.merge(
+                    entry.getKey(),
+                    entry.getValue(),
+                    (formulas1, formulas2) -> {
+                        formulas1.addAll(formulas2);
+                        return formulas1;
+                    }
+                );
         }
     }
 
@@ -66,13 +73,9 @@ final class Formulas {
         final var sb = new StringBuilder();
         sb.append("Formulas\n");
         this.formulas.entrySet()
-                .stream()
-                .sorted(Comparator.comparingInt(Map.Entry::getKey))
-                .forEach(e -> sb
-                        .append(e.getKey())
-                        .append(": ")
-                        .append(e.getValue())
-                        .append("\n"));
+            .stream()
+            .sorted(Comparator.comparingInt(Map.Entry::getKey))
+            .forEach(e -> sb.append(e.getKey()).append(": ").append(e.getValue()).append("\n"));
         return sb.toString().trim();
     }
 }

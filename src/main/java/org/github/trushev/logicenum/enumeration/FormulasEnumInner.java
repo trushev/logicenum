@@ -1,8 +1,7 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
-
 import java.util.Iterator;
+import org.github.trushev.logicenum.formula.Formula;
 
 final class FormulasEnumInner implements Iterator<Formula> {
 

@@ -1,8 +1,7 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
-
 import java.util.Iterator;
+import org.github.trushev.logicenum.formula.Formula;
 
 abstract class BiIterator implements Iterator<Formula> {
 
@@ -21,9 +20,6 @@ abstract class BiIterator implements Iterator<Formula> {
 
     @Override
     public String toString() {
-        return "BiIterator{" +
-                "f=" + this.f +
-                ", fs=" + this.fs +
-                '}';
+        return "BiIterator{" + "f=" + this.f + ", fs=" + this.fs + '}';
     }
 }

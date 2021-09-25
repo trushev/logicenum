@@ -14,13 +14,6 @@ public final class And extends BiFormula {
     }
 
     static Formula of(final Formula f1, final Formula f2) {
-        return BiFormula.of(
-                f1,
-                f2,
-                Const.True,
-                Const.False,
-                f -> (f instanceof And),
-                And::new
-        );
+        return BiFormula.of(f1, f2, Const.True, Const.False, f -> (f instanceof And), And::new);
     }
 }

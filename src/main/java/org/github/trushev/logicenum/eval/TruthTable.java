@@ -1,13 +1,12 @@
 package org.github.trushev.logicenum.eval;
 
-import org.github.trushev.logicenum.formula.*;
+import static java.util.Collections.unmodifiableList;
+import static org.github.trushev.logicenum.formula.Formula.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.Collections.unmodifiableList;
-import static org.github.trushev.logicenum.formula.Formula.*;
+import org.github.trushev.logicenum.formula.*;
 
 public final class TruthTable {
 
@@ -66,12 +65,18 @@ public final class TruthTable {
     }
 
     private static List<Const> decode(final int[] row) {
-        return Arrays.stream(row).mapToObj(i -> switch (i) {
-            case 0 -> Const.False;
-            case 1 -> Const.Unknown;
-            case 2 -> Const.True;
-            default -> throw new IllegalStateException(String.valueOf(i));
-        }).collect(Collectors.toList());
+        return Arrays
+            .stream(row)
+            .mapToObj(
+                i ->
+                    switch (i) {
+                        case 0 -> Const.False;
+                        case 1 -> Const.Unknown;
+                        case 2 -> Const.True;
+                        default -> throw new IllegalStateException(String.valueOf(i));
+                    }
+            )
+            .collect(Collectors.toList());
     }
 
     private static int[] next(final int[] row) {
@@ -147,9 +152,7 @@ public final class TruthTable {
         if (f instanceof IsNull i) {
             return evalIsNull(eval(operand(i)));
         }
-        final var values = f.operands()
-                .map(TruthTable::eval)
-                .collect(Collectors.toUnmodifiableSet());
+        final var values = f.operands().map(TruthTable::eval).collect(Collectors.toUnmodifiableSet());
         final var iterator = values.iterator();
         var v = iterator.next();
         if (f instanceof And) {

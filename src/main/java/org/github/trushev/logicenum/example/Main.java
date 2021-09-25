@@ -1,11 +1,12 @@
 package org.github.trushev.logicenum.example;
 
+import static org.github.trushev.logicenum.formula.Formula.*;
+
 import org.github.trushev.logicenum.eval.CsvTruthTable;
 import org.github.trushev.logicenum.eval.TruthTable;
 
-import static org.github.trushev.logicenum.formula.Formula.*;
-
 public final class Main {
+
     public static void main(final String... args) {
         var a = var("a");
         var b = var("b");

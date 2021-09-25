@@ -1,9 +1,9 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.junit.jupiter.api.Test;
-
 import static org.github.trushev.logicenum.formula.Formula.var;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class FormulaEnumTest {
 

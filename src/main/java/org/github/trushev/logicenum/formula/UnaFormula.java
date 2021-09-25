@@ -22,10 +22,7 @@ abstract class UnaFormula extends AbstractVarsFormula {
         if (!(o instanceof UnaFormula uf)) {
             return false;
         }
-        return symbol() == uf.symbol()
-                && length() == uf.length()
-                && this.vars.equals(uf.vars)
-                && this.f.equals(uf.f);
+        return symbol() == uf.symbol() && length() == uf.length() && this.vars.equals(uf.vars) && this.f.equals(uf.f);
     }
 
     @Override
@@ -40,8 +37,7 @@ abstract class UnaFormula extends AbstractVarsFormula {
 
     protected enum Symbol {
         NOT("!"),
-        ISNULL("?"),
-        ;
+        ISNULL("?");
 
         private final String name;
 

@@ -1,9 +1,8 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
-
 import java.util.Iterator;
 import java.util.stream.Stream;
+import org.github.trushev.logicenum.formula.Formula;
 
 abstract class UnaIterator implements Iterator<Formula> {
 
@@ -24,8 +23,6 @@ abstract class UnaIterator implements Iterator<Formula> {
 
     @Override
     public String toString() {
-        return "UnaIterator{" +
-                "iterator=" + this.iterator +
-                '}';
+        return "UnaIterator{" + "iterator=" + this.iterator + '}';
     }
 }

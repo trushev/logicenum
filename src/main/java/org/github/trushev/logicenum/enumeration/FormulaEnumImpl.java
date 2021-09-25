@@ -1,13 +1,12 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
+import static java.util.Spliterator.*;
 
 import java.util.Iterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import static java.util.Spliterator.*;
+import org.github.trushev.logicenum.formula.Formula;
 
 final class FormulaEnumImpl implements FormulaEnum {
 
@@ -19,16 +18,11 @@ final class FormulaEnumImpl implements FormulaEnum {
 
     @Override
     public Stream<Formula> formulas() {
-        return StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(this.iterator, NONNULL | DISTINCT),
-                false
-        );
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(this.iterator, NONNULL | DISTINCT), false);
     }
 
     @Override
     public String toString() {
-        return "FormulaEnumImpl{" +
-                "iterator=" + this.iterator +
-                '}';
+        return "FormulaEnumImpl{" + "iterator=" + this.iterator + '}';
     }
 }

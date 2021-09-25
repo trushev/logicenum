@@ -1,12 +1,11 @@
 package org.github.trushev.logicenum.implication;
 
-import org.github.trushev.logicenum.formula.*;
+import static java.util.Collections.*;
+import static org.github.trushev.logicenum.formula.Formula.*;
 
 import java.util.*;
 import java.util.stream.Stream;
-
-import static java.util.Collections.*;
-import static org.github.trushev.logicenum.formula.Formula.*;
+import org.github.trushev.logicenum.formula.*;
 
 public class DnfImplication implements Implication {
 
@@ -18,15 +17,11 @@ public class DnfImplication implements Implication {
     private Formula toDnf(final Formula f, final Collection<Formula> attrs) {
         final Collection<Formula> operands;
         if (f instanceof And) {
-                operands = f.operands().toList();
-                final var firstDnf = toDnf(first(operands), attrs);
-                final var restDnf = toDnf(and(rest(operands)), attrs);
-                final var conjuncts = combinedConjuncts(
-                        disjunctions(firstDnf),
-                        disjunctions(restDnf),
-                        attrs
-                );
-                return or(conjuncts);
+            operands = f.operands().toList();
+            final var firstDnf = toDnf(first(operands), attrs);
+            final var restDnf = toDnf(and(rest(operands)), attrs);
+            final var conjuncts = combinedConjuncts(disjunctions(firstDnf), disjunctions(restDnf), attrs);
+            return or(conjuncts);
         }
         if (f instanceof Or) {
             operands = f.operands().toList();
@@ -51,10 +46,10 @@ public class DnfImplication implements Implication {
     }
 
     private Collection<Formula> combinedConjuncts(
-            final Collection<Formula> leftConjuncts,
-            final Collection<Formula> rightConjuncts,
-            final Collection<Formula> attrs) {
-
+        final Collection<Formula> leftConjuncts,
+        final Collection<Formula> rightConjuncts,
+        final Collection<Formula> attrs
+    ) {
         final List<Formula> conjuncts = new ArrayList<>();
         for (final Formula left : leftConjuncts) {
             final boolean leftIsAllowable = left.consistsOnly(attrs);
@@ -76,14 +71,19 @@ public class DnfImplication implements Implication {
     }
 
     private Collection<Formula> toDnfs(final Collection<Formula> fs, final Collection<Formula> attrs) {
-        return fs.stream().flatMap(f -> {
-            final var dnf = toDnf(f, attrs);
-            if (dnf instanceof Or) {
-                return dnf.operands();
-            } else {
-                return Stream.of(dnf);
-            }
-        }).toList();
+        return fs
+            .stream()
+            .flatMap(
+                f -> {
+                    final var dnf = toDnf(f, attrs);
+                    if (dnf instanceof Or) {
+                        return dnf.operands();
+                    } else {
+                        return Stream.of(dnf);
+                    }
+                }
+            )
+            .toList();
     }
 
     private Formula allowableOrTrue(final Formula f, final Collection<Formula> attrs) {

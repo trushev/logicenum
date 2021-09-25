@@ -1,9 +1,8 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import org.github.trushev.logicenum.formula.Formula;
 
 final class LimitedFormulasEnum implements Iterator<Formula> {
 
@@ -33,10 +32,15 @@ final class LimitedFormulasEnum implements Iterator<Formula> {
 
     @Override
     public String toString() {
-        return "LimitedFormulasEnum{" +
-                "iterator=" + this.iterator +
-                ", limit=" + this.limit +
-                ", counter=" + this.counter +
-                '}';
+        return (
+            "LimitedFormulasEnum{" +
+            "iterator=" +
+            this.iterator +
+            ", limit=" +
+            this.limit +
+            ", counter=" +
+            this.counter +
+            '}'
+        );
     }
 }

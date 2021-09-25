@@ -1,10 +1,10 @@
 package org.github.trushev.logicenum.implication;
 
-import org.github.trushev.logicenum.formula.Formula;
-import org.junit.jupiter.api.Test;
-
 import static org.github.trushev.logicenum.formula.Formula.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.github.trushev.logicenum.formula.Formula;
+import org.junit.jupiter.api.Test;
 
 public class SparkImplicationTest extends ImplicationTestBase {
 

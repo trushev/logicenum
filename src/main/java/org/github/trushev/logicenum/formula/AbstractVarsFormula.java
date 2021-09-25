@@ -8,9 +8,9 @@ abstract class AbstractVarsFormula extends AbstractFormula {
     protected final Collection<Formula> vars;
 
     protected AbstractVarsFormula(
-            final Collection<Formula> operands,
-            final Collection<Formula> vars,
-            final int length
+        final Collection<Formula> operands,
+        final Collection<Formula> vars,
+        final int length
     ) {
         super(operands, length);
         this.vars = vars;

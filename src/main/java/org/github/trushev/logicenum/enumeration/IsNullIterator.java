@@ -1,8 +1,7 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
-
 import java.util.stream.Stream;
+import org.github.trushev.logicenum.formula.Formula;
 
 final class IsNullIterator extends UnaIterator {
 

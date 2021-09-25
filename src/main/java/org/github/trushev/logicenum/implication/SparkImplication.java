@@ -1,11 +1,10 @@
 package org.github.trushev.logicenum.implication;
 
-import org.github.trushev.logicenum.formula.*;
+import static org.github.trushev.logicenum.formula.Formula.*;
 
 import java.util.Collection;
 import java.util.Set;
-
-import static org.github.trushev.logicenum.formula.Formula.*;
+import org.github.trushev.logicenum.formula.*;
 
 public class SparkImplication implements Implication {
 
@@ -16,9 +15,7 @@ public class SparkImplication implements Implication {
 
     private Formula exRec(final Formula f, final Collection<Formula> attrs) {
         if (f instanceof And) {
-            final var formulas = f.operands()
-                    .map(ff -> exRec(ff, attrs))
-                    .filter(ff -> !ff.equals(Const.True));
+            final var formulas = f.operands().map(ff -> exRec(ff, attrs)).filter(ff -> !ff.equals(Const.True));
             return and(formulas);
         }
         if (f instanceof Or) {

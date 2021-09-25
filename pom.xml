@@ -14,6 +14,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <junit.version>5.7.2</junit.version>
         <surefire.version>3.0.0-M5</surefire.version>
+        <prettier.java.version>1.3.0</prettier.java.version>
+        <prettier.plugin.version>0.14</prettier.plugin.version>
+        <prettier.plugin.goal>check</prettier.plugin.goal>
     </properties>
 
     <dependencies>
@@ -32,6 +35,35 @@
     </dependencies>
 
     <build>
+        <plugins>
+            <plugin>
+                <groupId>com.hubspot.maven.plugins</groupId>
+                <artifactId>prettier-maven-plugin</artifactId>
+                <version>${prettier.plugin.version}</version>
+                <configuration>
+                    <prettierJavaVersion>${prettier.java.version}</prettierJavaVersion>
+                    <printWidth>120</printWidth>
+                    <tabWidth>4</tabWidth>
+                    <useTabs>false</useTabs>
+                    <ignoreConfigFile>true</ignoreConfigFile>
+                    <ignoreEditorConfig>true</ignoreEditorConfig>
+                    <!-- Use <inputGlobs> to override the default input patterns -->
+                    <inputGlobs>
+                        <!-- These are the default patterns, you can omit <inputGlobs> entirely unless you want to override them -->
+                        <inputGlob>src/main/java/**/*.java</inputGlob>
+                        <inputGlob>src/test/java/**/*.java</inputGlob>
+                    </inputGlobs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>${prettier.plugin.goal}</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>

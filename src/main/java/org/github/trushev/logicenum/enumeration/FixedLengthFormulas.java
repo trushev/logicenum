@@ -1,13 +1,12 @@
 package org.github.trushev.logicenum.enumeration;
 
-import org.github.trushev.logicenum.formula.Formula;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import org.github.trushev.logicenum.formula.Formula;
 
 final class FixedLengthFormulas implements Iterator<Formula> {
 
@@ -54,23 +53,25 @@ final class FixedLengthFormulas implements Iterator<Formula> {
     }
 
     private static Stream<Iterator<Formula>> streamOfIterators(
-            final Formulas formulas,
-            final int length,
-            final BiFunction<Formula, Iterator<Formula>, Iterator<Formula>> fun
+        final Formulas formulas,
+        final int length,
+        final BiFunction<Formula, Iterator<Formula>, Iterator<Formula>> fun
     ) {
-        return IntStream.range(1, length - 1)
-                .boxed()
-                .flatMap(i -> formulas
+        return IntStream
+            .range(1, length - 1)
+            .boxed()
+            .flatMap(
+                i ->
+                    formulas
                         .formulasWithLength(i)
                         .map(f -> fun.apply(f, formulas.formulasWithLength(length - i - 1).iterator()))
-                );
+            );
     }
 
     @Override
     public String toString() {
-        return "FixedLengthFormulas{" +
-                "iterators=" + this.iterators +
-                ", currentIterator=" + this.currentIterator +
-                '}';
+        return (
+            "FixedLengthFormulas{" + "iterators=" + this.iterators + ", currentIterator=" + this.currentIterator + '}'
+        );
     }
 }

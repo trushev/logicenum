@@ -1,10 +1,10 @@
 package org.github.trushev.logicenum.formula;
 
-import org.junit.jupiter.api.Test;
-
 import static org.github.trushev.logicenum.formula.Const.False;
 import static org.github.trushev.logicenum.formula.Const.True;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class AndTest extends TestBase {
 

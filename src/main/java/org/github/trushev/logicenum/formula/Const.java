@@ -59,8 +59,7 @@ public final class Const extends Atom {
     private enum Val {
         TRUE("True", 1.0),
         FALSE("False", 0.0),
-        UNKNOWN("Unknown", 0.5),
-        ;
+        UNKNOWN("Unknown", 0.5);
 
         private final String name;
         private final double number;

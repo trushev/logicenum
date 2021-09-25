@@ -1,12 +1,11 @@
 package org.github.trushev.logicenum.formula;
 
-import org.github.trushev.logicenum.eval.CsvTruthTable;
-import org.github.trushev.logicenum.eval.TruthTable;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.BiFunction;
+import org.github.trushev.logicenum.eval.CsvTruthTable;
+import org.github.trushev.logicenum.eval.TruthTable;
 
 // TODO: discard utility class
 final class Utils {
@@ -24,19 +23,13 @@ final class Utils {
     }
 
     static Collection<Formula> vars(final Collection<Formula> fs) {
-        return fs.stream()
-                .flatMap(Formula::vars)
-                .sorted()
-                .distinct()
-                .toList();
+        return fs.stream().flatMap(Formula::vars).sorted().distinct().toList();
     }
 
     static int length(final Collection<Formula> fs) {
         // TODO: possible bug
         //  length of (a | b | c) should be 4 or 5?
-        return fs.stream()
-                .mapToInt(Formula::length)
-                .sum() + 1;
+        return fs.stream().mapToInt(Formula::length).sum() + 1;
     }
 
     static Formula or(final Iterator<Formula> formulas) {
@@ -48,10 +41,10 @@ final class Utils {
     }
 
     private static Formula wrappedFormulas(
-            final Iterator<Formula> formulas,
-            final Const weekConst,
-            final BiFunction<Formula, Formula, Formula> fun
-    )  {
+        final Iterator<Formula> formulas,
+        final Const weekConst,
+        final BiFunction<Formula, Formula, Formula> fun
+    ) {
         if (!formulas.hasNext()) {
             return weekConst;
         }
@@ -83,10 +76,6 @@ final class Utils {
     }
 
     private static boolean tableEqualsToConst(final TruthTable tt, final Const c) {
-        return tt.rows()
-                .map(r -> r.get(r.size() - 1))
-                .filter(r -> !c.equals(r))
-                .findAny()
-                .isEmpty();
+        return tt.rows().map(r -> r.get(r.size() - 1)).filter(r -> !c.equals(r)).findAny().isEmpty();
     }
 }

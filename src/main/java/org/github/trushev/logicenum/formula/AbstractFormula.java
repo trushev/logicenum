@@ -54,9 +54,6 @@ abstract class AbstractFormula implements Formula {
         if (vars.isEmpty()) {
             return false; // TODO: why?
         }
-        return vars.stream()
-                .filter(v -> !fs.contains(v))
-                .findAny()
-                .isEmpty();
+        return vars.stream().filter(v -> !fs.contains(v)).findAny().isEmpty();
     }
 }
