@@ -1,6 +1,7 @@
 package org.github.trushev.logicenum.eval;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.toUnmodifiableSet;
 import static org.github.trushev.logicenum.formula.Formula.*;
 
 import java.util.*;
@@ -152,7 +153,7 @@ public final class TruthTable {
         if (f instanceof IsNull i) {
             return evalIsNull(eval(operand(i)));
         }
-        final var values = f.operands().map(TruthTable::eval).collect(Collectors.toUnmodifiableSet());
+        final var values = f.operands().map(TruthTable::eval).collect(toUnmodifiableSet());
         final var iterator = values.iterator();
         var v = iterator.next();
         if (f instanceof And) {
