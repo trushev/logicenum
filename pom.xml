@@ -13,7 +13,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <junit.version>5.8.1</junit.version>
-        <surefire.version>3.0.0-M5</surefire.version>
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.surefire.version>3.0.0-M5</maven.surefire.version>
         <prettier.java.version>1.3.0</prettier.java.version>
         <prettier.plugin.version>0.14</prettier.plugin.version>
         <prettier.plugin.goal>check</prettier.plugin.goal>
@@ -67,6 +68,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -79,7 +81,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.version}</version>
+                    <version>${maven.surefire.version}</version>
                     <configuration>
                         <argLine>--enable-preview</argLine>
                     </configuration>
