@@ -14,45 +14,37 @@ public class SparkImplication implements Implication {
     }
 
     private Formula exRec(final Formula f, final Collection<Formula> attrs) {
-        if (f instanceof And) {
-            final var formulas = f.operands().map(ff -> exRec(ff, attrs)).filter(ff -> !ff.equals(Const.True));
-            return and(formulas);
-        }
-        if (f instanceof Or) {
-            final var formulas = f.operands().map(ff -> exRec(ff, attrs));
-            return or(formulas);
-        }
-        if (f.consistsOnly(attrs)) {
-            return f;
-        }
-        return Const.True;
+        return switch (f) {
+            case final And ignored -> {
+                final var formulas = f.map(ff -> exRec(ff, attrs)).filter(ff -> !ff.equals(Const.True));
+                yield and(formulas);
+            }
+            case final Or ignored -> {
+                final var formulas = f.map(ff -> exRec(ff, attrs));
+                yield or(formulas);
+            }
+            default -> {
+                if (f.consistsOnly(attrs)) {
+                    yield  f;
+                }
+                yield Const.True;
+            }
+        };
     }
 
     Formula nnf(final Formula f) {
-        if (f instanceof Atom || f instanceof IsNull) {
-            return f;
-        }
-        if (f instanceof Not n) {
-            final var arg = operand(n);
-            if (arg instanceof Atom || arg instanceof IsNull) {
-                return not(arg);
-            }
-            final var formulas = arg.operands().map(ff -> nnf(not(ff)));
-            if (arg instanceof And) {
-                return or(formulas);
-            }
-            if (arg instanceof Or) {
-                return and(formulas);
-            }
-        }
-        final var formulas = f.operands().map(this::nnf);
-        if (f instanceof And) {
-            return and(formulas);
-        }
-        if (f instanceof Or) {
-            return or(formulas);
-        }
-
-        throw new IllegalStateException(f.toString());
+        return switch (f) {
+            case final Atom atom -> atom;
+            case final IsNull isNull -> isNull;
+            case final Not not -> switch (operand(not)) {
+                case final Atom atom -> not(atom);
+                case final IsNull isNull -> not(isNull);
+                case final And and -> or(and.map(ff -> nnf(not(ff))));
+                case final Or or -> and(or.map(ff -> nnf(not(ff))));
+                default -> throw new IllegalStateException("Unexpected value: " + operand(not));
+            };
+            case final And and -> and(and.map(this::nnf));
+            case final Or or -> or(or.map(this::nnf));
+        };
     }
 }

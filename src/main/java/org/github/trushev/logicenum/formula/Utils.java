@@ -13,13 +13,11 @@ final class Utils {
     private Utils() {}
 
     static Collection<Formula> vars(final Formula f) {
-        if (f instanceof AbstractVarsFormula a) {
-            return a.vars;
-        }
-        if (f instanceof Var) {
-            return Collections.singleton(f);
-        }
-        return Collections.emptyList();
+        return switch (f) {
+            case final AbstractVarsFormula a -> a.vars;
+            case final Var v -> Collections.singleton(v);
+            default -> Collections.emptyList();
+        };
     }
 
     static Collection<Formula> vars(final Collection<Formula> fs) {

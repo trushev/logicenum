@@ -12,7 +12,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-abstract class BiFormula extends AbstractVarsFormula {
+abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
 
     protected BiFormula(final Collection<Formula> operands) {
         super(operands, Utils.vars(operands), Utils.length(operands));
@@ -70,7 +70,7 @@ abstract class BiFormula extends AbstractVarsFormula {
 
     @Override
     public String toString() {
-        return operands().map(Object::toString).collect(joining(" " + symbol() + " ", "(", ")"));
+        return map(Object::toString).collect(joining(" " + symbol() + " ", "(", ")"));
     }
 
     protected enum Symbol {

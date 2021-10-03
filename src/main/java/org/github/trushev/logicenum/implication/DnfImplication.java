@@ -16,33 +16,30 @@ public class DnfImplication implements Implication {
 
     private Formula toDnf(final Formula f, final Collection<Formula> attrs) {
         final Collection<Formula> operands;
-        if (f instanceof And) {
-            operands = f.operands().toList();
-            final var firstDnf = toDnf(first(operands), attrs);
-            final var restDnf = toDnf(and(rest(operands)), attrs);
-            final var conjuncts = combinedConjuncts(disjunctions(firstDnf), disjunctions(restDnf), attrs);
-            return or(conjuncts);
-        }
-        if (f instanceof Or) {
-            operands = f.operands().toList();
-            return or(toDnfs(operands, attrs));
-        }
-        if (f instanceof Not not) {
-            final var arg = operand(not);
-            if (arg instanceof And) {
+        return switch (f) {
+            case final And ignored -> {
+                operands = f.operands().toList();
+                final var firstDnf = toDnf(first(operands), attrs);
+                final var restDnf = toDnf(and(rest(operands)), attrs);
+                final var conjuncts = combinedConjuncts(disjunctions(firstDnf), disjunctions(restDnf), attrs);
+                yield or(conjuncts);
+            }
+            case final Or ignored -> {
+                operands = f.operands().toList();
+                yield or(toDnfs(operands, attrs));
+            }
+            case final Not not -> {
+                final var arg = operand(not);
                 operands = arg.operands().toList();
-                return toDnf(or(not(operands)), attrs);
+                yield switch (arg) {
+                    case final And ignored -> toDnf(or(not(operands)), attrs);
+                    case final Or ignored -> toDnf(and(not(operands)), attrs);
+                    case final Not ignored -> toDnf(first(operands), attrs);
+                    default -> allowableOrTrue(not, attrs);
+                };
             }
-            if (arg instanceof Or) {
-                operands = arg.operands().toList();
-                return toDnf(and(not(operands)), attrs);
-            }
-            if (arg instanceof Not) {
-                return toDnf(first(arg.operands().toList()), attrs);
-            }
-            return allowableOrTrue(not, attrs);
-        }
-        return allowableOrTrue(f, attrs);
+            default -> allowableOrTrue(f, attrs);
+        };
     }
 
     private Collection<Formula> combinedConjuncts(

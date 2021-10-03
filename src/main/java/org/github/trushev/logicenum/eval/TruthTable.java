@@ -41,7 +41,9 @@ public final class TruthTable {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof TruthTable that)) return false;
+        if (!(o instanceof TruthTable that)) {
+            return false;
+        }
         return this.table.equals(that.table);
     }
 
@@ -118,58 +120,42 @@ public final class TruthTable {
         if (f.equals(var)) {
             return val;
         }
-        if (f instanceof Const) {
-            return f;
-        }
-        if (f instanceof Var) {
-            return f;
-        }
-        if (f instanceof Not n) {
-            return not(assign(operand(n), var, val));
-        }
-        if (f instanceof IsNull i) {
-            return isNull(assign(operand(i), var, val));
-        }
-        final var formulas = f.operands().map(ff -> assign(ff, var, val));
-        if (f instanceof And) {
-            return and(formulas);
-        }
-        if (f instanceof Or) {
-            return or(formulas);
-        }
-        throw new IllegalStateException(f.getClass().toString());
+        return switch (f) {
+            case final Const c -> c;
+            case final Var v -> v;
+            case final Not not -> not(assign(operand(not), var, val));
+            case final IsNull isNull -> isNull(assign(operand(isNull), var, val));
+            case final And and -> and(and.map(ff -> assign(ff, var, val)));
+            case final Or or -> or(or.map(ff -> assign(ff, var, val)));
+        };
     }
 
     private static Const eval(final Formula f) {
-        if (f instanceof Const c) {
-            return c;
+        switch (f) {
+            case final Const c: return c;
+            case final Var ignored: throw new IllegalStateException(f.toString());
+            case final Not n: return evalNot(eval(operand(n)));
+            case final IsNull i: return evalIsNull(eval(operand(i)));
+            default:
         }
-        if (f instanceof Var) {
-            throw new IllegalStateException(f.toString());
-        }
-        if (f instanceof Not n) {
-            return evalNot(eval(operand(n)));
-        }
-        if (f instanceof IsNull i) {
-            return evalIsNull(eval(operand(i)));
-        }
-        final var values = f.operands().map(TruthTable::eval).collect(toUnmodifiableSet());
+        final var values = f.map(TruthTable::eval).collect(toUnmodifiableSet());
         final var iterator = values.iterator();
         var v = iterator.next();
-        if (f instanceof And) {
-            while (iterator.hasNext()) {
-                v = evalAnd(v, iterator.next());
+        return switch (f) {
+            case final And ignored -> {
+                while (iterator.hasNext()) {
+                    v = evalAnd(v, iterator.next());
+                }
+                yield v;
             }
-            return v;
-        }
-        if (f instanceof Or) {
-            while (iterator.hasNext()) {
-                v = evalOr(v, iterator.next());
+            case final Or ignored -> {
+                while (iterator.hasNext()) {
+                    v = evalOr(v, iterator.next());
+                }
+                yield v;
             }
-            return v;
-        }
-
-        throw new IllegalStateException(f.toString());
+            default -> throw new IllegalStateException("Unexpected value: " + f);
+        };
     }
 
     private static Const evalOr(final Const c1, final Const c2) {

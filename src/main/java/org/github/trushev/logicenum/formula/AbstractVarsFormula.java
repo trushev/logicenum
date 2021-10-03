@@ -3,7 +3,7 @@ package org.github.trushev.logicenum.formula;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-abstract class AbstractVarsFormula extends AbstractFormula {
+abstract sealed class AbstractVarsFormula extends AbstractFormula permits BiFormula, UnaFormula {
 
     protected final Collection<Formula> vars;
 

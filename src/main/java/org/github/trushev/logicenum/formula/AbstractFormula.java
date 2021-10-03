@@ -3,7 +3,7 @@ package org.github.trushev.logicenum.formula;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-abstract class AbstractFormula implements Formula {
+abstract sealed class AbstractFormula implements Formula permits AbstractVarsFormula, Atom {
 
     protected final Collection<Formula> operands;
     private final int length;

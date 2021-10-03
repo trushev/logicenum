@@ -5,7 +5,7 @@
 * unknown (1/2)
 
 ### Create a formula
-```
+```java
 import static org.github.trushev.logicenum.formula.Formula.*;
 
 var a = var("a");
@@ -19,7 +19,7 @@ System.out.println(f);
 
 ### Print truth table
 
-```
+```java
 var table = new CsvTruthTable(new TruthTable(f));
 System.out.println(table);
 ```

@@ -3,7 +3,7 @@ package org.github.trushev.logicenum.formula;
 import java.util.Collections;
 import java.util.Objects;
 
-abstract class UnaFormula extends AbstractVarsFormula {
+abstract sealed class UnaFormula extends AbstractVarsFormula permits IsNull, Not {
 
     protected final Formula f;
 

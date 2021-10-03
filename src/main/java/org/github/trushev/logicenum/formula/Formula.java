@@ -1,9 +1,10 @@
 package org.github.trushev.logicenum.formula;
 
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
-public interface Formula {
+public sealed interface Formula permits AbstractFormula {
     Stream<Formula> operands();
 
     Stream<Formula> vars();
@@ -21,6 +22,10 @@ public interface Formula {
     boolean deepEquals(Formula f);
 
     boolean consistsOnly(Collection<Formula> fs);
+
+    default <R> Stream<R> map(final Function<? super Formula, ? extends R> mapper) {
+        return operands().map(mapper);
+    }
 
     static Formula var(final String name) {
         return new Var(name);
