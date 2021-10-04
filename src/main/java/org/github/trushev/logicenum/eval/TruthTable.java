@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toUnmodifiableSet;
 import static org.github.trushev.logicenum.formula.Formula.*;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.github.trushev.logicenum.formula.*;
@@ -133,29 +134,23 @@ public final class TruthTable {
     private static Const eval(Formula f) {
         switch (f) {
             case Const c: return c;
-            case Var ignored: throw new IllegalStateException(f.toString());
+            case Var v: throw new IllegalStateException(v.toString());
             case Not n: return evalNot(eval(operand(n)));
             case IsNull i: return evalIsNull(eval(operand(i)));
             default:
         }
         var values = f.map(TruthTable::eval).collect(toUnmodifiableSet());
         var iterator = values.iterator();
-        var v = iterator.next();
-        return switch (f) {
-            case And ignored -> {
-                while (iterator.hasNext()) {
-                    v = evalAnd(v, iterator.next());
-                }
-                yield v;
-            }
-            case Or ignored -> {
-                while (iterator.hasNext()) {
-                    v = evalOr(v, iterator.next());
-                }
-                yield v;
-            }
+        BiFunction<Const, Const, Const> evalConst = switch (f) {
+            case And ignored -> TruthTable::evalAnd;
+            case Or ignored -> TruthTable::evalOr;
             default -> throw new IllegalStateException("Unexpected value: " + f);
         };
+        var v = iterator.next();
+        while (iterator.hasNext()) {
+            v = evalConst.apply(v, iterator.next());
+        }
+        return v;
     }
 
     private static Const evalOr(Const c1, Const c2) {

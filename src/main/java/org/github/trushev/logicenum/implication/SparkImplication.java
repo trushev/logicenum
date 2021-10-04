@@ -9,18 +9,18 @@ import org.github.trushev.logicenum.formula.*;
 public final class SparkImplication implements Implication {
 
     @Override
-    public Formula ex(Formula f, Formula... attrs) {
-        return exRec(nnf(f), Set.of(attrs));
+    public Formula imply(Formula f, Formula... attrs) {
+        return implyRec(nnf(f), Set.of(attrs));
     }
 
-    private Formula exRec(Formula f, Collection<Formula> attrs) {
+    private Formula implyRec(Formula f, Collection<Formula> attrs) {
         return switch (f) {
-            case And ignored -> {
-                var formulas = f.map(ff -> exRec(ff, attrs)).filter(ff -> !ff.equals(Const.True));
+            case And and -> {
+                var formulas = and.map(ff -> implyRec(ff, attrs)).filter(ff -> !ff.equals(Const.True));
                 yield and(formulas);
             }
-            case Or ignored -> {
-                var formulas = f.map(ff -> exRec(ff, attrs));
+            case Or or -> {
+                var formulas = or.map(ff -> implyRec(ff, attrs));
                 yield or(formulas);
             }
             default -> {

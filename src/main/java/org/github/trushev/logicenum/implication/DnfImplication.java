@@ -10,33 +10,38 @@ import org.github.trushev.logicenum.formula.*;
 public final class DnfImplication implements Implication {
 
     @Override
-    public Formula ex(Formula f, Formula... attrs) {
+    public Formula imply(Formula f, Formula... attrs) {
         return toDnf(f, Set.of(attrs));
     }
 
     private Formula toDnf(Formula f, Collection<Formula> attrs) {
         Collection<Formula> operands;
         return switch (f) {
-            case And ignored -> {
-                operands = f.operands().toList();
+            case And and -> {
+                operands = and.operands().toList();
                 var firstDnf = toDnf(first(operands), attrs);
                 var restDnf = toDnf(and(rest(operands)), attrs);
                 var conjuncts = combinedConjuncts(disjunctions(firstDnf), disjunctions(restDnf), attrs);
                 yield or(conjuncts);
             }
-            case Or ignored -> {
-                operands = f.operands().toList();
+            case Or or -> {
+                operands = or.operands().toList();
                 yield or(toDnfs(operands, attrs));
             }
             case Not not -> {
                 var arg = operand(not);
-                operands = arg.operands().toList();
-                yield switch (arg) {
-                    case And ignored -> toDnf(or(not(operands)), attrs);
-                    case Or ignored -> toDnf(and(not(operands)), attrs);
-                    case Not ignored -> toDnf(first(operands), attrs);
-                    default -> allowableOrTrue(not, attrs);
-                };
+                if (arg instanceof And || arg instanceof Or || arg instanceof Not) {
+                    operands = arg.operands().toList();
+                    var ff = switch (arg) {
+                        case And ignored -> or(not(operands));
+                        case Or ignored -> and(not(operands));
+                        case Not ignored -> first(operands);
+                        default -> throw new AssertionError();
+                    };
+                    yield toDnf(ff, attrs);
+                } else {
+                    yield allowableOrTrue(not, attrs);
+                }
             }
             default -> allowableOrTrue(f, attrs);
         };
