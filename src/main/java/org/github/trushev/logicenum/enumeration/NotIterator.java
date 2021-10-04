@@ -5,7 +5,7 @@ import org.github.trushev.logicenum.formula.Formula;
 
 final class NotIterator extends UnaIterator {
 
-    NotIterator(final Stream<Formula> stream) {
+    NotIterator(Stream<Formula> stream) {
         super(stream);
     }
 

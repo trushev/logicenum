@@ -8,7 +8,7 @@ public final class Var extends Atom implements Comparable<Var> {
 
     private final String name;
 
-    Var(final String name) {
+    Var(String name) {
         super(Collections.emptyList(), 1);
         this.name = name;
     }
@@ -19,14 +19,14 @@ public final class Var extends Atom implements Comparable<Var> {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final var var = (Var) o;
+        var var = (Var) o;
         return this.name.equals(var.name);
     }
 
@@ -41,7 +41,7 @@ public final class Var extends Atom implements Comparable<Var> {
     }
 
     @Override
-    public int compareTo(final Var o) {
+    public int compareTo(Var o) {
         return this.name.compareTo(o.name);
     }
 }

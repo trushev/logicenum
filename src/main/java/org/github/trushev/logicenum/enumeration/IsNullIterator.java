@@ -5,7 +5,7 @@ import org.github.trushev.logicenum.formula.Formula;
 
 final class IsNullIterator extends UnaIterator {
 
-    IsNullIterator(final Stream<Formula> stream) {
+    IsNullIterator(Stream<Formula> stream) {
         super(stream);
     }
 

@@ -5,7 +5,7 @@ import org.github.trushev.logicenum.formula.Formula;
 
 final class AndIterator extends BiIterator {
 
-    AndIterator(final Formula f, final Iterator<Formula> fs) {
+    AndIterator(Formula f, Iterator<Formula> fs) {
         super(f, fs);
     }
 

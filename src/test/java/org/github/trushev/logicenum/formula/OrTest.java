@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class OrTest extends TestBase {
+public final class OrTest extends TestBase {
 
     @Test
     public void testOr1() {

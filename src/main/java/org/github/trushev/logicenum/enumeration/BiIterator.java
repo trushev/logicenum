@@ -8,7 +8,7 @@ abstract class BiIterator implements Iterator<Formula> {
     protected final Formula f;
     protected final Iterator<Formula> fs;
 
-    protected BiIterator(final Formula f, final Iterator<Formula> fs) {
+    protected BiIterator(Formula f, Iterator<Formula> fs) {
         this.f = f;
         this.fs = fs;
     }

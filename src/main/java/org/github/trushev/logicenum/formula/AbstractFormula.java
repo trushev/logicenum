@@ -8,7 +8,7 @@ abstract sealed class AbstractFormula implements Formula permits AbstractVarsFor
     protected final Collection<Formula> operands;
     private final int length;
 
-    protected AbstractFormula(final Collection<Formula> operands, final int length) {
+    protected AbstractFormula(Collection<Formula> operands, int length) {
         this.operands = operands;
         this.length = length;
     }
@@ -19,12 +19,12 @@ abstract sealed class AbstractFormula implements Formula permits AbstractVarsFor
     }
 
     @Override
-    public Formula or(final Formula f) {
+    public Formula or(Formula f) {
         return Or.of(this, f);
     }
 
     @Override
-    public Formula and(final Formula f) {
+    public Formula and(Formula f) {
         return And.of(this, f);
     }
 
@@ -44,13 +44,13 @@ abstract sealed class AbstractFormula implements Formula permits AbstractVarsFor
     }
 
     @Override
-    public boolean deepEquals(final Formula f) {
+    public boolean deepEquals(Formula f) {
         return this.equals(f) || Utils.deepEquals(this, f);
     }
 
     @Override
-    public boolean consistsOnly(final Collection<Formula> fs) {
-        final var vars = vars().toList();
+    public boolean consistsOnly(Collection<Formula> fs) {
+        var vars = vars().toList();
         if (vars.isEmpty()) {
             return false; // TODO: why?
         }

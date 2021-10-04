@@ -2,7 +2,7 @@ package org.github.trushev.logicenum.formula;
 
 public final class Not extends UnaFormula {
 
-    Not(final Formula f) {
+    Not(Formula f) {
         super(f);
     }
 

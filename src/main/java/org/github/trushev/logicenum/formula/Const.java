@@ -12,7 +12,7 @@ public final class Const extends Atom {
 
     private final Val val;
 
-    private Const(final Val val) {
+    private Const(Val val) {
         super(Collections.emptyList(), 1);
         this.val = val;
     }
@@ -36,7 +36,7 @@ public final class Const extends Atom {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -64,7 +64,7 @@ public final class Const extends Atom {
         private final String name;
         private final double number;
 
-        Val(final String name, final double number) {
+        Val(String name, double number) {
             this.name = name;
             this.number = number;
         }

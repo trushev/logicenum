@@ -14,21 +14,21 @@ import java.util.stream.Stream;
 
 abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
 
-    protected BiFormula(final Collection<Formula> operands) {
+    protected BiFormula(Collection<Formula> operands) {
         super(operands, Utils.vars(operands), Utils.length(operands));
     }
 
     protected abstract Symbol symbol();
 
     protected static Formula of(
-        final Formula f1,
-        final Formula f2,
-        final Const weekConst,
-        final Const strongConst,
-        final Predicate<Formula> p,
-        final Function<Collection<Formula>, Formula> fun
+        Formula f1,
+        Formula f2,
+        Const weekConst,
+        Const strongConst,
+        Predicate<Formula> p,
+        Function<Collection<Formula>, Formula> fun
     ) {
-        final var formulas = unmodifiableSet(
+        var formulas = unmodifiableSet(
             (Set<Formula>) Stream
                 .of(f1, f2)
                 .flatMap(f -> p.test(f) ? f.operands() : Stream.of(f))
@@ -48,7 +48,7 @@ abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -79,7 +79,7 @@ abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
 
         private final String name;
 
-        Symbol(final String name) {
+        Symbol(String name) {
             this.name = name;
         }
 

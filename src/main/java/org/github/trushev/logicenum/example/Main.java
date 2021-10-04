@@ -7,7 +7,7 @@ import org.github.trushev.logicenum.eval.TruthTable;
 
 public final class Main {
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         var a = var("a");
         var b = var("b");
         var f = and(a, b, or(not(a), isNull(b)));

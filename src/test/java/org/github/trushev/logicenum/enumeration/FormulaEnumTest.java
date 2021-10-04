@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class FormulaEnumTest {
+public final class FormulaEnumTest {
 
     @Test
     public void test() {
-        final var a = var("a");
-        final var formulas = FormulaEnum.get(6, a).formulas().toList();
+        var a = var("a");
+        var formulas = FormulaEnum.get(6, a).formulas().toList();
         assertEquals("[a, !a, ?a, !?a, ?!a, !?!a]", formulas.toString());
     }
 }

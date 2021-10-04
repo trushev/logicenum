@@ -6,7 +6,7 @@ import org.github.trushev.logicenum.formula.Formula;
 public interface FormulaEnum {
     Stream<Formula> formulas();
 
-    static FormulaEnum get(final long limit, final Formula... fs) {
+    static FormulaEnum get(long limit, Formula... fs) {
         return new FormulaEnumImpl(new LimitedFormulasEnum(new FormulasEnumInner(new Formulas(fs)), limit));
     }
 }

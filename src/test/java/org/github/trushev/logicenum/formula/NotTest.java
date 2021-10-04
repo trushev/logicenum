@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class NotTest extends TestBase {
+public final class NotTest extends TestBase {
 
     @Test
     public void testNot1() {

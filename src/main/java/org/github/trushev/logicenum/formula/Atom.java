@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 public abstract sealed class Atom extends AbstractFormula permits Const, Var {
 
-    protected Atom(final Collection<Formula> operands, final int length) {
+    protected Atom(Collection<Formula> operands, int length) {
         super(operands, length);
     }
 

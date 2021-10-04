@@ -7,7 +7,7 @@ abstract sealed class UnaFormula extends AbstractVarsFormula permits IsNull, Not
 
     protected final Formula f;
 
-    protected UnaFormula(final Formula f) {
+    protected UnaFormula(Formula f) {
         super(Collections.singleton(f), Utils.vars(f), f.length() + 1);
         this.f = f;
     }
@@ -15,7 +15,7 @@ abstract sealed class UnaFormula extends AbstractVarsFormula permits IsNull, Not
     protected abstract Symbol symbol();
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -41,7 +41,7 @@ abstract sealed class UnaFormula extends AbstractVarsFormula permits IsNull, Not
 
         private final String name;
 
-        Symbol(final String name) {
+        Symbol(String name) {
             this.name = name;
         }
 

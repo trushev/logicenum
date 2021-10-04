@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class AndTest extends TestBase {
+public final class AndTest extends TestBase {
 
     @Test
     public void testAnd1() {

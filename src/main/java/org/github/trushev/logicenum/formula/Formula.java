@@ -23,71 +23,71 @@ public sealed interface Formula permits AbstractFormula {
 
     boolean consistsOnly(Collection<Formula> fs);
 
-    default <R> Stream<R> map(final Function<? super Formula, ? extends R> mapper) {
+    default <R> Stream<R> map(Function<? super Formula, ? extends R> mapper) {
         return operands().map(mapper);
     }
 
-    static Formula var(final String name) {
+    static Formula var(String name) {
         return new Var(name);
     }
 
-    static Formula or(final Formula f1, final Formula f2, final Formula... fs) {
+    static Formula or(Formula f1, Formula f2, Formula... fs) {
         var res = f1.or(f2);
-        for (final var f : fs) {
+        for (var f : fs) {
             res = res.or(f);
         }
         return res;
     }
 
-    static Formula and(final Formula f1, final Formula f2, final Formula... fs) {
+    static Formula and(Formula f1, Formula f2, Formula... fs) {
         var res = f1.and(f2);
-        for (final var f : fs) {
+        for (var f : fs) {
             res = res.and(f);
         }
         return res;
     }
 
-    static Formula not(final Formula f) {
+    static Formula not(Formula f) {
         return f.not();
     }
 
-    static Formula isNull(final Formula f) {
+    static Formula isNull(Formula f) {
         return f.isNull();
     }
 
-    static Formula operand(final Not not) {
+    static Formula operand(Not not) {
         return not.operands().findAny().orElseThrow();
     }
 
-    static Formula operand(final IsNull isNull) {
+    static Formula operand(IsNull isNull) {
         return isNull.operands().findAny().orElseThrow();
     }
 
-    static Formula first(final Collection<Formula> formulas) {
+    static Formula first(Collection<Formula> formulas) {
         return formulas.iterator().next();
     }
 
-    static Collection<Formula> rest(final Collection<Formula> formulas) {
+    static Collection<Formula> rest(Collection<Formula> formulas) {
         return formulas.stream().skip(1).toList();
     }
 
-    static Collection<Formula> not(final Collection<Formula> formulas) {
+    static Collection<Formula> not(Collection<Formula> formulas) {
         return formulas.stream().map(f -> f.not()).toList();
     }
 
-    static Formula and(final Collection<Formula> formulas) {
+    static Formula and(Collection<Formula> formulas) {
         return Utils.and(formulas.iterator());
     }
 
-    static Formula and(final Stream<Formula> formulas) {
+    static Formula and(Stream<Formula> formulas) {
         return Utils.and(formulas.iterator());
     }
 
-    static Formula or(final Collection<Formula> formulas) {
+    static Formula or(Collection<Formula> formulas) {
         return Utils.or(formulas.iterator());
     }
 
-    static Formula or(final Stream<Formula> formulas) {
+    static Formula or(Stream<Formula> formulas) {
         return Utils.or(formulas.iterator());
     }
 }

@@ -15,7 +15,7 @@ public final class TruthTable {
     private final Collection<Formula> vars;
     private final List<List<Const>> table;
 
-    public TruthTable(final Formula f) {
+    public TruthTable(Formula f) {
         this.f = f;
         this.vars = f.vars().toList();
         this.table = table(this.f, this.vars);
@@ -39,7 +39,7 @@ public final class TruthTable {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TruthTable that)) {
             return false;
@@ -52,14 +52,14 @@ public final class TruthTable {
         return Objects.hash(this.table);
     }
 
-    private static List<List<Const>> table(final Formula f, final Collection<Formula> vars) {
-        final var n = vars.size();
-        final var res = new ArrayList<List<Const>>((int) Math.pow(3, n));
+    private static List<List<Const>> table(Formula f, Collection<Formula> vars) {
+        var n = vars.size();
+        var res = new ArrayList<List<Const>>((int) Math.pow(3, n));
         var row = new int[n];
         while (row != null) {
-            final var vals = decode(row);
-            final var ff = assign(f, vars, vals);
-            final var eval = eval(ff);
+            var vals = decode(row);
+            var ff = assign(f, vars, vals);
+            var eval = eval(ff);
             vals.add(eval);
             res.add(unmodifiableList(vals));
             row = next(row);
@@ -67,7 +67,7 @@ public final class TruthTable {
         return unmodifiableList(res);
     }
 
-    private static List<Const> decode(final int[] row) {
+    private static List<Const> decode(int[] row) {
         return Arrays
             .stream(row)
             .mapToObj(
@@ -82,8 +82,8 @@ public final class TruthTable {
             .collect(Collectors.toList());
     }
 
-    private static int[] next(final int[] row) {
-        final var n = row.length;
+    private static int[] next(int[] row) {
+        var n = row.length;
         int i = 0;
         while (i < n && row[i] == 2) {
             row[i] = 0;
@@ -103,52 +103,52 @@ public final class TruthTable {
         throw new IllegalStateException(Arrays.toString(row));
     }
 
-    private static Formula assign(final Formula f, final Collection<Formula> vars, final Collection<Const> vals) {
-        final var varsIter = vars.iterator();
-        final var valsIter = vals.iterator();
+    private static Formula assign(Formula f, Collection<Formula> vars, Collection<Const> vals) {
+        var varsIter = vars.iterator();
+        var valsIter = vals.iterator();
         var res = f;
         while (varsIter.hasNext()) {
-            final var var = varsIter.next();
-            final var val = valsIter.next();
+            var var = varsIter.next();
+            var val = valsIter.next();
             res = assign(res, var, val);
         }
         if (valsIter.hasNext()) throw new IllegalStateException();
         return res;
     }
 
-    private static Formula assign(final Formula f, final Formula var, final Const val) {
+    private static Formula assign(Formula f, Formula var, Const val) {
         if (f.equals(var)) {
             return val;
         }
         return switch (f) {
-            case final Const c -> c;
-            case final Var v -> v;
-            case final Not not -> not(assign(operand(not), var, val));
-            case final IsNull isNull -> isNull(assign(operand(isNull), var, val));
-            case final And and -> and(and.map(ff -> assign(ff, var, val)));
-            case final Or or -> or(or.map(ff -> assign(ff, var, val)));
+            case Const c -> c;
+            case Var v -> v;
+            case Not not -> not(assign(operand(not), var, val));
+            case IsNull isNull -> isNull(assign(operand(isNull), var, val));
+            case And and -> and(and.map(ff -> assign(ff, var, val)));
+            case Or or -> or(or.map(ff -> assign(ff, var, val)));
         };
     }
 
-    private static Const eval(final Formula f) {
+    private static Const eval(Formula f) {
         switch (f) {
-            case final Const c: return c;
-            case final Var ignored: throw new IllegalStateException(f.toString());
-            case final Not n: return evalNot(eval(operand(n)));
-            case final IsNull i: return evalIsNull(eval(operand(i)));
+            case Const c: return c;
+            case Var ignored: throw new IllegalStateException(f.toString());
+            case Not n: return evalNot(eval(operand(n)));
+            case IsNull i: return evalIsNull(eval(operand(i)));
             default:
         }
-        final var values = f.map(TruthTable::eval).collect(toUnmodifiableSet());
-        final var iterator = values.iterator();
+        var values = f.map(TruthTable::eval).collect(toUnmodifiableSet());
+        var iterator = values.iterator();
         var v = iterator.next();
         return switch (f) {
-            case final And ignored -> {
+            case And ignored -> {
                 while (iterator.hasNext()) {
                     v = evalAnd(v, iterator.next());
                 }
                 yield v;
             }
-            case final Or ignored -> {
+            case Or ignored -> {
                 while (iterator.hasNext()) {
                     v = evalOr(v, iterator.next());
                 }
@@ -158,7 +158,7 @@ public final class TruthTable {
         };
     }
 
-    private static Const evalOr(final Const c1, final Const c2) {
+    private static Const evalOr(Const c1, Const c2) {
         // return max(c1, c2)
 
         if (c1 == Const.True && c2 == Const.True) return Const.True;
@@ -176,7 +176,7 @@ public final class TruthTable {
         throw new IllegalStateException(c1.toString() + " " + c2.toString());
     }
 
-    private static Const evalAnd(final Const c1, final Const c2) {
+    private static Const evalAnd(Const c1, Const c2) {
         // return min(c1, c2)
 
         if (c1 == Const.True && c2 == Const.True) return Const.True;
@@ -194,7 +194,7 @@ public final class TruthTable {
         throw new IllegalStateException(c1.toString() + " " + c2.toString());
     }
 
-    private static Const evalNot(final Const c) {
+    private static Const evalNot(Const c) {
         if (c == Const.True) return Const.False;
         if (c == Const.False) return Const.True;
         if (c == Const.Unknown) return Const.Unknown;
@@ -202,7 +202,7 @@ public final class TruthTable {
         throw new IllegalStateException(c.toString());
     }
 
-    private static Const evalIsNull(final Const c) {
+    private static Const evalIsNull(Const c) {
         if (c == Const.True) return Const.False;
         if (c == Const.False) return Const.False;
         if (c == Const.Unknown) return Const.True;

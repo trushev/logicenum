@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class FormulaTest extends TestBase {
+public final class FormulaTest extends TestBase {
 
     @Test
     public void testDeepEquals1() {

@@ -8,27 +8,27 @@ public final class CsvTruthTable {
     private final String separator;
     private final boolean asNumber;
 
-    public CsvTruthTable(final TruthTable truthTable, final String separator, final boolean asNumber) {
+    public CsvTruthTable(TruthTable truthTable, String separator, boolean asNumber) {
         this.truthTable = truthTable;
         this.separator = separator;
         this.asNumber = asNumber;
     }
 
-    public CsvTruthTable(final TruthTable truthTable) {
+    public CsvTruthTable(TruthTable truthTable) {
         this(truthTable, ", ", true);
     }
 
     @Override
     public String toString() {
-        final var sb = new StringBuilder(
+        var sb = new StringBuilder(
             this.truthTable.vars().stream().map(Object::toString).collect(joining(this.separator))
         );
         if (!sb.isEmpty()) {
             sb.append(this.separator);
         }
-        final var header = sb.append("f").toString();
-        final var ls = "\n";
-        final var table =
+        var header = sb.append("f").toString();
+        var ls = "\n";
+        var table =
             this.truthTable.rows()
                 .map(
                     r ->

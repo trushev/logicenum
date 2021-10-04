@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class IsNullTest extends TestBase {
+public final class IsNullTest extends TestBase {
 
     @Test
     public void testIsNull1() {

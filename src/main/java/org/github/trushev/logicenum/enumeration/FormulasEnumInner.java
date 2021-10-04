@@ -11,10 +11,10 @@ final class FormulasEnumInner implements Iterator<Formula> {
     private Formulas fixedLengthFormulas;
     private int formulaLength;
 
-    FormulasEnumInner(final Formulas formulas) {
+    FormulasEnumInner(Formulas formulas) {
         this.formulas = formulas;
 
-        final var initFormulaLength = 1;
+        var initFormulaLength = 1;
         this.iterator = this.formulas.formulasWithLength(initFormulaLength).iterator();
         this.fixedLengthFormulas = new Formulas(initFormulaLength);
         this.formulaLength = initFormulaLength;

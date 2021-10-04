@@ -13,11 +13,11 @@ final class FixedLengthFormulas implements Iterator<Formula> {
     private final Iterator<Iterator<Formula>> iterators;
     private Iterator<Formula> currentIterator;
 
-    FixedLengthFormulas(final Formulas formulas, final int length) {
-        final var s1 = Stream.of(new NotIterator(formulas.formulasWithLength(length - 1)));
-        final var s2 = Stream.of(new IsNullIterator(formulas.formulasWithLength(length - 1)));
-        final var s3 = streamOfIterators(formulas, length, AndIterator::new);
-        final var s4 = streamOfIterators(formulas, length, OrIterator::new);
+    FixedLengthFormulas(Formulas formulas, int length) {
+        var s1 = Stream.of(new NotIterator(formulas.formulasWithLength(length - 1)));
+        var s2 = Stream.of(new IsNullIterator(formulas.formulasWithLength(length - 1)));
+        var s3 = streamOfIterators(formulas, length, AndIterator::new);
+        var s4 = streamOfIterators(formulas, length, OrIterator::new);
         this.iterators = Stream.concat(s1, Stream.concat(s2, Stream.concat(s3, s4))).iterator();
         if (this.iterators.hasNext()) {
             this.currentIterator = this.iterators.next();
@@ -53,9 +53,9 @@ final class FixedLengthFormulas implements Iterator<Formula> {
     }
 
     private static Stream<Iterator<Formula>> streamOfIterators(
-        final Formulas formulas,
-        final int length,
-        final BiFunction<Formula, Iterator<Formula>, Iterator<Formula>> fun
+        Formulas formulas,
+        int length,
+        BiFunction<Formula, Iterator<Formula>, Iterator<Formula>> fun
     ) {
         return IntStream
             .range(1, length - 1)

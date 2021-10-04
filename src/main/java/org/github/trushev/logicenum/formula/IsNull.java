@@ -2,7 +2,7 @@ package org.github.trushev.logicenum.formula;
 
 public final class IsNull extends UnaFormula {
 
-    IsNull(final Formula f) {
+    IsNull(Formula f) {
         super(f);
     }
 

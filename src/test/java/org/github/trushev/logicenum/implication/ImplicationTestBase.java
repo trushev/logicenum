@@ -16,67 +16,67 @@ public abstract class ImplicationTestBase {
 
     protected final Implication implication;
 
-    protected ImplicationTestBase(final Implication implication) {
+    protected ImplicationTestBase(Implication implication) {
         this.implication = implication;
     }
 
     @Test
     public void test0() {
-        final var actual = implication.ex(a1, a1);
+        var actual = implication.ex(a1, a1);
         assertEquals(a1, actual);
     }
 
     @Test
     public void test1() {
-        final var actual = implication.ex(b1, a1);
+        var actual = implication.ex(b1, a1);
         Assertions.assertEquals(Const.True, actual);
     }
 
     @Test
     public void test2() {
-        final var f = or(and(a1, b1), a2);
-        final var expected = or(a1, a2);
-        final var actual = implication.ex(f, a1, a2);
+        var f = or(and(a1, b1), a2);
+        var expected = or(a1, a2);
+        var actual = implication.ex(f, a1, a2);
         assertEquals(expected, actual);
     }
 
     @Test
     public void test3() {
-        final var f = or(and(a1, a2), b1);
-        final var expected = Const.True;
-        final var actual = implication.ex(f, a1, a2);
+        var f = or(and(a1, a2), b1);
+        var expected = Const.True;
+        var actual = implication.ex(f, a1, a2);
         assertEquals(expected, actual);
     }
 
     @Test
     public void test4() {
-        final var f = not(or(a1, b1));
-        final var expected = not(a1);
-        final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
+        var f = not(or(a1, b1));
+        var expected = not(a1);
+        var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
     }
 
     @Test
     public void test5() {
-        final var f = not(and(a1, b1));
-        final var expected = Const.True;
-        final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
+        var f = not(and(a1, b1));
+        var expected = Const.True;
+        var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
     }
 
     @Test
     public void test6() {
-        final var f = not(and(or(a1, a2), b1));
-        final var expected = Const.True;
-        final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
+        var f = not(and(or(a1, a2), b1));
+        var expected = Const.True;
+        var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
     }
 
     @Test
     public void test7() {
-        final var f = or(and(a1, b1), not(a2));
-        final var expected = or(a1, not(a2));
-        final var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
+        var f = or(and(a1, b1), not(a2));
+        var expected = or(a1, not(a2));
+        var actual = implication.ex(f, a1, a2, a1.not(), a2.not());
         assertEquals(expected, actual);
     }
 }

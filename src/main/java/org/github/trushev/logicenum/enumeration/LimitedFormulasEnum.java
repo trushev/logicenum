@@ -10,7 +10,7 @@ final class LimitedFormulasEnum implements Iterator<Formula> {
     private final long limit;
     private int counter;
 
-    LimitedFormulasEnum(final Iterator<Formula> iterator, final long limit) {
+    LimitedFormulasEnum(Iterator<Formula> iterator, long limit) {
         this.iterator = iterator;
         this.limit = limit;
         this.counter = 0;

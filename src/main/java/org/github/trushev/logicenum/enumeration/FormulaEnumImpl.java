@@ -12,7 +12,7 @@ final class FormulaEnumImpl implements FormulaEnum {
 
     private final Iterator<Formula> iterator;
 
-    FormulaEnumImpl(final Iterator<Formula> iterator) {
+    FormulaEnumImpl(Iterator<Formula> iterator) {
         this.iterator = iterator;
     }
 

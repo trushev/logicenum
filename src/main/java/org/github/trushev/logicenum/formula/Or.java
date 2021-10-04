@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public final class Or extends BiFormula {
 
-    private Or(final Collection<Formula> fs) {
+    private Or(Collection<Formula> fs) {
         super(fs);
     }
 
@@ -13,7 +13,7 @@ public final class Or extends BiFormula {
         return Symbol.OR;
     }
 
-    static Formula of(final Formula f1, final Formula f2) {
+    static Formula of(Formula f1, Formula f2) {
         return BiFormula.of(f1, f2, Const.False, Const.True, f -> (f instanceof Or), Or::new);
     }
 }

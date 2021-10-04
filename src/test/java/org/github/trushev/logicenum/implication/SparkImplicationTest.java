@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.github.trushev.logicenum.formula.Formula;
 import org.junit.jupiter.api.Test;
 
-public class SparkImplicationTest extends ImplicationTestBase {
+public final class SparkImplicationTest extends ImplicationTestBase {
 
     private final Formula a = var("a");
     private final Formula b = var("b");
@@ -18,49 +18,49 @@ public class SparkImplicationTest extends ImplicationTestBase {
 
     @Test
     public void testNnf1() {
-        final var f = not(or(a, b));
-        final var expected = and(a.not(), b.not());
-        final var actual = ((SparkImplication) implication).nnf(f);
+        var f = not(or(a, b));
+        var expected = and(a.not(), b.not());
+        var actual = ((SparkImplication) implication).nnf(f);
         assertEquals(expected, actual);
     }
 
     @Test
     public void testNnf2() {
-        final var f = not(and(a, b));
-        final var expected = or(a.not(), b.not());
-        final var actual = ((SparkImplication) implication).nnf(f);
+        var f = not(and(a, b));
+        var expected = or(a.not(), b.not());
+        var actual = ((SparkImplication) implication).nnf(f);
         assertEquals(expected, actual);
     }
 
     @Test
     public void testNnf3() {
-        final var f = not(or(not(and(a, b)), c));
-        final var expected = and(a, b, c.not());
-        final var actual = ((SparkImplication) implication).nnf(f);
+        var f = not(or(not(and(a, b)), c));
+        var expected = and(a, b, c.not());
+        var actual = ((SparkImplication) implication).nnf(f);
         assertEquals(expected, actual);
     }
 
     @Test
     public void testNnf4() {
-        final var f = and(a, b.not());
-        final var expected = and(a, b.not());
-        final var actual = ((SparkImplication) implication).nnf(f);
+        var f = and(a, b.not());
+        var expected = and(a, b.not());
+        var actual = ((SparkImplication) implication).nnf(f);
         assertEquals(expected, actual);
     }
 
     @Test
     public void testNnf5() {
-        final var f = or(a, b);
-        final var expected = or(a, b);
-        final var actual = ((SparkImplication) implication).nnf(f);
+        var f = or(a, b);
+        var expected = or(a, b);
+        var actual = ((SparkImplication) implication).nnf(f);
         assertEquals(expected, actual);
     }
 
     @Test
     public void testNnf6() {
-        final var f = not(or(not(and(a, b)), c.not()));
-        final var expected = and(a, b, c);
-        final var actual = ((SparkImplication) implication).nnf(f);
+        var f = not(or(not(and(a, b)), c.not()));
+        var expected = and(a, b, c);
+        var actual = ((SparkImplication) implication).nnf(f);
         assertEquals(expected, actual);
     }
 }

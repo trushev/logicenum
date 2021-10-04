@@ -6,21 +6,21 @@ import java.util.Collection;
 import java.util.Set;
 import org.github.trushev.logicenum.formula.*;
 
-public class SparkImplication implements Implication {
+public final class SparkImplication implements Implication {
 
     @Override
-    public Formula ex(final Formula f, final Formula... attrs) {
+    public Formula ex(Formula f, Formula... attrs) {
         return exRec(nnf(f), Set.of(attrs));
     }
 
-    private Formula exRec(final Formula f, final Collection<Formula> attrs) {
+    private Formula exRec(Formula f, Collection<Formula> attrs) {
         return switch (f) {
-            case final And ignored -> {
-                final var formulas = f.map(ff -> exRec(ff, attrs)).filter(ff -> !ff.equals(Const.True));
+            case And ignored -> {
+                var formulas = f.map(ff -> exRec(ff, attrs)).filter(ff -> !ff.equals(Const.True));
                 yield and(formulas);
             }
-            case final Or ignored -> {
-                final var formulas = f.map(ff -> exRec(ff, attrs));
+            case Or ignored -> {
+                var formulas = f.map(ff -> exRec(ff, attrs));
                 yield or(formulas);
             }
             default -> {
@@ -32,19 +32,19 @@ public class SparkImplication implements Implication {
         };
     }
 
-    Formula nnf(final Formula f) {
+    Formula nnf(Formula f) {
         return switch (f) {
-            case final Atom atom -> atom;
-            case final IsNull isNull -> isNull;
-            case final Not not -> switch (operand(not)) {
-                case final Atom atom -> not(atom);
-                case final IsNull isNull -> not(isNull);
-                case final And and -> or(and.map(ff -> nnf(not(ff))));
-                case final Or or -> and(or.map(ff -> nnf(not(ff))));
+            case Atom atom -> atom;
+            case IsNull isNull -> isNull;
+            case Not not -> switch (operand(not)) {
+                case Atom atom -> not(atom);
+                case IsNull isNull -> not(isNull);
+                case And and -> or(and.map(ff -> nnf(not(ff))));
+                case Or or -> and(or.map(ff -> nnf(not(ff))));
                 default -> throw new IllegalStateException("Unexpected value: " + operand(not));
             };
-            case final And and -> and(and.map(this::nnf));
-            case final Or or -> or(or.map(this::nnf));
+            case And and -> and(and.map(this::nnf));
+            case Or or -> or(or.map(this::nnf));
         };
     }
 }
