@@ -15,9 +15,9 @@ final class FormulasEnumInner implements Iterator<Formula> {
         this.formulas = formulas;
 
         var initFormulaLength = 1;
-        this.iterator = this.formulas.formulasWithLength(initFormulaLength).iterator();
-        this.fixedLengthFormulas = new Formulas(initFormulaLength);
-        this.formulaLength = initFormulaLength;
+        iterator = formulas.formulasWithLength(initFormulaLength).iterator();
+        fixedLengthFormulas = new Formulas(initFormulaLength);
+        formulaLength = initFormulaLength;
     }
 
     @Override
@@ -27,23 +27,23 @@ final class FormulasEnumInner implements Iterator<Formula> {
 
     @Override
     public Formula next() {
-        if (this.iterator.hasNext()) {
-            var f = this.iterator.next();
-            if (f.length() == this.formulaLength && this.fixedLengthFormulas.put(f)) {
+        if (iterator.hasNext()) {
+            var f = iterator.next();
+            if (f.length() == formulaLength && fixedLengthFormulas.put(f)) {
                 return f;
             }
-            while (this.iterator.hasNext()) {
-                f = this.iterator.next();
-                if (f.length() == this.formulaLength && this.fixedLengthFormulas.put(f)) {
+            while (iterator.hasNext()) {
+                f = iterator.next();
+                if (f.length() == formulaLength && fixedLengthFormulas.put(f)) {
                     return f;
                 }
             }
         }
-        this.formulas.merge(this.fixedLengthFormulas);
-        this.formulaLength++;
-        this.fixedLengthFormulas = new Formulas(this.formulaLength);
-        System.out.println("Length: " + this.formulaLength + ", formula count: " + this.formulas.size());
-        this.iterator = new FixedLengthFormulas(this.formulas, this.formulaLength);
+        formulas.merge(fixedLengthFormulas);
+        formulaLength++;
+        fixedLengthFormulas = new Formulas(formulaLength);
+        System.out.println("Length: " + formulaLength + ", formula count: " + formulas.size());
+        iterator = new FixedLengthFormulas(formulas, formulaLength);
         return next();
     }
 }

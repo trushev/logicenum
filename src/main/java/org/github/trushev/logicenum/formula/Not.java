@@ -13,6 +13,6 @@ public final class Not extends UnaFormula {
 
     @Override
     public Formula not() {
-        return this.f;
+        return f;
     }
 }

@@ -18,6 +18,6 @@ abstract sealed class AbstractVarsFormula extends AbstractFormula permits BiForm
 
     @Override
     public Stream<Formula> vars() {
-        return this.vars.stream();
+        return vars.stream();
     }
 }

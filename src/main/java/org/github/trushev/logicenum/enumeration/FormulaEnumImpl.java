@@ -18,11 +18,11 @@ final class FormulaEnumImpl implements FormulaEnum {
 
     @Override
     public Stream<Formula> formulas() {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(this.iterator, NONNULL | DISTINCT), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, NONNULL | DISTINCT), false);
     }
 
     @Override
     public String toString() {
-        return "FormulaEnumImpl{" + "iterator=" + this.iterator + '}';
+        return "FormulaEnumImpl{" + "iterator=" + iterator + '}';
     }
 }

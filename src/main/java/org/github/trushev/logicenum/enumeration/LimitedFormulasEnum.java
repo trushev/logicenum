@@ -13,19 +13,19 @@ final class LimitedFormulasEnum implements Iterator<Formula> {
     LimitedFormulasEnum(Iterator<Formula> iterator, long limit) {
         this.iterator = iterator;
         this.limit = limit;
-        this.counter = 0;
+        counter = 0;
     }
 
     @Override
     public boolean hasNext() {
-        return this.counter < this.limit;
+        return counter < limit;
     }
 
     @Override
     public Formula next() {
-        if (this.counter < this.limit) {
-            this.counter++;
-            return this.iterator.next();
+        if (counter < limit) {
+            counter++;
+            return iterator.next();
         }
         throw new NoSuchElementException();
     }
@@ -35,11 +35,11 @@ final class LimitedFormulasEnum implements Iterator<Formula> {
         return (
             "LimitedFormulasEnum{" +
             "iterator=" +
-            this.iterator +
+            iterator +
             ", limit=" +
-            this.limit +
+            limit +
             ", counter=" +
-            this.counter +
+            counter +
             '}'
         );
     }

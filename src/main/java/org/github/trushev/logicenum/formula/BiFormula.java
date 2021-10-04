@@ -58,14 +58,14 @@ abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
         return (
             symbol() == bf.symbol() &&
             length() == bf.length() &&
-            this.vars.equals(bf.vars) &&
-            this.operands.equals(bf.operands)
+            vars.equals(bf.vars) &&
+            operands.equals(bf.operands)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(symbol(), length(), this.vars, this.operands);
+        return Objects.hash(symbol(), length(), vars, operands);
     }
 
     @Override
@@ -85,7 +85,7 @@ abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
 
         @Override
         public String toString() {
-            return this.name;
+            return name;
         }
     }
 }

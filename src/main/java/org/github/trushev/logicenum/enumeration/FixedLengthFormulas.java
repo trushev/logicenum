@@ -18,21 +18,21 @@ final class FixedLengthFormulas implements Iterator<Formula> {
         var s2 = Stream.of(new IsNullIterator(formulas.formulasWithLength(length - 1)));
         var s3 = streamOfIterators(formulas, length, AndIterator::new);
         var s4 = streamOfIterators(formulas, length, OrIterator::new);
-        this.iterators = Stream.concat(s1, Stream.concat(s2, Stream.concat(s3, s4))).iterator();
-        if (this.iterators.hasNext()) {
-            this.currentIterator = this.iterators.next();
+        iterators = Stream.concat(s1, Stream.concat(s2, Stream.concat(s3, s4))).iterator();
+        if (iterators.hasNext()) {
+            currentIterator = iterators.next();
         } else {
-            this.currentIterator = Collections.emptyIterator();
+            currentIterator = Collections.emptyIterator();
         }
     }
 
     @Override
     public boolean hasNext() {
-        if (!this.currentIterator.hasNext() && !this.iterators.hasNext()) {
+        if (!currentIterator.hasNext() && !iterators.hasNext()) {
             return false;
         }
-        if (!this.currentIterator.hasNext()) {
-            this.currentIterator = this.iterators.next();
+        if (!currentIterator.hasNext()) {
+            currentIterator = iterators.next();
             return hasNext();
         }
         return true;
@@ -40,14 +40,14 @@ final class FixedLengthFormulas implements Iterator<Formula> {
 
     @Override
     public Formula next() {
-        if (this.currentIterator.hasNext()) {
-            return this.currentIterator.next();
+        if (currentIterator.hasNext()) {
+            return currentIterator.next();
         }
-        while (!this.currentIterator.hasNext() && this.iterators.hasNext()) {
-            this.currentIterator = this.iterators.next();
+        while (!currentIterator.hasNext() && iterators.hasNext()) {
+            currentIterator = iterators.next();
         }
-        if (this.currentIterator.hasNext()) {
-            return this.currentIterator.next();
+        if (currentIterator.hasNext()) {
+            return currentIterator.next();
         }
         throw new NoSuchElementException();
     }
@@ -71,7 +71,7 @@ final class FixedLengthFormulas implements Iterator<Formula> {
     @Override
     public String toString() {
         return (
-            "FixedLengthFormulas{" + "iterators=" + this.iterators + ", currentIterator=" + this.currentIterator + '}'
+            "FixedLengthFormulas{" + "iterators=" + iterators + ", currentIterator=" + currentIterator + '}'
         );
     }
 }

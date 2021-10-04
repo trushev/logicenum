@@ -15,7 +15,7 @@ abstract sealed class AbstractFormula implements Formula permits AbstractVarsFor
 
     @Override
     public Stream<Formula> operands() {
-        return this.operands.stream();
+        return operands.stream();
     }
 
     @Override
@@ -40,12 +40,12 @@ abstract sealed class AbstractFormula implements Formula permits AbstractVarsFor
 
     @Override
     public int length() {
-        return this.length;
+        return length;
     }
 
     @Override
     public boolean deepEquals(Formula f) {
-        return this.equals(f) || Utils.deepEquals(this, f);
+        return equals(f) || Utils.deepEquals(this, f);
     }
 
     @Override

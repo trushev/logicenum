@@ -23,12 +23,12 @@ public final class Const extends Atom {
     }
 
     public double asNumber() {
-        return this.val.number;
+        return val.number;
     }
 
     @Override
     public Formula not() {
-        return switch (this.val) {
+        return switch (val) {
             case FALSE -> True;
             case TRUE -> False;
             case UNKNOWN -> Unknown;
@@ -43,17 +43,17 @@ public final class Const extends Atom {
         if (!(o instanceof Const c)) {
             return false;
         }
-        return this.val == c.val;
+        return val == c.val;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.val);
+        return Objects.hash(val);
     }
 
     @Override
     public String toString() {
-        return this.val.toString();
+        return val.toString();
     }
 
     private enum Val {
@@ -71,7 +71,7 @@ public final class Const extends Atom {
 
         @Override
         public String toString() {
-            return this.name;
+            return name;
         }
     }
 }

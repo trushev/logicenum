@@ -11,6 +11,6 @@ final class AndIterator extends BiIterator {
 
     @Override
     public Formula next() {
-        return this.f.and(this.fs.next());
+        return f.and(fs.next());
     }
 }

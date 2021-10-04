@@ -11,6 +11,6 @@ final class IsNullIterator extends UnaIterator {
 
     @Override
     public Formula next() {
-        return this.iterator.next().isNull();
+        return iterator.next().isNull();
     }
 }

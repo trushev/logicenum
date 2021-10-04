@@ -18,11 +18,11 @@ abstract class UnaIterator implements Iterator<Formula> {
 
     @Override
     public boolean hasNext() {
-        return this.iterator.hasNext();
+        return iterator.hasNext();
     }
 
     @Override
     public String toString() {
-        return "UnaIterator{" + "iterator=" + this.iterator + '}';
+        return "UnaIterator{" + "iterator=" + iterator + '}';
     }
 }

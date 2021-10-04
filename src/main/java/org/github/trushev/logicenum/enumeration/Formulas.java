@@ -25,17 +25,17 @@ final class Formulas {
 
     boolean put(Formula f) {
         var length = f.length();
-        if (this.formulaLength != -1 && this.formulaLength != length) {
+        if (formulaLength != -1 && formulaLength != length) {
             var errMessage =
                 "Length of formula should be %s, passed formula length: %s, passed formula %s".formatted(
-                        this.formulaLength,
+                        formulaLength,
                         length,
                         f
                     );
             throw new IllegalArgumentException(errMessage);
         }
-        this.formulas.computeIfAbsent(length, k -> new HashSet<>());
-        return this.formulas.get(length).add(f);
+        formulas.computeIfAbsent(length, k -> new HashSet<>());
+        return formulas.get(length).add(f);
     }
 
     void put(Formula... formulas) {
@@ -45,10 +45,10 @@ final class Formulas {
     }
 
     Stream<Formula> formulasWithLength(int length) {
-        if (this.formulas.get(length) == null) {
+        if (formulas.get(length) == null) {
             return Stream.empty();
         }
-        return this.formulas.get(length).stream();
+        return formulas.get(length).stream();
     }
 
     void merge(Formulas formulas) {
@@ -65,14 +65,14 @@ final class Formulas {
     }
 
     int size() {
-        return this.formulas.values().stream().mapToInt(Set::size).sum();
+        return formulas.values().stream().mapToInt(Set::size).sum();
     }
 
     @Override
     public String toString() {
         var sb = new StringBuilder();
         sb.append("Formulas\n");
-        this.formulas.entrySet()
+        formulas.entrySet()
             .stream()
             .sorted(Comparator.comparingInt(Map.Entry::getKey))
             .forEach(e -> sb.append(e.getKey()).append(": ").append(e.getValue()).append("\n"));

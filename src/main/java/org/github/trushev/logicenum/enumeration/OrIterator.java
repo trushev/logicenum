@@ -11,6 +11,6 @@ final class OrIterator extends BiIterator {
 
     @Override
     public Formula next() {
-        return this.f.or(this.fs.next());
+        return f.or(fs.next());
     }
 }

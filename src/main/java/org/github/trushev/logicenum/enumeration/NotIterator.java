@@ -11,6 +11,6 @@ final class NotIterator extends UnaIterator {
 
     @Override
     public Formula next() {
-        return this.iterator.next().not();
+        return iterator.next().not();
     }
 }

@@ -22,17 +22,17 @@ abstract sealed class UnaFormula extends AbstractVarsFormula permits IsNull, Not
         if (!(o instanceof UnaFormula uf)) {
             return false;
         }
-        return symbol() == uf.symbol() && length() == uf.length() && this.vars.equals(uf.vars) && this.f.equals(uf.f);
+        return symbol() == uf.symbol() && length() == uf.length() && vars.equals(uf.vars) && f.equals(uf.f);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(symbol(), length(), this.vars, this.f);
+        return Objects.hash(symbol(), length(), vars, f);
     }
 
     @Override
     public String toString() {
-        return symbol().toString() + this.f.toString();
+        return symbol().toString() + f.toString();
     }
 
     protected enum Symbol {
@@ -47,7 +47,7 @@ abstract sealed class UnaFormula extends AbstractVarsFormula permits IsNull, Not
 
         @Override
         public String toString() {
-            return this.name;
+            return name;
         }
     }
 }

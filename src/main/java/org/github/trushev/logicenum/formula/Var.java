@@ -27,21 +27,21 @@ public final class Var extends Atom implements Comparable<Var> {
             return false;
         }
         var var = (Var) o;
-        return this.name.equals(var.name);
+        return name.equals(var.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.name);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
-        return this.name;
+        return name;
     }
 
     @Override
     public int compareTo(Var o) {
-        return this.name.compareTo(o.name);
+        return name.compareTo(o.name);
     }
 }

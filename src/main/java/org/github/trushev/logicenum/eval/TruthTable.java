@@ -18,20 +18,20 @@ public final class TruthTable {
 
     public TruthTable(Formula f) {
         this.f = f;
-        this.vars = f.vars().toList();
-        this.table = table(this.f, this.vars);
+        vars = f.vars().toList();
+        table = table(this.f, vars);
     }
 
     public Formula f() {
-        return this.f;
+        return f;
     }
 
     public Collection<Formula> vars() {
-        return this.vars;
+        return vars;
     }
 
     public Stream<List<Const>> rows() {
-        return this.table.stream();
+        return table.stream();
     }
 
     @Override
@@ -45,12 +45,12 @@ public final class TruthTable {
         if (!(o instanceof TruthTable that)) {
             return false;
         }
-        return this.table.equals(that.table);
+        return table.equals(that.table);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.table);
+        return Objects.hash(table);
     }
 
     private static List<List<Const>> table(Formula f, Collection<Formula> vars) {

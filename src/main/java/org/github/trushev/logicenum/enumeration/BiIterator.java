@@ -15,11 +15,11 @@ abstract class BiIterator implements Iterator<Formula> {
 
     @Override
     public boolean hasNext() {
-        return this.fs.hasNext();
+        return fs.hasNext();
     }
 
     @Override
     public String toString() {
-        return "BiIterator{" + "f=" + this.f + ", fs=" + this.fs + '}';
+        return "BiIterator{" + "f=" + f + ", fs=" + fs + '}';
     }
 }
