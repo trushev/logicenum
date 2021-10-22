@@ -15,6 +15,7 @@
         <junit.version>5.8.1</junit.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <maven.surefire.version>3.0.0-M5</maven.surefire.version>
+<!--        TODO: currently, prettier-maven-plugin should be locally built -->
         <prettier.java.version>1.5.0</prettier.java.version>
         <prettier.plugin.version>0.15-SNAPSHOT</prettier.plugin.version>
         <prettier.plugin.goal>write</prettier.plugin.goal>
@@ -49,9 +50,7 @@
                     <useTabs>false</useTabs>
                     <ignoreConfigFile>true</ignoreConfigFile>
                     <ignoreEditorConfig>true</ignoreEditorConfig>
-                    <!-- Use <inputGlobs> to override the default input patterns -->
                     <inputGlobs>
-                        <!-- These are the default patterns, you can omit <inputGlobs> entirely unless you want to override them -->
                         <inputGlob>src/main/java/**/*.java</inputGlob>
                         <inputGlob>src/test/java/**/*.java</inputGlob>
                     </inputGlobs>
@@ -76,19 +75,15 @@
                     <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
+            </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven.surefire.version}</version>
-                    <configuration>
-                        <argLine>--enable-preview</argLine>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <profiles>

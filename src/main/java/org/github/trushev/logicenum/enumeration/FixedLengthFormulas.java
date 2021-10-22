@@ -69,6 +69,6 @@ final class FixedLengthFormulas implements Iterator<Formula> {
 
     @Override
     public String toString() {
-        return ("FixedLengthFormulas{" + "iterators=" + iterators + ", currentIterator=" + currentIterator + '}');
+        return "FixedLengthFormulas{" + "iterators=" + iterators + ", currentIterator=" + currentIterator + '}';
     }
 }

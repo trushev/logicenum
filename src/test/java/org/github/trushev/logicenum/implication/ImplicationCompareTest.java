@@ -16,7 +16,7 @@ public final class ImplicationCompareTest {
         var c = var("c");
         var d = var("d");
 
-        var formulas = FormulaEnum.get(20_0000, a, b, c, d).formulas();
+        var formulas = FormulaEnum.get(20_000, a, b, c, d).formulas();
 
         var dnfAlgorithm = new DnfImplication();
         var sparkAlgorithm = new SparkImplication();
