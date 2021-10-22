@@ -20,29 +20,24 @@ public final class CsvTruthTable {
 
     @Override
     public String toString() {
-        var sb = new StringBuilder(
-            truthTable.vars().stream().map(Object::toString).collect(joining(separator))
-        );
+        var sb = new StringBuilder(truthTable.vars().stream().map(Object::toString).collect(joining(separator)));
         if (!sb.isEmpty()) {
             sb.append(separator);
         }
         var header = sb.append("f").toString();
         var ls = "\n";
-        var table =
-            truthTable.rows()
-                .map(
-                    r ->
-                        r
-                            .stream()
-                            .map(
-                                v -> {
-                                    if (asNumber) return v.asNumber(); else return v;
-                                }
-                            )
-                            .map(Object::toString)
-                            .collect(joining(separator))
-                )
-                .collect(joining(ls));
+        var table = truthTable
+            .rows()
+            .map(r ->
+                r
+                    .stream()
+                    .map(v -> {
+                        if (asNumber) return v.asNumber(); else return v;
+                    })
+                    .map(Object::toString)
+                    .collect(joining(separator))
+            )
+            .collect(joining(ls));
         return header + ls + table;
     }
 }

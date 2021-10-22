@@ -72,7 +72,8 @@ final class Formulas {
     public String toString() {
         var sb = new StringBuilder();
         sb.append("Formulas\n");
-        formulas.entrySet()
+        formulas
+            .entrySet()
             .stream()
             .sorted(Comparator.comparingInt(Map.Entry::getKey))
             .forEach(e -> sb.append(e.getKey()).append(": ").append(e.getValue()).append("\n"));

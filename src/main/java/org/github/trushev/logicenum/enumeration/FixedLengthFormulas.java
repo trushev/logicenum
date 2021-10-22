@@ -60,18 +60,15 @@ final class FixedLengthFormulas implements Iterator<Formula> {
         return IntStream
             .range(1, length - 1)
             .boxed()
-            .flatMap(
-                i ->
-                    formulas
-                        .formulasWithLength(i)
-                        .map(f -> fun.apply(f, formulas.formulasWithLength(length - i - 1).iterator()))
+            .flatMap(i ->
+                formulas
+                    .formulasWithLength(i)
+                    .map(f -> fun.apply(f, formulas.formulasWithLength(length - i - 1).iterator()))
             );
     }
 
     @Override
     public String toString() {
-        return (
-            "FixedLengthFormulas{" + "iterators=" + iterators + ", currentIterator=" + currentIterator + '}'
-        );
+        return ("FixedLengthFormulas{" + "iterators=" + iterators + ", currentIterator=" + currentIterator + '}');
     }
 }

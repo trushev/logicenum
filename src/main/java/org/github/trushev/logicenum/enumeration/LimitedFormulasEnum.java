@@ -32,15 +32,6 @@ final class LimitedFormulasEnum implements Iterator<Formula> {
 
     @Override
     public String toString() {
-        return (
-            "LimitedFormulasEnum{" +
-            "iterator=" +
-            iterator +
-            ", limit=" +
-            limit +
-            ", counter=" +
-            counter +
-            '}'
-        );
+        return ("LimitedFormulasEnum{" + "iterator=" + iterator + ", limit=" + limit + ", counter=" + counter + '}');
     }
 }

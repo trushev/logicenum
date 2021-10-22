@@ -7,11 +7,7 @@ abstract sealed class AbstractVarsFormula extends AbstractFormula permits BiForm
 
     protected final Collection<Formula> vars;
 
-    protected AbstractVarsFormula(
-        Collection<Formula> operands,
-        Collection<Formula> vars,
-        int length
-    ) {
+    protected AbstractVarsFormula(Collection<Formula> operands, Collection<Formula> vars, int length) {
         super(operands, length);
         this.vars = vars;
     }

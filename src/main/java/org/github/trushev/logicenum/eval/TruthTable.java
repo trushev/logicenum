@@ -71,14 +71,13 @@ public final class TruthTable {
     private static List<Const> decode(int[] row) {
         return Arrays
             .stream(row)
-            .mapToObj(
-                i ->
-                    switch (i) {
-                        case 0 -> Const.False;
-                        case 1 -> Const.Unknown;
-                        case 2 -> Const.True;
-                        default -> throw new IllegalStateException(String.valueOf(i));
-                    }
+            .mapToObj(i ->
+                switch (i) {
+                    case 0 -> Const.False;
+                    case 1 -> Const.Unknown;
+                    case 2 -> Const.True;
+                    default -> throw new IllegalStateException(String.valueOf(i));
+                }
             )
             .collect(Collectors.toList());
     }
@@ -133,19 +132,24 @@ public final class TruthTable {
 
     private static Const eval(Formula f) {
         switch (f) {
-            case Const c: return c;
-            case Var v: throw new IllegalStateException(v.toString());
-            case Not n: return evalNot(eval(operand(n)));
-            case IsNull i: return evalIsNull(eval(operand(i)));
+            case Const c:
+                return c;
+            case Var v:
+                throw new IllegalStateException(v.toString());
+            case Not n:
+                return evalNot(eval(operand(n)));
+            case IsNull i:
+                return evalIsNull(eval(operand(i)));
             default:
         }
         var values = f.map(TruthTable::eval).collect(toUnmodifiableSet());
         var iterator = values.iterator();
-        BiFunction<Const, Const, Const> evalConst = switch (f) {
-            case And ignored -> TruthTable::evalAnd;
-            case Or ignored -> TruthTable::evalOr;
-            default -> throw new IllegalStateException("Unexpected value: " + f);
-        };
+        BiFunction<Const, Const, Const> evalConst =
+            switch (f) {
+                case And ignored -> TruthTable::evalAnd;
+                case Or ignored -> TruthTable::evalOr;
+                default -> throw new IllegalStateException("Unexpected value: " + f);
+            };
         var v = iterator.next();
         while (iterator.hasNext()) {
             v = evalConst.apply(v, iterator.next());

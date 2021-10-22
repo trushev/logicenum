@@ -35,6 +35,18 @@ abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
                 .filter(f -> !f.equals(weekConst))
                 .collect(toCollection(LinkedHashSet::new))
         );
+        for (var f : formulas) {
+            var notF = f.not();
+            Formula nullF;
+            if (weekConst == Const.False) {
+                nullF = f.isNull();
+            } else {
+                nullF = f.isNull().not();
+            }
+            if (formulas.contains(notF) && formulas.contains(nullF)) {
+                return strongConst;
+            }
+        }
         if (formulas.isEmpty()) {
             return weekConst;
         }
@@ -56,10 +68,7 @@ abstract sealed class BiFormula extends AbstractVarsFormula permits And, Or {
             return false;
         }
         return (
-            symbol() == bf.symbol() &&
-            length() == bf.length() &&
-            vars.equals(bf.vars) &&
-            operands.equals(bf.operands)
+            symbol() == bf.symbol() && length() == bf.length() && vars.equals(bf.vars) && operands.equals(bf.operands)
         );
     }
 

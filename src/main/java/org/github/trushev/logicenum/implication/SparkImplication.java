@@ -25,7 +25,7 @@ public final class SparkImplication implements Implication {
             }
             default -> {
                 if (f.consistsOnly(attrs)) {
-                    yield  f;
+                    yield f;
                 }
                 yield Const.True;
             }

@@ -32,12 +32,13 @@ public final class DnfImplication implements Implication {
                 var arg = operand(not);
                 if (arg instanceof And || arg instanceof Or || arg instanceof Not) {
                     operands = arg.operands().toList();
-                    var ff = switch (arg) {
-                        case And ignored -> or(not(operands));
-                        case Or ignored -> and(not(operands));
-                        case Not ignored -> first(operands);
-                        default -> throw new AssertionError();
-                    };
+                    var ff =
+                        switch (arg) {
+                            case And ignored -> or(not(operands));
+                            case Or ignored -> and(not(operands));
+                            case Not ignored -> first(operands);
+                            default -> throw new AssertionError();
+                        };
                     yield toDnf(ff, attrs);
                 } else {
                     yield allowableOrTrue(not, attrs);
@@ -75,16 +76,14 @@ public final class DnfImplication implements Implication {
     private Collection<Formula> toDnfs(Collection<Formula> fs, Collection<Formula> attrs) {
         return fs
             .stream()
-            .flatMap(
-                f -> {
-                    var dnf = toDnf(f, attrs);
-                    if (dnf instanceof Or) {
-                        return dnf.operands();
-                    } else {
-                        return Stream.of(dnf);
-                    }
+            .flatMap(f -> {
+                var dnf = toDnf(f, attrs);
+                if (dnf instanceof Or) {
+                    return dnf.operands();
+                } else {
+                    return Stream.of(dnf);
                 }
-            )
+            })
             .toList();
     }
 
