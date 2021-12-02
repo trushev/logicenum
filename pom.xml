@@ -15,9 +15,8 @@
         <junit.version>5.8.1</junit.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <maven.surefire.version>3.0.0-M5</maven.surefire.version>
-<!--        TODO: currently, prettier-maven-plugin should be locally built -->
         <prettier.java.version>1.5.0</prettier.java.version>
-        <prettier.plugin.version>0.15-SNAPSHOT</prettier.plugin.version>
+        <prettier.plugin.version>0.15</prettier.plugin.version>
         <prettier.plugin.goal>write</prettier.plugin.goal>
         <prettier.skip>false</prettier.skip>
     </properties>
@@ -95,11 +94,6 @@
                 </property>
             </activation>
             <properties>
-<!--                TODO remove when prettier-maven-plugin-0.15 be released https://github.com/HubSpot/prettier-maven-plugin/pull/53#issuecomment-949311403 -->
-                <prettier.java.version>1.3.0</prettier.java.version>
-                <prettier.plugin.version>0.14</prettier.plugin.version>
-                <prettier.skip>true</prettier.skip>
-
                 <prettier.plugin.goal>check</prettier.plugin.goal>
             </properties>
         </profile>
