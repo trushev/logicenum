@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.BiFunction;
 import org.github.trushev.logicenum.eval.CsvTruthTable;
+import org.github.trushev.logicenum.eval.SingleTruthTable;
 import org.github.trushev.logicenum.eval.TruthTable;
 
 // TODO: discard utility class
@@ -54,8 +55,8 @@ final class Utils {
     }
 
     static boolean deepEquals(Formula f1, Formula f2) {
-        var t1 = new TruthTable(f1);
-        var t2 = new TruthTable(f2);
+        var t1 = new SingleTruthTable(f1);
+        var t2 = new SingleTruthTable(f2);
         boolean result;
         if (f1 instanceof Const c1 && !(f2 instanceof Const)) {
             result = tableEqualsToConst(t2, c1);

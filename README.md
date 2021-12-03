@@ -20,7 +20,7 @@ System.out.println(f);
 ### Print truth table
 
 ```java
-var table = new CsvTruthTable(new TruthTable(f));
+var table = new CsvTruthTable(new SingleTruthTable(f));
 System.out.println(table);
 ```
 ```

@@ -20,11 +20,7 @@ public final class CsvTruthTable {
 
     @Override
     public String toString() {
-        var sb = new StringBuilder(truthTable.vars().stream().map(Object::toString).collect(joining(separator)));
-        if (!sb.isEmpty()) {
-            sb.append(separator);
-        }
-        var header = sb.append("f").toString();
+        var header = truthTable.header().collect(joining(separator));
         var ls = "\n";
         var table = truthTable
             .rows()

@@ -1,6 +1,6 @@
 package org.github.trushev.logicenum.eval;
 
-import static org.github.trushev.logicenum.formula.Formula.var;
+import static org.github.trushev.logicenum.formula.Formula.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.github.trushev.logicenum.formula.Const;
@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 public final class CsvTruthTableTest {
 
     @Test
-    public void test() {
+    public void testSingleTable() {
         var f = var("a").and(var("b"));
-        var table = new CsvTruthTable(new TruthTable(f));
+        var table = new CsvTruthTable(new SingleTruthTable(f));
         assertEquals(
             """
                 a, b, f
@@ -29,9 +29,9 @@ public final class CsvTruthTableTest {
     }
 
     @Test
-    public void test1() {
+    public void testSingleTable1() {
         var f = var("a").or(var("b"));
-        var table = new CsvTruthTable(new TruthTable(f), " ", false);
+        var table = new CsvTruthTable(new SingleTruthTable(f), " ", false);
         assertEquals(
             """
                 a b f
@@ -49,10 +49,18 @@ public final class CsvTruthTableTest {
     }
 
     @Test
-    public void test2() {
-        var table = new CsvTruthTable(new TruthTable(Const.False));
+    public void testSingleTable2() {
+        var table = new CsvTruthTable(new SingleTruthTable(Const.False));
         assertEquals("""
                 f
                 0.0""", table.toString());
+    }
+
+    @Test
+    public void test4() {
+        var f = and(var("a"), var("b"));
+        var f1 = or(var("a"), var("b"));
+        var table = new CsvTruthTable(new MergedTruthTables(f, f1));
+        System.out.println(table);
     }
 }
