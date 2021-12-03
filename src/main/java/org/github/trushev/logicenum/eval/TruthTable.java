@@ -12,6 +12,10 @@ public interface TruthTable {
     // TODO: mb List<Const> -> Row
     Stream<List<Const>> rows();
 
+    default boolean empty() {
+        return rows().findAny().isEmpty();
+    }
+
     default Stream<String> header() {
         var count = (int) formulas().count();
         Stream<String> formulas;

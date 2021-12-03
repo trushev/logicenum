@@ -60,7 +60,13 @@ public final class CsvTruthTableTest {
     public void test4() {
         var f = and(var("a"), var("b"));
         var f1 = or(var("a"), var("b"));
-        var table = new CsvTruthTable(new MergedTruthTables(f, f1));
+        var merged = new MergedTruthTables(f, f1);
+        var table = new CsvTruthTable(merged);
         System.out.println(table);
+
+        var truthTable = new ImplicationTable(merged);
+        System.out.println(truthTable.empty());
+        var table1 = new CsvTruthTable(truthTable);
+        System.out.println(table1);
     }
 }
